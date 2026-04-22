@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SQL for MBAs &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:186px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">SQL<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400">Friday 24th April 2026</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Intro &amp; expectations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">What is SQL?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">How does SQL work?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Aggregate functions</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Wrap-up &amp; questions</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  WORKSHOP EXPECTATIONS
+============================================================ -->
+<section data-label="Workshop Expectations" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Workshop Expectations</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid3" style="max-width:1500px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128247;</div>
+        <div class="card-ttl">Cameras on</div>
+        <div class="card-body" style="font-size:24px">If at all possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #E05FA0">
+        <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
+        <div class="card-ttl">Double-screen works best</div>
+        <div class="card-body" style="font-size:24px">Keep these slides on one screen and PGAdmin on the other, if possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128587;</div>
+        <div class="card-ttl">Ask questions</div>
+        <div class="card-body" style="font-size:24px">Just come off mute and shout out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  ABOUT THE INSTRUCTOR
+============================================================ -->
+<section data-label="About Instructor" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why listen to me?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:1300px">
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">01</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-data scientist</div>
+          <div style="font-size:24px;color:#374151">Worked with data full-time for 2+ years at Deliveroo (pre-IPO) and RVU (PE portfolio company)</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">02</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-consultant</div>
+          <div style="font-size:24px;color:#374151">4+ years at Strategy&amp;, working on industry agnostic projects across multiple sectors</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">03</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Experienced instructor</div>
+          <div style="font-size:24px;color:#374151">5+ years teaching analytics to B2B cohorts at large enterprises</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1200px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">To become a more <strong style="color:#2899A4">sophisticated</strong> and <strong style="color:#2899A4">better-informed</strong> user of data</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a data analyst or data scientist</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06  SECTION: WHAT IS SQL?
+============================================================ -->
+<section data-label="What is SQL" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">What is<br><span style="color:#2899A4">SQL?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     07  SQL DEFINITION
+============================================================ -->
+<section data-label="SQL Definition" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What is SQL?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:44px 48px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Stands for</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Structured</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Query</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a">Language</div>
+        <div style="margin-top:28px;font-size:24px;color:#6b7280;line-height:1.5">A language we use to <strong style="color:#2899A4">query</strong> and ask for information from large datasets.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Why it matters</div>
+        <div style="font-size:32px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:20px">SQL is <span style="color:#4ade80">ubiquitous</span></div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.6">Almost every large business employs analysts to answer business questions using SQL. It's the universal language of data.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     08  WHY YOU CARE
+============================================================ -->
+<section data-label="Why You Care" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why do you care?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">SQL enables <strong style="color:#0d1b2a">you</strong> to interrogate how a business is actually performing. A basic understanding makes you:</div>
+    <div class="grid2" style="max-width:1400px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Better informed</div>
+        <div style="font-size:24px;color:#6b7280">Make data-driven decisions with confidence, not guesswork.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Less reliant on analysts</div>
+        <div style="font-size:24px;color:#6b7280">Self-serve answers to common data questions without waiting in the queue.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More confident</div>
+        <div style="font-size:24px;color:#6b7280">Understand the data behind the dashboards your team presents.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More 'dangerous' in meetings</div>
+        <div style="font-size:24px;color:#6b7280">Know when the numbers don't add up &mdash; and be able to ask the right questions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  EXCEL VS SQL
+============================================================ -->
+<section data-label="Excel vs SQL" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">But can't I just use Excel?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
+        <div style="background:#f9fafb;padding:20px 32px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128202;</div>
+          <span style="font-size:26px;font-weight:600;color:#374151">Excel</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Only as fast as <strong>your computer</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Cannot handle <strong>'big data'</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Max <strong>1.1 million rows</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#34d399;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#374151">Good for small data visualisation</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;overflow:hidden">
+        <div style="background:#0f2236;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128451;</div>
+          <span style="font-size:26px;font-weight:600;color:#fff">SQL</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Easily retrieves <strong style="color:#fff">millions of records</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Cloud-based</strong> &mdash; not limited by laptop specs</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Handles <strong style="color:#fff">production-scale</strong> datasets</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Works on <strong style="color:#fff">relational databases</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  WHY EXCEL DOESN'T SCALE
+============================================================ -->
+<section data-label="Why Excel Doesn't Scale" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why Excel doesn't scale</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:24px;color:#6b7280;margin-bottom:24px;text-align:center">Excel spreadsheets lead to <strong style="color:#0d1b2a">redundancy</strong>. Relational databases eliminate it &mdash; storing each entity once and linking tables by keys.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="padding:18px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:14px;background:#fafafa">
+            <div style="width:8px;height:44px;background:#E05FA0;border-radius:3px"></div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.08em;text-transform:uppercase">The Excel way</div>
+              <div style="font-size:24px;font-weight:600;color:#0d1b2a;margin-top:2px">One flat table, repeated data</div>
+            </div>
+          </div>
+          <div style="padding:24px 28px;background:#fff;flex:1;display:flex;flex-direction:column">
+            <img src="assets/Excel.png" style="width:100%;height:auto;border:1px solid #e5e7eb;border-radius:6px;display:block">
+            <div style="font-size:22px;color:#6b7280;margin-top:auto;padding-top:20px;line-height:1.45">Customer details are repeated on every order row &mdash; storage balloons and updates are error-prone.</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="padding:18px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:14px;background:#fafafa">
+            <div style="width:8px;height:44px;background:#2899A4;border-radius:3px"></div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;text-transform:uppercase">The SQL way</div>
+              <div style="font-size:24px;font-weight:600;color:#0d1b2a;margin-top:2px">Related tables, stored once</div>
+            </div>
+          </div>
+          <div style="padding:24px 28px;background:#fff;flex:1;display:flex;flex-direction:column">
+            <img src="assets/RelationalData.png" style="width:100%;height:auto;border:1px solid #e5e7eb;border-radius:6px;display:block">
+            <div style="font-size:22px;color:#6b7280;margin-top:auto;padding-top:20px;line-height:1.45">Each entity lives in one table. Tables link by keys &mdash; cheaper, cleaner, scales to billions of rows.</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;background:#0d1b2a;border-radius:14px;padding:22px 36px;align-items:center">
+        <div style="display:flex;align-items:center;gap:24px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.08em;text-transform:uppercase;min-width:130px">Excel limit</div>
+          <div style="font-size:52px;font-weight:700;color:#E05FA0;line-height:1">1.1m</div>
+          <div style="font-size:22px;color:#94a3b8">rows max</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#4ade80;letter-spacing:.08em;text-transform:uppercase;min-width:130px">SQL databases</div>
+          <div style="font-size:52px;font-weight:700;color:#4ade80;line-height:1">&infin;</div>
+          <div style="font-size:22px;color:#94a3b8">scales with your business</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  SECTION: HOW DOES SQL WORK?
+============================================================ -->
+<section data-label="How does SQL work" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">How does<br><span style="color:#2899A4">SQL work?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     12  LET'S GET CONNECTED
+============================================================ -->
+<section data-label="Let's Get Connected" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Let's get connected</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1000px;width:100%">
+      <div style="background:#0d1b2a;border-radius:16px;overflow:hidden">
+        <div style="padding:20px 32px;background:#0f2236;border-bottom:1px solid rgba(255,255,255,.08)">
+          <div style="display:flex;gap:8px"><div style="width:12px;height:12px;border-radius:50%;background:#f87171"></div><div style="width:12px;height:12px;border-radius:50%;background:#fbbf24"></div><div style="width:12px;height:12px;border-radius:50%;background:#4ade80"></div></div>
+        </div>
+        <div style="padding:44px 52px;font-family:'DM Mono',monospace">
+          <div style="margin-bottom:24px">
+            <span style="color:#64748b;font-size:24px">URL</span><br>
+            <a style="color:#7dd3fc;font-size:26px;text-decoration:none">http://51.44.8.109/pgadmin4/browser/</a>
+          </div>
+          <div style="margin-bottom:24px">
+            <span style="color:#64748b;font-size:24px">Username</span><br>
+            <span style="color:#4ade80;font-size:26px">student@mbadata.com</span>
+          </div>
+          <div>
+            <span style="color:#64748b;font-size:24px">Password</span><br>
+            <span style="color:#fda4af;font-size:26px">dataformbas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  DATASET
+============================================================ -->
+<section data-label="The Dataset" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Our dataset: FT MBA Rankings</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:24px;color:#6b7280;margin-bottom:20px">We'll use SQL to interrogate this dataset &mdash; the <strong style="color:#0d1b2a">Financial Times Global MBA Rankings</strong></div>
+    <table class="dt" style="max-width:1700px">
+      <tr><th>school_rank</th><th>school_name</th><th>weighted_salary_usd</th><th>female_students_pct</th><th>primary_location</th><th>value_for_money_rank</th></tr>
+      <tr><td>1</td><td>University of Pennsylvania: Wharton</td><td>245,772</td><td>47%</td><td>US</td><td>95</td></tr>
+      <tr><td>2</td><td>INSEAD</td><td>198,904</td><td>36%</td><td>France</td><td>23</td></tr>
+      <tr><td>3</td><td>Columbia Business School</td><td>232,760</td><td>43%</td><td>US</td><td>76</td></tr>
+      <tr><td>4</td><td>Harvard Business School</td><td>236,190</td><td>45%</td><td>US</td><td>88</td></tr>
+      <tr><td>5</td><td>London Business School</td><td>194,290</td><td>38%</td><td>UK</td><td>41</td></tr>
+    </table>
+    <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.business_schools &middot; 100 rows</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14  SQL BUILDING BLOCKS
+============================================================ -->
+<section data-label="SQL Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">SQL Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:900px">
+      <div class="bb"><div class="bb-kw">SELECT</div><div class="bb-desc">The columns to analyse</div></div>
+      <div class="bb"><div class="bb-kw">FROM</div><div class="bb-desc">The table</div></div>
+      <div class="bb"><div class="bb-kw">WHERE</div><div class="bb-desc">The filter(s)</div></div>
+      <div class="bb"><div class="bb-kw">ORDER BY</div><div class="bb-desc">The column(s) to use for sorting</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  SELECT * - ANNOTATED
+============================================================ -->
+<section data-label="SELECT *" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+    <pre class="cb"><span class="kw">SELECT</span>  <span class="hi">*</span>
+
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Show me the first 10 rows of data</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>SELECT *</strong> &mdash; Retrieve all of the columns</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>FROM business.business_schools</strong> &mdash; From this specific table</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>LIMIT 10</strong> &mdash; Return only the first 10 rows</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     16  COUNT(*)
+============================================================ -->
+<section data-label="COUNT(*)" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+    <pre class="cb"><span class="kw">SELECT</span>  <span class="fn hi">COUNT</span>(<span class="hi">*</span>)
+
+<span class="kw">FROM</span> business.business_schools;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many rows are in my data?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>COUNT(*)</strong> &mdash; Counts the total number of rows in the dataset</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The result will be a <strong>single number</strong> &mdash; the row count</div></div>
+    <div style="margin-top:32px;background:#f0fafb;border:1px solid #bae6ef;border-radius:10px;padding:20px 24px">
+      <div style="font-size:24px;color:#2899A4;font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Expected result</div>
+      <div style="font-family:'DM Mono',monospace;font-size:28px;color:#0d1b2a">100</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  EXERCISE: SELECT SPECIFIC COLUMNS
+============================================================ -->
+<section data-label="Exercise: Select Columns" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+    <pre class="cb"><span class="kw">SELECT</span>  <span class="pl">[columns]</span>
+
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">I only care about salary data for now</p>
+    <div style="font-size:24px;color:#374151;margin-bottom:20px">Modify the query to select only:</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">school_rank</div>
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">school_name</div>
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">weighted_salary_usd</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     18  ANSWER: SELECT SPECIFIC COLUMNS
+============================================================ -->
+<section data-label="Answer: Select Columns" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+    <pre class="cb"><span class="kw">SELECT</span>   school_rank
+       <span class="hi">,</span> school_name
+       <span class="hi">,</span> weighted_salary_usd
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">I only care about salary data for now</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Name each column</strong> you want to retrieve</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Use a <strong>comma</strong> to separate each column</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Placing commas <strong>at the front</strong> is a stylistic preference &mdash; easier to comment out individual columns</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  WHERE CLAUSE
+============================================================ -->
+<section data-label="WHERE Clause" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   school_rank
+       , school_name
+       , weighted_salary_usd
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span> primary_location
+      <span class="hi">=</span> <span class="str">'US'</span>
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">I only want to see schools in the US</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>WHERE</strong> is a row filter &mdash; it only returns rows that match the condition</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>=</strong> checks for an exact match</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Text values go in <strong>single quotes</strong> &mdash; numbers don't need them</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  COMPARISON OPERATORS
+============================================================ -->
+<section data-label="Comparison Operators" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Comparison Operators</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1600px">
+      <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><span class="op">=</span></td><td>Equal to</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE primary_location = <span style="color:#fda4af">'US'</span></td></tr>
+      <tr><td><span class="op">&lt;&gt;</span> / <span class="op">!=</span></td><td>Not equal to</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE primary_location != <span style="color:#fda4af">'US'</span></td></tr>
+      <tr><td><span class="op">&gt;</span></td><td>Greater than</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE weighted_salary_usd &gt; <span style="color:#fdba74">180000</span></td></tr>
+      <tr><td><span class="op">&gt;=</span></td><td>Greater than or equal to</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE female_students_pct &gt;= <span style="color:#fdba74">50</span></td></tr>
+      <tr><td><span class="op">BETWEEN</span></td><td>Within a range (inclusive)</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE salary BETWEEN <span style="color:#fdba74">120000</span> AND <span style="color:#fdba74">170000</span></td></tr>
+      <tr><td><span class="op">ILIKE</span></td><td>Pattern match (case insensitive)</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE school_name ILIKE <span style="color:#fda4af">'%london%'</span></td></tr>
+      <tr><td><span class="op">AND</span></td><td>All conditions must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE country = <span style="color:#fda4af">'UK'</span> AND salary &gt; <span style="color:#fdba74">180000</span></td></tr>
+      <tr><td><span class="op">OR</span></td><td>Any condition must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE country = <span style="color:#fda4af">'US'</span> OR country = <span style="color:#fda4af">'UK'</span></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  EXERCISE: UK SCHOOLS + SALARY
+============================================================ -->
+<section data-label="Exercise: UK + Salary" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span>  <span class="pl">[condition 1]</span>
+  <span class="kw">AND</span>  <span class="pl">[condition 2]</span>
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Show me schools in the UK with average salaries &gt; $180k</p>
+    <div style="margin-top:12px;font-size:24px;color:#6b7280">Use AND to combine two conditions</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  EXERCISE: US OR UK + FEMALE PCT
+============================================================ -->
+<section data-label="Exercise: OR + Female" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span>  (<span class="pl">[location condition 1]</span>
+   <span class="kw">OR</span>  <span class="pl">[location condition 2]</span>)
+  <span class="kw">AND</span>  <span class="pl">[female condition]</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Show me schools in the US or UK with &gt; 50% female students</p>
+    <div style="margin-top:12px">
+      <div class="ai"><div class="ad">&#128161;</div><div class="at">Use <strong>OR</strong> for the location filter and <strong>AND</strong> for the female % filter</div></div>
+      <div class="ai"><div class="ad">&#128161;</div><div class="at">Wrap <strong>OR</strong> conditions in parentheses to control operator precedence</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  COMPLEX WHERE + BETWEEN
+============================================================ -->
+<section data-label="BETWEEN Operator" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>  *
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span> (primary_location = <span class="str">'US'</span>
+   <span class="kw">OR</span>  primary_location = <span class="str">'UK'</span>)
+  <span class="kw">AND</span>  female_students_pct &gt; <span class="num">50</span>
+  <span class="kw">AND</span>  weighted_salary_usd
+       <span class="hi">BETWEEN</span> <span class="num">120000</span> <span class="kw">AND</span> <span class="num">170000</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">US or UK schools with &gt;50% female students and salaries between $120&ndash;$170k</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>BETWEEN</strong> is inclusive &mdash; it includes both endpoints</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Parentheses control <strong>operator precedence</strong> &mdash; AND evaluates before OR without them</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Multiple <strong>AND</strong> conditions all must be true simultaneously</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     24  ILIKE
+============================================================ -->
+<section data-label="ILIKE Pattern Matching" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>  *
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span>  school_name
+       <span class="hi">ILIKE</span> <span class="str">'%University of%'</span>;</pre>
+    <div style="margin-top:40px;border-top:1px solid rgba(255,255,255,.08);padding-top:32px">
+      <div style="font-size:24px;color:#4a5e70;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Wildcard %</div>
+      <div style="font-family:'DM Mono',monospace;font-size:24px;color:#94a3b8"><span style="color:#fda4af">'%london%'</span>  &rarr; contains "london"</div>
+      <div style="font-family:'DM Mono',monospace;font-size:24px;color:#94a3b8;margin-top:8px"><span style="color:#fda4af">'london%'</span>   &rarr; starts with "london"</div>
+      <div style="font-family:'DM Mono',monospace;font-size:24px;color:#94a3b8;margin-top:8px"><span style="color:#fda4af">'%london'</span>   &rarr; ends with "london"</div>
+    </div>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Show me schools with names containing the phrase 'University of'</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>ILIKE</strong> is case-insensitive &mdash; matches regardless of capitalisation</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>%</strong> is a wildcard &mdash; it matches any number of characters</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>LIKE</strong> is the case-sensitive version</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     25  ORDER BY BUILDING BLOCKS
+============================================================ -->
+<section data-label="ORDER BY Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">SQL Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:900px">
+      <div class="bb"><div class="bb-kw">SELECT</div><div class="bb-desc">The columns to analyse</div></div>
+      <div class="bb"><div class="bb-kw">FROM</div><div class="bb-desc">The table</div></div>
+      <div class="bb"><div class="bb-kw">WHERE</div><div class="bb-desc">The filter(s)</div></div>
+      <div class="bb" style="border-color:#2899A4;border-width:2px"><div class="bb-kw" style="color:#fbbf24">ORDER BY</div><div class="bb-desc" style="color:#0d1b2a;font-weight:600">The column(s) to use for sorting</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  ORDER BY EXAMPLE
+============================================================ -->
+<section data-label="ORDER BY Example" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   school_name
+       , weighted_salary_usd
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">ORDER BY</span> weighted_salary_usd
+         <span class="hi">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">5</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Show me the top 5 schools in terms of earning potential</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>ORDER BY</strong> sorts results by the specified column</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>DESC</strong> sorts in descending order (highest first). Use <strong>ASC</strong> for ascending</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>LIMIT 5</strong> restricts the output to just the top 5 rows</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  EXERCISE: HIGHEST SALARY
+============================================================ -->
+<section data-label="Exercise: Highest Salary" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">ORDER BY</span> <span class="pl">[column]</span>
+<span class="kw">LIMIT</span> <span class="pl">[ ]</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Which school has the highest weighted average salary?</p>
+    <div style="margin-top:12px">
+      <div class="ai"><div class="ad">1</div><div class="at">Select <strong>school_name</strong> and <strong>weighted_salary_usd</strong></div></div>
+      <div class="ai"><div class="ad">2</div><div class="at">Sort by <strong>weighted_salary_usd DESC</strong></div></div>
+      <div class="ai"><div class="ad">3</div><div class="at">Limit to just <strong>1 row</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  DISTINCT
+============================================================ -->
+<section data-label="DISTINCT" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm">-- Unique values</span>
+<span class="kw">SELECT</span> <span class="hi">DISTINCT</span> primary_location
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">ORDER BY</span> primary_location;
+
+<span class="cm">-- Count unique values</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(<span class="hi">DISTINCT</span> primary_location)
+<span class="kw">FROM</span> business.business_schools;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Which unique countries made the list of top 100 schools?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>DISTINCT</strong> removes duplicate values, returning only unique entries</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Combine <strong>COUNT</strong> and <strong>DISTINCT</strong> to count unique values</div></div>
+    <div style="margin-top:32px;background:#f0fafb;border:1px solid #bae6ef;border-radius:10px;padding:20px 24px">
+      <div style="font-size:24px;color:#2899A4;font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">How many unique countries?</div>
+      <div style="font-family:'DM Mono',monospace;font-size:28px;color:#0d1b2a">18 countries</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  PART 1 SUMMARY
+============================================================ -->
+<section data-label="Part 1 Summary" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Summary</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">SELECT / FROM</div>
+        <div style="font-size:24px;color:#374151">Every query needs these two. Use <strong>*</strong> for all columns, or name individual columns.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">WHERE</div>
+        <div style="font-size:24px;color:#374151">Filters rows. Use comparison operators: <strong>=, !=, &gt;, BETWEEN, ILIKE</strong></div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">ORDER BY</div>
+        <div style="font-size:24px;color:#374151">Sorts results. Add <strong>DESC</strong> for descending, <strong>ASC</strong> for ascending.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">COUNT / DISTINCT</div>
+        <div style="font-size:24px;color:#374151">Aggregators enable summary statistics. <strong>DISTINCT</strong> returns unique entries.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     30  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     31  SECTION: AGGREGATES
+============================================================ -->
+<section data-label="Aggregates Section" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:80px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Aggregate<br><span style="color:#2899A4">Functions</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:600px;line-height:1.5">SUM, AVG, COUNT, MAX, MIN</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     32  AVG INTRO
+============================================================ -->
+<section data-label="AVG Function" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm">-- Average salary across all schools</span>
+<span class="kw">SELECT</span>  <span class="fn hi">AVG</span>(weighted_salary_usd)
+<span class="kw">FROM</span> business.business_schools;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What is the average salary for an MBA graduate from a top 100 school?</p>
+    <div style="font-size:24px;color:#374151;margin-bottom:32px;line-height:1.5">When querying a dataset we're often interested in <strong>summary statistics</strong> rather than individual rows. This is where aggregators come in.</div>
+    <div class="ai"><div class="ad">1</div><div class="at">Returns the average (mean) value of a numeric column</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Works the same way as Excel's <strong>AVERAGE()</strong> function</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     33  GROUP BY BUILDING BLOCKS
+============================================================ -->
+<section data-label="GROUP BY Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">SQL Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1000px">
+      <div class="bb"><div class="bb-kw">SELECT</div><div class="bb-desc">The columns to analyse</div></div>
+      <div class="bb"><div class="bb-kw">FROM</div><div class="bb-desc">The table</div></div>
+      <div class="bb"><div class="bb-kw">WHERE</div><div class="bb-desc">The filter(s)</div></div>
+      <div class="bb" style="border-color:#2899A4;border-width:2px"><div class="bb-kw" style="color:#fbbf24">GROUP BY</div><div class="bb-desc" style="color:#0d1b2a;font-weight:500">All non-aggregated columns go here &mdash; used to aggregate and 'pivot' data</div></div>
+      <div class="bb"><div class="bb-kw">ORDER BY</div><div class="bb-desc">The column(s) to use for sorting</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     34  GROUP BY EXAMPLE
+============================================================ -->
+<section data-label="GROUP BY Example" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   primary_location
+       , <span class="fn">AVG</span>(weighted_salary_usd)
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> <span class="hi">primary_location</span>
+<span class="kw">ORDER BY</span> <span class="fn">AVG</span>(weighted_salary_usd) <span class="hi">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do average post-MBA salaries compare across different countries?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>GROUP BY</strong> groups rows by the specified column, then aggregates each group</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Any <strong>non-aggregated</strong> column in SELECT must appear in GROUP BY</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Think of it like a <strong>PivotTable</strong> &mdash; one row per unique value of primary_location</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     35  AGGREGATE FUNCTIONS REFERENCE
+============================================================ -->
+<section data-label="Aggregate Functions Reference" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Aggregate Functions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1400px">
+      <tr><th>Function</th><th>Description</th><th>Example</th></tr>
+      <tr><td><span class="op">COUNT()</span></td><td>Count the number of rows</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#4ade80">COUNT</span>(*)</td></tr>
+      <tr><td><span class="op">AVG()</span></td><td>Calculate the average value</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#4ade80">AVG</span>(weighted_salary_usd)</td></tr>
+      <tr><td><span class="op">SUM()</span></td><td>Calculate the total sum</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#4ade80">SUM</span>(weighted_salary_usd)</td></tr>
+      <tr><td><span class="op">MAX()</span></td><td>Find the maximum value</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#4ade80">MAX</span>(weighted_salary_usd)</td></tr>
+      <tr><td><span class="op">MIN()</span></td><td>Find the minimum value</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#4ade80">MIN</span>(weighted_salary_usd)</td></tr>
+    </table>
+    <div style="margin-top:24px;font-size:24px;color:#6b7280">These functions operate on a column and return a <strong style="color:#0d1b2a">single summary value</strong>, or one value per group when used with GROUP BY.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  EXERCISE: MAX SALARY BY COUNTRY
+============================================================ -->
+<section data-label="Exercise: MAX by Country" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[column]</span>
+       , <span class="pl">[aggregate]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> <span class="pl">[column]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[column]</span> <span class="pl">[direction]</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">What is the maximum salary for schools in different countries?</p>
+    <div style="margin-top:12px">
+      <div class="ai"><div class="ad">1</div><div class="at">Use <strong>MAX()</strong> to find the highest salary</div></div>
+      <div class="ai"><div class="ad">2</div><div class="at">Use <strong>GROUP BY primary_location</strong> to segment by country</div></div>
+      <div class="ai"><div class="ad">3</div><div class="at">Order results so the highest-salary country appears first</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     37  MAX + AS ALIAS
+============================================================ -->
+<section data-label="MAX with AS Alias" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   primary_location
+       , <span class="fn">MAX</span>(weighted_salary_usd)
+         <span class="hi">AS</span> max_sal
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> primary_location
+<span class="kw">ORDER BY</span> <span class="hi">max_sal</span> DESC;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What is the maximum salary for schools in different countries?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>AS max_sal</strong> gives the column a shorter, cleaner name</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The alias can then be used in <strong>ORDER BY</strong> and elsewhere in the query</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Aliases make queries <strong>more readable</strong> &mdash; especially with long expressions</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     38  ALIASING EXPLAINED
+============================================================ -->
+<section data-label="ALIASING" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Aliasing</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:32px;max-width:1600px;align-items:flex-start">
+      <div style="flex:1">
+        <div style="font-size:24px;color:#374151;margin-bottom:28px;line-height:1.5">In SQL it is possible to <strong>alias</strong> a column (or a table) &mdash; simply giving it a <strong>more descriptive name</strong> which can then be used throughout the rest of the query.</div>
+        <div style="background:#0d1b2a;border-radius:12px;overflow:hidden;margin-bottom:20px">
+          <div style="padding:14px 20px;background:#0f2236;font-size:24px;color:#64748b;font-family:'DM Mono',monospace;letter-spacing:.08em">BASIC ALIAS</div>
+          <pre class="cb" style="padding:28px 32px"><span class="kw">SELECT</span> weighted_salary_usd
+       <span class="hi">AS</span> salary
+<span class="kw">FROM</span> business.business_schools;</pre>
+        </div>
+        <div style="background:#0d1b2a;border-radius:12px;overflow:hidden">
+          <div style="padding:14px 20px;background:#0f2236;font-size:24px;color:#64748b;font-family:'DM Mono',monospace;letter-spacing:.08em">WITH AGGREGATION</div>
+          <pre class="cb" style="padding:28px 32px"><span class="kw">SELECT</span>  primary_location <span class="hi">AS</span> country
+      , <span class="fn">AVG</span>(weighted_salary_usd) <span class="hi">AS</span> avg_sal
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> country
+<span class="kw">ORDER BY</span> avg_sal <span class="kw">DESC</span>;</pre>
+        </div>
+      </div>
+      <div style="flex:0 0 400px;background:#f0fafb;border:1px solid #bae6ef;border-radius:14px;padding:36px 40px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px">Why alias?</div>
+        <div class="si"><div class="sd"></div><div class="st">Makes output <strong>easier to read</strong></div></div>
+        <div class="si"><div class="sd"></div><div class="st">Required when naming <strong>computed columns</strong></div></div>
+        <div class="si"><div class="sd"></div><div class="st">Can reuse alias in <strong>ORDER BY</strong></div></div>
+        <div class="si"><div class="sd"></div><div class="st">Shortens long <strong>expression names</strong></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     39  COUNT + GROUP BY EXERCISE
+============================================================ -->
+<section data-label="Exercise: COUNT by Country" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[col]</span>
+       , <span class="pl">[aggregate]</span> <span class="kw">AS</span> <span class="pl">[new_name]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> <span class="pl">[col]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[new_name]</span> <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">How many schools are in each country?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Use <strong>COUNT(*)</strong> to count schools per group</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Use <strong>GROUP BY primary_location</strong> to segment by country</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Alias the count column as <strong>num_schools</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     42  COUNT + GROUP BY ANSWER
+============================================================ -->
+<section data-label="Answer: COUNT by Country" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>   primary_location
+       , <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_schools
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> primary_location
+<span class="kw">ORDER BY</span> num_schools <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools are in each country?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>COUNT(*) AS num_schools</strong> &mdash; count rows per group and give the column a readable name</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>GROUP BY primary_location</strong> &mdash; one row per unique country</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>ORDER BY num_schools DESC</strong> &mdash; country with most schools appears first</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     43  CASE WHEN INTRO
+============================================================ -->
+<section data-label="CASE WHEN Intro" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">CASE WHEN</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:28px;max-width:1600px;align-items:center">
+      <div style="flex:1">
+        <div style="font-size:26px;color:#374151;line-height:1.6;margin-bottom:32px">The <strong style="color:#0d1b2a">business.business_schools</strong> dataset doesn't natively include a "US vs International" field &mdash; but it does include <strong style="color:#2899A4">primary_location</strong>.</div>
+        <div style="font-size:26px;color:#374151;line-height:1.6">Using <strong style="color:#2899A4">CASE WHEN</strong> logic allows us to <strong style="color:#0d1b2a">manipulate the data</strong> beyond what natively exists &mdash; like creating new derived columns on the fly.</div>
+      </div>
+      <div style="flex:0 0 500px;background:#0d1b2a;border-radius:16px;padding:44px 48px">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px">Think of it as IF/ELSE</div>
+        <div style="font-size:26px;color:#94a3b8;line-height:1.6"><span style="color:#7dd3fc;font-family:'DM Mono',monospace">CASE WHEN</span> condition<br><span style="color:#4ade80;font-family:'DM Mono',monospace">THEN</span> result<br><span style="color:#fda4af;font-family:'DM Mono',monospace">ELSE</span> fallback<br><span style="color:#7dd3fc;font-family:'DM Mono',monospace">END AS</span> column_name</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     44  CASE WHEN - US VS INTERNATIONAL
+============================================================ -->
+<section data-label="CASE WHEN: US vs International" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>  school_name
+      , primary_location
+      , <span class="hi">CASE WHEN</span>
+          primary_location != <span class="str">'US'</span>
+          <span class="hi">THEN</span> <span class="str">'International'</span>
+          <span class="hi">ELSE</span> primary_location
+          <span class="hi">END</span> <span class="kw">AS</span> region
+<span class="kw">FROM</span> business.business_schools;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools are in the US versus everywhere else in the world?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>CASE WHEN</strong> checks a condition row by row</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>THEN</strong> sets the value if the condition is true</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>ELSE</strong> sets the fallback value</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>END AS region</strong> closes the CASE and names the new column</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  CASE WHEN + GROUP BY ANSWER
+============================================================ -->
+<section data-label="CASE WHEN + GROUP BY" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>
+  <span class="hi">CASE WHEN</span> primary_location != <span class="str">'US'</span>
+       <span class="hi">THEN</span> <span class="str">'International'</span>
+       <span class="hi">ELSE</span> primary_location
+       <span class="hi">END</span> <span class="kw">AS</span> region
+  , <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_schools
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> region
+<span class="kw">ORDER BY</span> num_schools <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools are in the US versus everywhere else?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">You can <strong>GROUP BY</strong> the aliased CASE WHEN column</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">This creates a <strong>US / International</strong> split on the fly &mdash; no new data needed</div></div>
+    <div style="margin-top:24px;background:#f0fafb;border:1px solid #bae6ef;border-radius:10px;padding:20px 24px">
+      <div style="font-size:24px;color:#2899A4;font-weight:600;margin-bottom:8px">Expected output</div>
+      <div style="font-family:'DM Mono',monospace;font-size:24px;color:#374151">US &middot; 43 schools<br>International &middot; 57 schools</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     46  EXERCISE: PAY CATEGORY CASE WHEN
+============================================================ -->
+<section data-label="Exercise: Pay Category" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>
+  <span class="hi">CASE WHEN</span> weighted_salary_usd &gt; <span class="num">200000</span>
+       <span class="hi">THEN</span> <span class="pl">''</span>
+       <span class="hi">WHEN</span> weighted_salary_usd &gt; <span class="num">160000</span>
+       <span class="hi">THEN</span> <span class="pl">''</span>
+       <span class="hi">ELSE</span> <span class="pl">''</span>
+       <span class="hi">END</span> <span class="kw">AS</span> <span class="pl">pay_category</span>
+  , <span class="pl">[aggregate]</span>
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> <span class="pl">[col]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[col]</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">How many schools fall into each pay category?</p>
+    <div style="font-size:24px;color:#374151;margin-bottom:20px">Create a column that labels schools as:</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#d97706">"Elite Pay"</strong> if salary &gt; $200k</div>
+      <div style="background:#dbeafe;border:1px solid #bfdbfe;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#2563eb">"Strong Pay"</strong> if $160k&ndash;$200k</div>
+      <div style="background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#6b7280">"Lower Pay"</strong> otherwise</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     47  PAY CATEGORY ANSWER
+============================================================ -->
+<section data-label="Answer: Pay Category" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>
+  <span class="hi">CASE WHEN</span> weighted_salary_usd &gt; <span class="num">200000</span>
+       <span class="hi">THEN</span> <span class="str">'Elite Pay'</span>
+       <span class="hi">WHEN</span> weighted_salary_usd &gt; <span class="num">160000</span>
+       <span class="hi">THEN</span> <span class="str">'Strong Pay'</span>
+       <span class="hi">ELSE</span> <span class="str">'Lower Pay'</span>
+       <span class="hi">END</span> <span class="kw">AS</span> pay_category
+  , <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_schools
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> pay_category
+<span class="kw">ORDER BY</span> num_schools <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools fall into each pay category?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Multiple WHEN clauses</strong> &mdash; evaluated in order, first match wins</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>ELSE</strong> catches everything that didn't match any condition</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The aliased column <strong>pay_category</strong> is used in GROUP BY</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     48  YOU CAN ALL NOW...
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1100px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:26px;color:#111827;font-weight:500">Interrogate the data</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:26px;color:#111827;font-weight:500">Investigate and challenge hypotheses</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:26px;color:#111827;font-weight:500">Check for discrepancies in the data</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:26px;color:#111827;font-weight:500">Select and manipulate the relevant variables</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     49  SECTION: WHAT ABOUT GENAI?
+============================================================ -->
+<section data-label="What About GenAI" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">A note on</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">What about<br><span style="color:#E05FA0">GenAI?</span></h2>
+  <div style="width:60px;height:4px;background:#2899A4;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     50  GENAI CONTENT
+============================================================ -->
+<section data-label="GenAI Content" style="position:relative;background:#fafafa">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What about GenAI?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div style="position:absolute;top:130px;left:0;right:0;bottom:0;display:flex;align-items:center;padding:0 80px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:1700px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:32px 36px;border-top:4px solid #6b7280">
+        <div style="font-size:24px;font-weight:700;color:#0d1b2a;margin-bottom:14px">Always been normal</div>
+        <div style="font-size:24px;color:#374151;line-height:1.5">Even before GenAI, analysts always used <strong>Google &amp; StackOverflow</strong>. Literally no one knows all commands by heart &mdash; and they never have.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:32px 36px;border-top:4px solid #E05FA0">
+        <div style="font-size:24px;font-weight:700;color:#0d1b2a;margin-bottom:14px">GenAI is not infallible</div>
+        <div style="font-size:24px;color:#374151;line-height:1.5">It's not uncommon to get responses that just <strong>don't work at all</strong>. Models are trained to be sycophantic &mdash; if you ask something wrong, it may keep giving answers that will never work.</div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:32px 36px;border-top:4px solid #2899A4">
+        <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:14px">Know the basics first</div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.5">If you can write basic SQL yourself, GenAI will make you <strong style="color:#4ade80">10&times; faster</strong>.<br><br>If you only use GenAI, it can make you <strong style="color:#fda4af">10&times; slower</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     51  WRAP UP
+============================================================ -->
+<section data-label="Wrap Up" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">Section 05</div>
+    <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+    <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px;margin-bottom:48px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1200px">
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">SELECT &middot; FROM</div>
+        <div style="font-size:24px;color:#94a3b8">Choose tables &amp; columns</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">WHERE</div>
+        <div style="font-size:24px;color:#94a3b8">Filter rows</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">ORDER BY</div>
+        <div style="font-size:24px;color:#94a3b8">Sort results</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">GROUP BY</div>
+        <div style="font-size:24px;color:#94a3b8">Aggregate &amp; pivot</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">COUNT &middot; AVG &middot; MAX&hellip;</div>
+        <div style="font-size:24px;color:#94a3b8">Summary statistics</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">AS (alias)</div>
+        <div style="font-size:24px;color:#94a3b8">Rename columns</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:40px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     52  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:120px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining!</p>
+    </div>
+    <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+      <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+      <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('sql-mbas-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('sql-mbas-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>

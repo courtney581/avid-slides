@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>avidLearning — Slide Decks</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: #0d1b2a;
+    color: #fff;
+    min-height: 100vh;
+    padding: 80px 40px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  .stripe { height: 6px; background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%); margin-bottom: 48px; border-radius: 3px; }
+  .kicker { font-family: 'DM Mono', monospace; font-size: 14px; color: #2899A4; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 16px; }
+  h1 { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -.02em; margin-bottom: 12px; }
+  h1 .accent { color: #2899A4; }
+  .tag { width: 60px; height: 4px; background: #E05FA0; margin: 28px 0 48px; }
+  .section-heading { font-size: 14px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px; }
+  .deck-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 32px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 12px;
+    transition: background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .deck-link:hover { background: rgba(40,153,164,.12); border-color: #2899A4; transform: translateX(4px); }
+  .deck-title { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .deck-meta { font-size: 14px; color: #94a3b8; }
+  .arrow { color: #2899A4; font-size: 20px; margin-left: 24px; }
+  footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.08); font-size: 13px; color: #64748b; display: flex; justify-content: space-between; align-items: center; }
+  footer a { color: #2899A4; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stripe"></div>
+  <div class="kicker">avidLearning</div>
+  <h1>Slide<br><span class="accent">Decks</span></h1>
+  <div class="tag"></div>
+
+  <div class="section-heading">All decks</div>
+
+  <a class="deck-link" href="decks/sql-for-mbas/">
+    <div>
+      <div class="deck-title">SQL for MBAs</div>
+      <div class="deck-meta">Workshop · Friday 24th April 2026</div>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+  <footer>
+    <span>© avidLearning</span>
+    <a href="README.md">README</a>
+  </footer>
+</div>
+</body>
+</html>
