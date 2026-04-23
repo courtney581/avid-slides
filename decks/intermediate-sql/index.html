@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Intermediate SQL &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:186px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Intermediate<br><span style="color:#2899A4">SQL</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400">[TODO: date]</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Intro &amp; expectations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Learning objectives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">JOINs</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Subqueries</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Wrap-up &amp; questions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  WORKSHOP EXPECTATIONS
+============================================================ -->
+<section data-label="Workshop Expectations" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Workshop Expectations</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid3" style="max-width:1500px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128247;</div>
+        <div class="card-ttl">Cameras on</div>
+        <div class="card-body" style="font-size:24px">If at all possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #E05FA0">
+        <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
+        <div class="card-ttl">Double-screen works best</div>
+        <div class="card-body" style="font-size:24px">Keep these slides on one screen and PGAdmin on the other, if possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128587;</div>
+        <div class="card-ttl">Ask questions</div>
+        <div class="card-body" style="font-size:24px">Just come off mute and shout out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  LEARNING OBJECTIVES
+============================================================ -->
+<section data-label="Learning Objectives" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Learning objectives</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:36px">By the end of this session you'll be able to:</div>
+      <div class="si"><div class="sd"></div><div class="st">Understand <strong>what a JOIN is</strong> and when to reach for one</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Combine data from <strong>multiple tables</strong> using a shared key</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Distinguish between <strong>INNER</strong>, <strong>LEFT</strong>, <strong>RIGHT</strong>, and <strong>FULL OUTER</strong> JOINs</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Write multi-table queries using <strong>table aliases</strong> for readability</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  SECTION: JOINs
+============================================================ -->
+<section data-label="JOINs" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 01</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">JOIN<span style="color:#2899A4">s</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin:36px 0 32px"></div>
+  <p style="font-size:28px;color:#94a3b8;line-height:1.45;max-width:1200px">A JOIN combines columns from multiple tables using a common unique identifier, or <strong style="color:#fff;font-weight:600">&ldquo;key.&rdquo;</strong></p>
+</section>
+
+<!-- ============================================================
+     06  A NOTE ON RELATIONAL DATABASES
+============================================================ -->
+<section data-label="Relational databases" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">A note on relational databases</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px">
+      <div class="si"><div class="sd"></div><div class="st">SQL's superpower is letting businesses <strong>store enormous amounts of data efficiently</strong></div></div>
+      <div class="si"><div class="sd"></div><div class="st">That efficiency comes from storing each entity <strong>separately</strong>, in its own table &mdash; no repetition</div></div>
+      <div class="si"><div class="sd"></div><div class="st">To get a <strong>full picture</strong> of the data, we need to <strong>JOIN</strong> those tables back together</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  JOIN SYNTAX - BUILDING BLOCKS
+============================================================ -->
+<section data-label="JOIN syntax" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Where JOINs fit in the SQL building blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:32px;align-items:center;max-width:1700px">
+      <div style="flex:1;max-width:900px">
+        <div class="bb"><div class="bb-kw">SELECT</div><div class="bb-desc">The columns to analyse</div></div>
+        <div class="bb" style="border-color:#2899A4;border-width:2px"><div class="bb-kw" style="color:#fbbf24">FROM</div><div class="bb-desc" style="color:#0d1b2a;font-weight:600">The table(s) &mdash; and where JOINs live</div></div>
+        <div class="bb"><div class="bb-kw">WHERE</div><div class="bb-desc">The filter(s)</div></div>
+        <div class="bb"><div class="bb-kw">GROUP BY</div><div class="bb-desc">The grouping column(s)</div></div>
+        <div class="bb"><div class="bb-kw">ORDER BY</div><div class="bb-desc">The sorting column(s)</div></div>
+        <div class="bb"><div class="bb-kw">LIMIT</div><div class="bb-desc">Restrict the row count</div></div>
+      </div>
+      <div style="flex:0 0 480px;background:#0d1b2a;border-radius:14px;padding:32px 36px">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">JOINs &amp; AS</div>
+        <div style="font-size:24px;color:#e2e8f0;line-height:1.5;margin-bottom:18px">JOINs live inside the <strong style="color:#fbbf24">FROM</strong> clause, right after the first table.</div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.5">Use <strong style="color:#7dd3fc;font-family:'DM Mono',monospace">AS</strong> (or just a space) to alias long table names &mdash; e.g. <span style="font-family:'DM Mono',monospace;color:#e2e8f0">business.business_schools <strong style="color:#fbbf24">bs</strong></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     08  TYPES OF JOINS  (inline SVG, 4 Venn panels)
+============================================================ -->
+<section data-label="Types of JOINs" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Types of JOINs</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:28px;text-align:center;max-width:1400px">Four ways to combine two tables &mdash; the shaded region shows which rows end up in the result.</div>
+    <svg viewBox="0 0 1080 1020" style="width:auto;max-width:100%;max-height:780px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="inner-a"><circle cx="760" cy="200" r="140"/></clipPath>
+      </defs>
+
+      <!-- TOP-LEFT: LEFT JOIN - fill a circle -->
+      <g>
+        <circle cx="200" cy="200" r="140" fill="#0d1b2a"/>
+        <circle cx="200" cy="200" r="140" fill="none" stroke="#2899A4" stroke-width="3"/>
+        <circle cx="320" cy="200" r="140" fill="none" stroke="#E05FA0" stroke-width="3"/>
+        <text x="135" y="208" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#fff">a</text>
+        <text x="370" y="208" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#E05FA0">b</text>
+        <text x="260" y="420" text-anchor="middle" font-family="DM Mono, monospace" font-size="28" font-weight="600" fill="#0d1b2a" letter-spacing="2">LEFT JOIN</text>
+        <text x="260" y="460" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="22" fill="#6b7280">All rows from a, matches from b</text>
+      </g>
+
+      <!-- TOP-RIGHT: INNER JOIN - fill intersection only -->
+      <g>
+        <circle cx="760" cy="200" r="140" fill="none" stroke="#2899A4" stroke-width="3"/>
+        <circle cx="880" cy="200" r="140" fill="none" stroke="#E05FA0" stroke-width="3"/>
+        <g clip-path="url(#inner-a)"><circle cx="880" cy="200" r="140" fill="#0d1b2a"/></g>
+        <text x="695" y="208" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#2899A4">a</text>
+        <text x="930" y="208" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#E05FA0">b</text>
+        <text x="820" y="420" text-anchor="middle" font-family="DM Mono, monospace" font-size="28" font-weight="600" fill="#0d1b2a" letter-spacing="2">INNER JOIN</text>
+        <text x="820" y="460" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="22" fill="#6b7280">Only rows that match in both</text>
+      </g>
+
+      <!-- BOTTOM-LEFT: RIGHT JOIN - fill b circle -->
+      <g>
+        <circle cx="320" cy="720" r="140" fill="#0d1b2a"/>
+        <circle cx="200" cy="720" r="140" fill="none" stroke="#2899A4" stroke-width="3"/>
+        <circle cx="320" cy="720" r="140" fill="none" stroke="#E05FA0" stroke-width="3"/>
+        <text x="135" y="728" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#2899A4">a</text>
+        <text x="370" y="728" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#fff">b</text>
+        <text x="260" y="940" text-anchor="middle" font-family="DM Mono, monospace" font-size="28" font-weight="600" fill="#0d1b2a" letter-spacing="2">RIGHT JOIN</text>
+        <text x="260" y="980" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="22" fill="#6b7280">All rows from b, matches from a</text>
+      </g>
+
+      <!-- BOTTOM-RIGHT: FULL OUTER JOIN - fill both -->
+      <g>
+        <circle cx="760" cy="720" r="140" fill="#0d1b2a"/>
+        <circle cx="880" cy="720" r="140" fill="#0d1b2a"/>
+        <circle cx="760" cy="720" r="140" fill="none" stroke="#2899A4" stroke-width="3"/>
+        <circle cx="880" cy="720" r="140" fill="none" stroke="#E05FA0" stroke-width="3"/>
+        <text x="695" y="728" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#fff">a</text>
+        <text x="930" y="728" font-family="DM Mono, monospace" font-size="26" font-weight="600" fill="#fff">b</text>
+        <text x="820" y="940" text-anchor="middle" font-family="DM Mono, monospace" font-size="28" font-weight="600" fill="#0d1b2a" letter-spacing="2">FULL OUTER JOIN</text>
+        <text x="820" y="980" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="22" fill="#6b7280">Every row from both tables</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  NEW DATA: business.tuition_fees
+============================================================ -->
+<section data-label="New data — tuition_fees" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">New data: <span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:36px">business.tuition_fees</span></span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:center">
+    <div style="max-width:720px;width:100%">
+      <div style="font-size:24px;color:#6b7280;margin-bottom:20px">A second table, linked to <strong style="color:#0d1b2a">business.business_schools</strong> via <strong style="color:#0d1b2a">school_id</strong>.</div>
+      <table class="dt">
+        <tr><th>school_id</th><th>tuition_fees_usd</th></tr>
+        <tr><td>1</td><td>87,370</td></tr>
+        <tr><td>2</td><td>108,800</td></tr>
+        <tr><td>3</td><td>84,496</td></tr>
+        <tr><td>4</td><td>76,410</td></tr>
+        <tr><td>5</td><td>115,595</td></tr>
+        <tr><td>6</td><td>70,890</td></tr>
+        <tr><td>7</td><td>98,200</td></tr>
+        <tr><td>&hellip;</td><td>&hellip;</td></tr>
+      </table>
+      <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.tuition_fees &middot; 100 rows</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  HOW MUCH WILL I HAVE TO PAY? (split code)
+============================================================ -->
+<section data-label="Tuition fees JOIN" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools &#10781; business.tuition_fees</div>
+<pre class="cb"><span class="kw">SELECT</span>   bs.*
+       , tf.*
+<span class="kw">FROM</span>     business.business_schools <span class="kw">AS</span> bs
+<span class="hi">JOIN</span>     business.tuition_fees     <span class="kw">AS</span> tf
+  <span class="hi">ON</span>     bs.school_rank = tf.school_id;</pre>
+  </div>
+  <div class="code-r" style="position:relative">
+    <!-- Inner-join marker (top-right) -->
+    <div style="position:absolute;top:32px;right:36px;text-align:center">
+      <svg viewBox="0 0 260 170" style="width:190px;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="s10-inner"><circle cx="100" cy="75" r="60"/></clipPath>
+        </defs>
+        <circle cx="100" cy="75" r="60" fill="none" stroke="#2899A4" stroke-width="2.5"/>
+        <circle cx="160" cy="75" r="60" fill="none" stroke="#E05FA0" stroke-width="2.5"/>
+        <g clip-path="url(#s10-inner)"><circle cx="160" cy="75" r="60" fill="#0d1b2a"/></g>
+        <text x="50" y="81" font-family="DM Mono, monospace" font-size="15" font-weight="600" fill="#2899A4">a</text>
+        <text x="197" y="81" font-family="DM Mono, monospace" font-size="15" font-weight="600" fill="#E05FA0">b</text>
+        <text x="130" y="160" text-anchor="middle" font-family="DM Mono, monospace" font-size="13" font-weight="600" fill="#0d1b2a" letter-spacing="1.5">INNER JOIN</text>
+      </svg>
+    </div>
+    <p class="qlbl">How do the tuition fees compare between top MBA schools?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>AS bs</strong> and <strong>AS tf</strong> alias the long table names so we can refer to them concisely</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>JOIN</strong> stitches the two tables together row-by-row</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>ON bs.school_rank = tf.school_id</strong> is the matching key &mdash; rows join where these values are equal</div></div>
+    <div style="margin-top:22px;background:#fff5f9;border:1px solid #f8c6dc;border-radius:10px;padding:18px 22px">
+      <div style="font-size:22px;color:#E05FA0;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Heads up</div>
+      <div style="font-size:22px;color:#0d1b2a;line-height:1.4">Only <strong>95 rows</strong> returned &mdash; not every school in <span style="font-family:'DM Mono',monospace;font-size:20px">business_schools</span> has a row in <span style="font-family:'DM Mono',monospace;font-size:20px">tuition_fees</span>. INNER JOIN silently drops the unmatched ones.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  LEFT JOIN (split code)
+============================================================ -->
+<section data-label="LEFT JOIN" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools &#10781; business.tuition_fees</div>
+<pre class="cb"><span class="kw">SELECT</span>   bs.*
+       , tf.*
+<span class="kw">FROM</span>     business.business_schools <span class="kw">AS</span> bs
+<span class="hi">LEFT JOIN</span> business.tuition_fees     <span class="kw">AS</span> tf
+  <span class="kw">ON</span>     bs.school_rank = tf.school_id;</pre>
+  </div>
+  <div class="code-r" style="position:relative">
+    <!-- LEFT JOIN marker (top-right) -->
+    <div style="position:absolute;top:32px;right:36px;text-align:center">
+      <svg viewBox="0 0 260 170" style="width:190px;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="75" r="60" fill="#0d1b2a"/>
+        <circle cx="100" cy="75" r="60" fill="none" stroke="#2899A4" stroke-width="2.5"/>
+        <circle cx="160" cy="75" r="60" fill="none" stroke="#E05FA0" stroke-width="2.5"/>
+        <text x="55" y="81" font-family="DM Mono, monospace" font-size="15" font-weight="600" fill="#fff">a</text>
+        <text x="197" y="81" font-family="DM Mono, monospace" font-size="15" font-weight="600" fill="#E05FA0">b</text>
+        <text x="130" y="160" text-anchor="middle" font-family="DM Mono, monospace" font-size="13" font-weight="600" fill="#0d1b2a" letter-spacing="1.5">LEFT JOIN</text>
+      </svg>
+    </div>
+    <p class="qlbl">What if we want to keep every school, even those with no tuition data?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>LEFT JOIN</strong> keeps every row from the left table (<strong>bs</strong>), matched or not</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Result is <strong>at least</strong> as big as the left table &mdash; could be bigger if there are multiple matches on the right</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Unmatched rows get <strong>NULL</strong> values in the right-table columns</div></div>
+    <div style="margin-top:22px;background:#f0fafb;border:1px solid #bae6ef;border-radius:10px;padding:18px 22px">
+      <div style="font-size:22px;color:#2899A4;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Result</div>
+      <div style="font-size:22px;color:#0d1b2a;line-height:1.4"><strong>100 rows</strong> &mdash; every school from <span style="font-family:'DM Mono',monospace;font-size:20px">business_schools</span> is retained; the 5 without tuition data show <span style="font-family:'DM Mono',monospace;font-size:20px;color:#6b7280">NULL</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12  ESSENTIAL JOIN-ING TIPS
+============================================================ -->
+<section data-label="Essential JOIN tips" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Essential JOIN-ing tips</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:1500px">
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">01</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Know your keys</div>
+          <div style="font-size:24px;color:#374151">Understand the <strong>primary keys</strong> of each table and how they link together &mdash; that's what you'll JOIN ON</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">02</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Sense-check the size</div>
+          <div style="font-size:24px;color:#374151"><strong>Always</strong> check the row count of the result &mdash; e.g. an <strong>INNER JOIN</strong> should never produce more rows than the smaller of the two input tables</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">03</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Alias sensibly</div>
+          <div style="font-size:24px;color:#374151">Use short, meaningful aliases &mdash; typically an <strong>abbreviation</strong> of the original table name (e.g. <span style="font-family:'DM Mono',monospace;color:#0d1b2a">business_schools</span> &rarr; <span style="font-family:'DM Mono',monospace;color:#0d1b2a">bs</span>)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  EXERCISE: dvdrental practice
+============================================================ -->
+<section data-label="Exercise: dvdrental practice" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Let's test your understanding on some new data</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="ex-badge">Exercise</div>
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:28px;max-width:1700px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:5px solid #2899A4;border-radius:10px;padding:28px 32px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:24px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Set up</div>
+        <div class="si"><div class="sd"></div><div class="st">Navigate to the <strong>dvdrental</strong> database in PGAdmin</div></div>
+        <div class="si"><div class="sd"></div><div class="st">Browse the different tables &mdash; identify what looks like the <strong>primary key</strong> of each</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:5px solid #E05FA0;border-radius:10px;padding:28px 32px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:24px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Write a query to&hellip;</div>
+        <div class="ai" style="margin-bottom:16px"><div class="ad" style="background:#E05FA0">1</div><div class="at">List every <strong>film</strong> with its <strong>language</strong> name (e.g. &ldquo;English&rdquo;)</div></div>
+        <div class="ai" style="margin-bottom:16px"><div class="ad" style="background:#E05FA0">2</div><div class="at">List all <strong>customers</strong> and the <strong>number of rentals</strong> each has made</div></div>
+        <div class="ai" style="margin-bottom:16px"><div class="ad" style="background:#E05FA0">3</div><div class="at">List every <strong>actor</strong> who has appeared in a film rated <strong>'PG'</strong></div></div>
+        <div class="ai" style="margin-bottom:16px"><div class="ad" style="background:#E05FA0">4</div><div class="at">List each <strong>customer</strong> with the <strong>city</strong> they live in</div></div>
+        <div class="ai" style="margin-bottom:0"><div class="ad" style="background:#E05FA0">5</div><div class="at">How many <strong>films</strong> are in each <strong>category</strong>?</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14  SOLUTIONS: skeleton queries
+============================================================ -->
+<section data-label="Solutions — skeletons" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Solutions &mdash; skeleton queries</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:22px;color:#6b7280;margin-bottom:18px">If you're stuck, start from these skeletons and fill in the <span style="font-family:'DM Mono',monospace;color:#64748b;font-style:italic">[placeholders]</span>.</div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;max-width:1760px">
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q1 &middot; Film + language</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, l.name <span class="kw">AS</span> language
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="pl">[?]</span> <span class="kw">JOIN</span> dvdrental.<span class="pl">[?]</span> <span class="kw">AS</span> l
+  <span class="kw">ON</span> f.<span class="pl">[?]</span> = l.<span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[?]</span>;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q2 &middot; Rentals per customer</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name,
+       <span class="fn">COUNT</span>(<span class="pl">[?]</span>) <span class="kw">AS</span> rental_count
+<span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
+<span class="pl">[?]</span> <span class="kw">JOIN</span> dvdrental.<span class="pl">[?]</span> <span class="kw">AS</span> r
+  <span class="kw">ON</span> c.<span class="pl">[?]</span> = r.<span class="pl">[?]</span>
+<span class="kw">GROUP BY</span> <span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> rental_count <span class="hi">DESC</span>;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q3 &middot; Actors in PG films</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, a.first_name, a.last_name
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="kw">JOIN</span>   dvdrental.<span class="pl">[bridge]</span> <span class="kw">AS</span> fa <span class="kw">ON</span> <span class="pl">[?]</span>
+<span class="kw">JOIN</span>   dvdrental.actor <span class="kw">AS</span> a  <span class="kw">ON</span> <span class="pl">[?]</span>
+<span class="kw">WHERE</span>  f.rating = <span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[?]</span>;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q4 &middot; Customer + city</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name, ci.city
+<span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
+<span class="kw">JOIN</span>   dvdrental.<span class="pl">[?]</span>   <span class="kw">AS</span> a  <span class="kw">ON</span> c.<span class="pl">[?]</span> = a.<span class="pl">[?]</span>
+<span class="kw">JOIN</span>   dvdrental.city <span class="kw">AS</span> ci <span class="kw">ON</span> a.<span class="pl">[?]</span> = ci.<span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> <span class="pl">[?]</span>;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q5 &middot; Films per category</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name, <span class="pl">[?]</span> <span class="kw">AS</span> film_count
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="kw">JOIN</span>   dvdrental.<span class="pl">[bridge]</span> <span class="kw">AS</span> fc  <span class="kw">ON</span> <span class="pl">[?]</span>
+<span class="kw">JOIN</span>   dvdrental.category <span class="kw">AS</span> cat <span class="kw">ON</span> <span class="pl">[?]</span>
+<span class="kw">GROUP BY</span> <span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> film_count <span class="hi">DESC</span>;</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  SOLUTIONS: full queries
+============================================================ -->
+<section data-label="Solutions — full" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Solutions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;max-width:1760px">
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q1 &middot; Film + language</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, f.rating,
+       f.rental_rate,
+       l.name <span class="kw">AS</span> language
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="hi">INNER JOIN</span> dvdrental.language <span class="kw">AS</span> l
+  <span class="kw">ON</span> f.language_id = l.language_id
+<span class="kw">ORDER BY</span> f.title;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q2 &middot; Rentals per customer</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name,
+       <span class="fn">COUNT</span>(r.rental_id) <span class="kw">AS</span> rental_count
+<span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
+<span class="hi">LEFT JOIN</span> dvdrental.rental <span class="kw">AS</span> r
+  <span class="kw">ON</span> c.customer_id = r.customer_id
+<span class="kw">GROUP BY</span> c.customer_id, c.first_name, c.last_name
+<span class="kw">ORDER BY</span> rental_count <span class="hi">DESC</span>;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q3 &middot; Actors in PG films</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, a.first_name, a.last_name
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="kw">JOIN</span>   dvdrental.film_actor <span class="kw">AS</span> fa
+  <span class="kw">ON</span> f.film_id   = fa.film_id
+<span class="kw">JOIN</span>   dvdrental.actor <span class="kw">AS</span> a
+  <span class="kw">ON</span> fa.actor_id = a.actor_id
+<span class="kw">WHERE</span>  f.rating = <span class="str">'PG'</span>
+<span class="kw">ORDER BY</span> f.title, a.last_name;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q4 &middot; Customer + city</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name, ci.city
+<span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
+<span class="kw">JOIN</span>   dvdrental.address <span class="kw">AS</span> a
+  <span class="kw">ON</span> c.address_id = a.address_id
+<span class="kw">JOIN</span>   dvdrental.city <span class="kw">AS</span> ci
+  <span class="kw">ON</span> a.city_id    = ci.city_id
+<span class="kw">ORDER BY</span> ci.city, c.last_name;</pre>
+      </div>
+      <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q5 &middot; Films per category</div>
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name <span class="kw">AS</span> category,
+       <span class="fn">COUNT</span>(f.film_id) <span class="kw">AS</span> film_count
+<span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
+<span class="kw">JOIN</span>   dvdrental.film_category <span class="kw">AS</span> fc
+  <span class="kw">ON</span> f.film_id      = fc.film_id
+<span class="kw">JOIN</span>   dvdrental.category <span class="kw">AS</span> cat
+  <span class="kw">ON</span> fc.category_id = cat.category_id
+<span class="kw">GROUP BY</span> cat.name
+<span class="kw">ORDER BY</span> film_count <span class="hi">DESC</span>;</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     16  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  SECTION: SUBQUERIES
+============================================================ -->
+<section data-label="Subqueries section" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Sub<span style="color:#2899A4">queries</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin:36px 0 32px"></div>
+  <p style="font-size:28px;color:#94a3b8;line-height:1.45;max-width:1200px">A query <strong style="color:#fff;font-weight:600">inside</strong> another query.</p>
+</section>
+
+<!-- ============================================================
+     18  SUBQUERIES (concept)
+============================================================ -->
+<section data-label="Subqueries" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Subqueries</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center;max-width:1700px">
+      <!-- Concentric circles diagram -->
+      <div style="display:flex;justify-content:center">
+        <svg viewBox="0 0 500 500" style="width:100%;max-width:500px;height:auto" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer (parent) circle - solid -->
+          <circle cx="250" cy="250" r="220" fill="#fff" stroke="#2899A4" stroke-width="3"/>
+          <!-- Inner (subquery) circle - bottom-aligned with outer -->
+          <circle cx="250" cy="360" r="110" fill="#0d1b2a"/>
+          <circle cx="250" cy="360" r="110" fill="none" stroke="#E05FA0" stroke-width="3"/>
+          <!-- Outer label (upper crescent, padded from edge) -->
+          <text x="250" y="125" text-anchor="middle" font-family="DM Mono, monospace" font-size="22" font-weight="600" fill="#2899A4" letter-spacing="2">PARENT QUERY</text>
+          <text x="250" y="153" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="16" fill="#6b7280">runs second &middot; uses the result</text>
+          <!-- Inner label (centre of inner circle) -->
+          <text x="250" y="354" text-anchor="middle" font-family="DM Mono, monospace" font-size="22" font-weight="600" fill="#E05FA0" letter-spacing="2">SUBQUERY</text>
+          <text x="250" y="382" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="16" fill="#94a3b8">runs first</text>
+        </svg>
+      </div>
+      <!-- Explanation -->
+      <div>
+        <div style="font-size:28px;color:#0d1b2a;margin-bottom:28px;line-height:1.4">A <strong style="color:#E05FA0">subquery</strong> is a query nested inside another query &mdash; a <strong style="color:#2899A4">parent</strong> wraps around it.</div>
+        <div class="si"><div class="sd" style="background:#E05FA0"></div><div class="st"><strong style="color:#E05FA0">The subquery runs first</strong> &mdash; it returns a value, a row, or a table</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>The parent query then uses that result</strong> &mdash; typically in a <span style="font-family:'DM Mono',monospace;color:#0d1b2a">WHERE</span>, <span style="font-family:'DM Mono',monospace;color:#0d1b2a">SELECT</span>, or <span style="font-family:'DM Mono',monospace;color:#0d1b2a">FROM</span> clause</div></div>
+        <div class="si"><div class="sd"></div><div class="st">Handy for <strong>comparing rows against a summary</strong> &mdash; e.g. &ldquo;above the overall average&rdquo;</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  SUBQUERY WORKED EXAMPLE (split code)
+============================================================ -->
+<section data-label="Subquery worked example" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+<pre class="cb"><span class="cm">-- Find schools with salary above the overall average.</span>
+<span class="cm">-- Show: school_name, weighted_salary_usd (highest first).</span>
+
+<span class="kw">SELECT</span>   school_name, weighted_salary_usd
+<span class="kw">FROM</span>     business.business_schools
+<span class="kw">WHERE</span>    weighted_salary_usd <span class="hi">&gt;</span> <span class="hi">(</span>
+           <span class="hi"><span class="kw">SELECT</span> <span class="fn">AVG</span>(weighted_salary_usd)</span>
+           <span class="hi"><span class="kw">FROM</span>   business.business_schools</span>
+         <span class="hi">)</span>
+<span class="kw">ORDER BY</span> weighted_salary_usd <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Which schools earn above the overall average?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The <strong>subquery</strong> (in parentheses) runs first &mdash; returns a single number: the overall <strong>AVG</strong> salary</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The <strong>parent query</strong> then filters <span style="font-family:'DM Mono',monospace">WHERE weighted_salary_usd &gt; [that number]</span></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Much cleaner than running two queries and copy-pasting the result &mdash; and it always reflects the latest data</div></div>
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('intermediate-sql-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('intermediate-sql-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>

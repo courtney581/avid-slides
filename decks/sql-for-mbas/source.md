@@ -196,22 +196,32 @@
 ### 45. Answer: Pay category (split code)
 - Full query + annotations about multiple WHEN clauses, ELSE as catch-all, alias in GROUP BY
 
-### 46. You can all now… (full-slide, 4 rows with teal check circles)
+### 46. Wrap-up (title-slide style, dark, with 6 keyword pill grid)
+- Section 05 kicker
+- Grid: SELECT·FROM, WHERE, ORDER BY, GROUP BY, COUNT·AVG·MAX…, AS (alias)
+
+### 47. You can all now… (full-slide, 4 rows with teal check circles)
 - Interrogate the data
 - Investigate and challenge hypotheses
 - Check for discrepancies in the data
 - Select and manipulate the relevant variables
 
-### 47. Section divider — "What about GenAI?" (section divider, **pink accent** instead of teal, kicker "A note on")
+### 48. Speak purple (full-slide, two-column: single statement + image card)
+- Left: one sentence — "If business people speak **blue** and tech people speak **red**, being able to speak **purple** makes you the most valuable person in the room." ('blue'/'red'/'purple' inline-coloured)
+- Right: `assets/Purple_small.jpg` + small-caps caption "That's what we're here to do"
 
-### 48. What about GenAI? (full-slide, 3 cards with colored top borders, mix of light + dark card)
+### 49. Section divider — "What about GenAI?" (section divider, **pink accent** instead of teal, kicker "A note on")
+
+### 50. What about GenAI? (full-slide, 3 cards with colored top borders, mix of light + dark card)
 - Always been normal — analysts always Googled / StackOverflowed
 - GenAI is not infallible — sycophantic, can give answers that never work
 - Know the basics first — GenAI makes you 10× faster if you know SQL; 10× slower if you don't
 
-### 49. Wrap-up & Questions (title-slide style, dark, with 6 keyword pill grid)
-- Section 05 kicker
-- Grid: SELECT·FROM, WHERE, ORDER BY, GROUP BY, COUNT·AVG·MAX…, AS (alias)
+### 51. What's next? (full-slide, 2 cards with teal / pink top borders, penultimate slide)
+- Intro + "Continue your journey with avidLearning"
+- Card 1 (teal): Intermediate SQL — JOINs, CTEs, window functions, query optimisation
+- Card 2 (pink): Intro to Python for Business — Python fundamentals, pandas, matplotlib, automating Excel
+- Footer CTA: "Register your interest — avidlearning.com"
 
-### 50. Questions & Feedback (final slide, dark, minimal)
+### 52. Questions & Feedback (final slide, dark, minimal)
 - Logo + copyright at bottom
