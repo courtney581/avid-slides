@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<!--
+  LBS SQL programme proposal — one-page A4 leave-behind.
+  Edit copy/numbers inline. To export:
+    Open in Chrome → Cmd+P → Destination: Save as PDF
+    Paper: A4 · Margins: None · Background graphics: ON
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SQL for Business Leaders — Proposal for LBS</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #d9d9d9;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    color: #111827;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body { display: flex; justify-content: center; padding: 20px 0; }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: #fafafa;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  }
+  @media print {
+    html, body { background: #fff; padding: 0; }
+    body { display: block; }
+    .page { box-shadow: none; margin: 0; }
+  }
+
+  .stripe {
+    height: 6px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    padding: 9mm 14mm 6mm;
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+  }
+
+  /* ---------- Header ---------- */
+  .hdr { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hdr .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+  .hdr h1 {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 2mm;
+  }
+  .hdr h1 .accent { color: #2899A4; }
+  .hdr .subtitle {
+    font-size: 12pt;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 2mm;
+  }
+  .hdr .meta {
+    font-size: 9pt;
+    color: #6b7280;
+  }
+  .hdr .strapline {
+    font-size: 9pt;
+    color: #2899A4;
+    font-style: italic;
+    margin-top: 1.5mm;
+  }
+  .hdr .accent-bar {
+    width: 50px; height: 3px;
+    background: #E05FA0;
+    margin-top: 3mm;
+  }
+  .hdr .logo { height: 32px; flex-shrink: 0; margin-top: 2mm; }
+
+  /* ---------- Stat row ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4mm;
+  }
+  .stat {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-top: 3px solid #2899A4;
+    border-radius: 8px;
+    padding: 3.5mm 3mm;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .stat-num .accent { color: #2899A4; }
+  .stat-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 2mm;
+  }
+
+  /* ---------- Body grid ---------- */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 58% 42%;
+    gap: 6mm;
+    flex: 1;
+    min-height: 0;
+  }
+  .col { display: flex; flex-direction: column; gap: 3mm; }
+
+  .section-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 500;
+    margin-bottom: 2mm;
+  }
+
+  p { font-size: 9.5pt; line-height: 1.45; color: #374151; }
+  p + p { margin-top: 2mm; }
+  p strong { color: #0d1b2a; font-weight: 600; }
+  p .hl { color: #2899A4; font-weight: 600; }
+
+  /* Testimonial block */
+  .quote {
+    background: #fff;
+    border-left: 3px solid #2899A4;
+    border-radius: 0 8px 8px 0;
+    padding: 4mm 5mm;
+  }
+  .quote-text {
+    font-size: 9.5pt;
+    color: #111827;
+    line-height: 1.4;
+    font-style: italic;
+    quotes: "\201C""\201D";
+  }
+  .quote-text::before { content: open-quote; }
+  .quote-text::after { content: close-quote; }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 2.5mm;
+  }
+
+  /* Bulleted list (teal dot) */
+  ul.bullets { list-style: none; }
+  ul.bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+    margin-bottom: 1.8mm;
+    font-size: 9.5pt;
+    color: #374151;
+    line-height: 1.4;
+  }
+  ul.bullets li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #2899A4;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  ul.bullets li strong { color: #0d1b2a; font-weight: 600; }
+
+  /* Programme structure table */
+  table.dt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+  table.dt th {
+    background: #0d1b2a;
+    color: #fff;
+    padding: 3mm 3mm;
+    text-align: left;
+    font-weight: 500;
+    font-size: 8.5pt;
+  }
+  table.dt th.row-lbl { background: #1a2a3d; }
+  table.dt td {
+    padding: 1.8mm 3mm;
+    border-top: 1px solid #e5e7eb;
+    color: #374151;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  table.dt td.row-lbl {
+    font-weight: 600;
+    color: #0d1b2a;
+    background: #f3f4f6;
+    width: 30%;
+  }
+  table.dt td.part-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: #f3f4f6;
+    font-weight: 500;
+    width: 30%;
+  }
+
+  /* Investment cards */
+  .invest { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+  .invest-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 3.5mm 4mm;
+    position: relative;
+  }
+  .invest-card.featured {
+    border: 1px solid #E05FA0;
+    background: #fff;
+  }
+  .invest-card.featured::after {
+    content: 'Recommended';
+    position: absolute;
+    top: -7px; right: 8px;
+    background: #E05FA0;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 6.5pt;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+  .invest-pkg {
+    font-size: 8pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 500;
+    margin-bottom: 2mm;
+    line-height: 1.3;
+  }
+  .invest-fee {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1;
+  }
+  .invest-card.featured .invest-fee { color: #E05FA0; }
+  .invest-fee small { font-size: 9pt; font-weight: 500; color: #6b7280; }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 4mm 14mm 3mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8pt;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+  .footer a { color: #2899A4; text-decoration: none; }
+  .footer .logo { height: 22px; }
+  .footer-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="stripe"></div>
+
+  <div class="content">
+
+    <!-- ===== Header ===== -->
+    <div class="hdr">
+      <div>
+        <div class="kicker">avidLearning &middot; Proposal</div>
+        <h1>SQL <span class="accent">for Business Leaders</span></h1>
+        <div class="subtitle">A two-part SQL programme for MBAs</div>
+        <div class="meta">Proposed for London Business School</div>
+        <div class="strapline">Avid Learning is a specialist MBA technical skills training company.</div>
+        <div class="accent-bar"></div>
+      </div>
+      <img src="../../shared/assets/logo.png" alt="avidLearning" class="logo">
+    </div>
+
+    <!-- ===== Stat row ===== -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">NPS <span class="accent">85</span></div>
+        <div class="stat-lbl">Across all cohorts</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="accent">9.2</span> / 10</div>
+        <div class="stat-lbl">Average student rating</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="accent">100%</span></div>
+        <div class="stat-lbl">Met or exceeded expectations</div>
+      </div>
+    </div>
+
+    <!-- ===== Two-column body ===== -->
+    <div class="body-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col">
+
+        <div>
+          <div class="section-kicker">The opportunity</div>
+          <p>LBS students are entering a business environment where data literacy is no longer optional. SQL is the most widely used data tool in finance, consulting, product, and operations, and demand for it among LBS students is demonstrably high.</p>
+          <p>Before LBS engaged formally, <strong>23 students sought out and paid for this content independently</strong>. That is not a training trend, it is a signal about an unmet need within LBS.</p>
+        </div>
+
+        <div>
+          <div class="section-kicker">What the first cohorts showed</div>
+          <p>The inaugural LBS cohort delivered the metrics above across 13 student respondents. <span class="hl">100% of respondents in the first two cohorts</span> expressed interest in a follow-on intermediate course; 6 students from the most recent cohort have asked directly when it will run.</p>
+          <div class="quote" style="margin-top:3mm">
+            <div class="quote-text">Super useful workshop because you actually get to play around in the tool &mdash; Courtney is also super helpful answering questions as they pop up to make sure that no one gets stuck at any point.</div>
+            <div class="quote-attr">&mdash; LBS student, Intro to SQL Workshop 24/04/26</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-kicker">Why this partnership makes sense</div>
+          <ul class="bullets">
+            <li><span><strong>LBS alumna</strong> &mdash; direct understanding of what LBS students need to be commercially competitive</span></li>
+            <li><span><strong>Data scientist by training</strong> &mdash; practical, employer-relevant content grounded in real-world use</span></li>
+            <li><span><strong>Qualified teacher</strong> &mdash; structured pedagogy, not ad hoc instruction</span></li>
+            <li><span><strong>AI-literate</strong> &mdash; curriculum that reflects the tools students will work alongside from day one</span></li>
+            <li><span><strong>Proven demand</strong> &mdash; 45 LBS MBA total workshop attendees; 23 students paid out-of-pocket before LBS involvement</span></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+
+        <div>
+          <div class="section-kicker">Programme structure</div>
+          <table class="dt">
+            <tbody>
+              <tr>
+                <td class="row-lbl">Format</td>
+                <td colspan="2">In-person or online workshops</td>
+              </tr>
+              <tr>
+                <td class="row-lbl">Cohort size</td>
+                <td colspan="2">Up to 25 students</td>
+              </tr>
+              <tr>
+                <td class="row-lbl">Frequency</td>
+                <td colspan="2">3&times; per academic year</td>
+              </tr>
+              <tr>
+                <td class="part-lbl">Part 1<br>SQL Foundations</td>
+                <td colspan="2">Core SQL syntax, filtering, aggregation &amp; real-world queries from scratch</td>
+              </tr>
+              <tr>
+                <td class="part-lbl">Part 2<br>SQL for Analysis</td>
+                <td colspan="2">Joins, subqueries, window functions &amp; <strong>using AI to optimise</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="section-kicker">Proposed investment</div>
+          <div class="invest">
+            <div class="invest-card">
+              <div class="invest-pkg">Both workshops<br>(single cohort run)</div>
+              <div class="invest-fee">&pound;9,500</div>
+            </div>
+            <div class="invest-card featured">
+              <div class="invest-pkg">Annual partnership<br>(3&times; runs / year)</div>
+              <div class="invest-fee">&pound;26,000<small> / yr</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-kicker">Looking further ahead</div>
+          <p>The MBA programme is the natural starting point. Beyond it, there is clear scope to extend this curriculum across MiF, MiM, and other programmes.</p>
+          <p>As demand grows complementary modules in data storytelling and AI literacy are a natural next step. The goal is a <strong>long-term curriculum partnership</strong>, not a series of standalone workshops.</p>
+        </div>
+
+        <div>
+          <div class="section-kicker">Proposed next steps</div>
+          <ul class="bullets">
+            <li>Confirm dates for the next MBA cohort run (Part 1 + Part 2)</li>
+            <li>Agree annual schedule for 3&times; cohort runs across the academic year</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <div class="footer">
+    <span> <a href="mailto:courtney@avidlearning.com">courtney@avidlearning.com</a> &middot; <a href="https://avidlearning.tech/">avidlearning.tech</a></span>
+    <img src="../../shared/assets/logo.png" alt="avidLearning" class="logo">
+  </div>
+  <div class="footer-stripe"></div>
+
+</div>
+
+</body>
+</html>

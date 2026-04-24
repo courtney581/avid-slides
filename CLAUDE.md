@@ -130,3 +130,7 @@ Keep slide numbering continuous and include a **parenthetical hint about layout*
 ## Adding a deck to the landing page
 
 Append one `<a class="deck-link">` entry inside the `<main>` of the root [index.html](index.html). Follow the existing pattern exactly.
+
+## Proposals & one-pagers
+
+Single-page printable docs (sales proposals, briefs) live under `proposals/<name>/index.html`. They share the deck palette and fonts but use A4 print CSS instead of the `<deck-stage>` web component — sized in `mm`/`pt` rather than the deck's `px`-on-1920 canvas. Canonical reference: [proposals/lbs-sql-programme/index.html](proposals/lbs-sql-programme/index.html). Export the same way as a deck: open in Chrome → Cmd+P → Save as PDF (Paper: A4, Margins: None, Background graphics: on). Don't list proposals on the root [index.html](index.html) — that page is the public GitHub Pages landing for decks.
