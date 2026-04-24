@@ -239,10 +239,11 @@
 
 ### 49. Section divider — "What about GenAI?" (section divider, **pink accent** instead of teal, kicker "A note on", teal underline bar)
 
-### 50. What about GenAI? (full-slide, 3 cards in a row with coloured top borders; mix of light + dark)
-- Card 1 (grey top border, light): **Always been normal** — Even before GenAI, analysts always used Google & StackOverflow. Literally no one knows all commands by heart — and they never have.
-- Card 2 (pink top border, light): **GenAI is not infallible** — It's not uncommon to get responses that just don't work at all. Models are trained to be sycophantic — if you ask something wrong, it may keep giving answers that will never work.
-- Card 3 (teal top border, dark navy): **Know the basics first** — If you can write basic SQL yourself, GenAI will make you 10× faster (green). If you only use GenAI, it can make you 10× slower (pink).
+### 50. What about GenAI? (full-slide, hero headline + 10× split)
+- Hero line (centred, 52px): "GenAI doesn't ~~replace~~ SQL knowledge. It **amplifies** it." ('replace' struck through in pink, 'amplifies' in teal)
+- 10× split (two-card row, light + navy):
+  - Light card (green top border): **10× FASTER** — With SQL fundamentals, you can read, validate & correct what the AI gives you.
+  - Navy card (pink top border): **10× SLOWER** — With GenAI alone, debugging confidently-wrong queries you can't read.
 
 ### 51. What's next? (full-slide, intro line + 2 course cards with teal / pink top borders)
 - Intro: "Keep learning with us"

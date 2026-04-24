@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SQL for MBAs &mdash; avidLearning</title>
+<title>SQL for MBAs &mdash; Participant Handout &mdash; avidLearning</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="../../shared/deck-stage.js"></script>
 <style>
@@ -117,6 +117,17 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 .sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
 .st{font-size:24px;color:#374151;line-height:1.4}
 .st strong{color:#2899A4}
+
+/* Handout watermark — tiled diagonal "Not For Distribution" */
+deck-stage > section::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:50;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='320'><text x='0' y='180' font-family='DM Mono, monospace' font-size='42' font-weight='700' fill='rgba(40,153,164,0.18)' transform='rotate(-28 260 160)'>Not For Distribution</text></svg>");
+  background-repeat:repeat;
+}
 </style>
 </head>
 <body>
@@ -175,69 +186,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     03  WORKSHOP EXPECTATIONS
-============================================================ -->
-<section data-label="Workshop Expectations" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">Workshop Expectations</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center">
-    <div class="grid3" style="max-width:1500px">
-      <div class="card" style="border-top:4px solid #2899A4">
-        <div style="font-size:52px;margin-bottom:20px">&#128247;</div>
-        <div class="card-ttl">Cameras on</div>
-        <div class="card-body" style="font-size:24px">If at all possible</div>
-      </div>
-      <div class="card" style="border-top:4px solid #2899A4">
-        <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
-        <div class="card-ttl">Double-screen works best</div>
-        <div class="card-body" style="font-size:24px">Keep these slides on one screen and PGAdmin on the other, if possible</div>
-      </div>
-      <div class="card" style="border-top:4px solid #2899A4">
-        <div style="font-size:52px;margin-bottom:20px">&#128587;</div>
-        <div class="card-ttl">Ask questions</div>
-        <div class="card-body" style="font-size:24px">Just come off mute and shout out</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     04  ABOUT THE INSTRUCTOR
-============================================================ -->
-<section data-label="About Instructor" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">Who am I?</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center">
-    <div style="display:flex;flex-direction:column;gap:20px;max-width:1300px">
-      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
-        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">01</span>
-        <div style="width:1px;height:60px;background:#e5e7eb"></div>
-        <div>
-          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-data scientist</div>
-          <div style="font-size:24px;color:#374151">&gt;2 years at <img src="../../shared/assets/deliveroo.png" alt="Deliveroo" style="height:56px;width:auto;vertical-align:middle;margin-left:10px"></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
-        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">02</span>
-        <div style="width:1px;height:60px;background:#e5e7eb"></div>
-        <div>
-          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-consultant</div>
-          <div style="font-size:24px;color:#374151">&gt;4 years <img src="../../shared/assets/strategy.png" alt="Strategy&amp;" style="height:26px;width:auto;vertical-align:-6px;margin:0 6px 0 6px"> - data and analytics specialty</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
-        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">03</span>
-        <div style="width:1px;height:60px;background:#e5e7eb"></div>
-        <div>
-          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Experienced instructor</div>
-          <div style="font-size:24px;color:#374151">&gt;5 years teaching analytics</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      05  TODAY'S AIM
 ============================================================ -->
 <section data-label="Today's Aim" class="full-slide">
@@ -252,25 +200,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
         <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
         <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a data analyst or data scientist</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SPEAK PURPLE
-============================================================ -->
-<section data-label="Speak Purple" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">Speak purple</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
-      <div style="font-size:44px;color:#111827;line-height:1.4;font-weight:500">
-        If business people speak <strong style="color:#3B82F6;font-weight:700">blue</strong> and tech people speak <strong style="color:#EF4444;font-weight:700">red</strong>, being able to speak <strong style="color:#8B5CF6;font-weight:700">purple</strong> makes you the <strong style="font-weight:700">most valuable person in the room</strong>.
-      </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <img src="assets/Purple_small.jpg" style="width:100%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb">
-        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;text-transform:uppercase;text-align:center">That's what we're here to do</div>
       </div>
     </div>
   </div>
@@ -649,37 +578,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     12  LET'S GET CONNECTED
-============================================================ -->
-<section data-label="Let's Get Connected" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">Let's get connected</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center;align-items:flex-start">
-    <div style="max-width:1000px;width:100%">
-      <div style="background:#0d1b2a;border-radius:16px;overflow:hidden">
-        <div style="padding:20px 32px;background:#0f2236;border-bottom:1px solid rgba(255,255,255,.08)">
-          <div style="display:flex;gap:8px"><div style="width:12px;height:12px;border-radius:50%;background:#f87171"></div><div style="width:12px;height:12px;border-radius:50%;background:#fbbf24"></div><div style="width:12px;height:12px;border-radius:50%;background:#4ade80"></div></div>
-        </div>
-        <div style="padding:44px 52px;font-family:'DM Mono',monospace">
-          <div style="margin-bottom:24px">
-            <span style="color:#64748b;font-size:24px">URL</span><br>
-            <a style="color:#7dd3fc;font-size:26px;text-decoration:none">http://51.44.8.109/pgadmin4/browser/</a>
-          </div>
-          <div style="margin-bottom:24px">
-            <span style="color:#64748b;font-size:24px">Username</span><br>
-            <span style="color:#4ade80;font-size:26px">student@mbadata.com</span>
-          </div>
-          <div>
-            <span style="color:#64748b;font-size:24px">Password</span><br>
-            <span style="color:#fda4af;font-size:26px">dataformbas</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      13  DATASET
 ============================================================ -->
 <section data-label="The Dataset" class="full-slide">
@@ -758,29 +656,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     17  EXERCISE: SELECT SPECIFIC COLUMNS
-============================================================ -->
-<section data-label="Exercise: Select Columns" class="split">
-  <div class="code-l">
-    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
-    <pre class="cb"><span class="kw">SELECT</span>  <span class="pl">[columns]</span>
-
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">How do the top 100 schools compare on salary?</p>
-    <div style="font-size:24px;color:#374151;margin-bottom:20px">Modify the query to select only:</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">school_rank</div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">school_name</div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-family:'DM Mono',monospace;font-size:24px;color:#374151">weighted_salary_usd</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      18  ANSWER: SELECT SPECIFIC COLUMNS
 ============================================================ -->
 <section data-label="Answer: Select Columns" class="split">
@@ -839,45 +714,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       <tr><td><span class="op">AND</span></td><td>All conditions must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE country = <span style="color:#fda4af">'UK'</span> AND salary &gt; <span style="color:#fdba74">180000</span></td></tr>
       <tr><td><span class="op">OR</span></td><td>Any condition must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">WHERE country = <span style="color:#fda4af">'US'</span> OR country = <span style="color:#fda4af">'UK'</span></td></tr>
     </table>
-  </div>
-</section>
-
-<!-- ============================================================
-     21  EXERCISE: UK SCHOOLS + SALARY
-============================================================ -->
-<section data-label="Exercise: UK + Salary" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">WHERE</span>  <span class="pl">[condition 1]</span>
-  <span class="kw">AND</span>  <span class="pl">[condition 2]</span>
-<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">Show me schools in the UK with average salaries &gt; $180k</p>
-    <div style="margin-top:12px;font-size:24px;color:#6b7280">Use AND to combine two conditions</div>
-  </div>
-</section>
-
-<!-- ============================================================
-     22  EXERCISE: US OR UK + FEMALE PCT
-============================================================ -->
-<section data-label="Exercise: OR + Female" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">WHERE</span>  (<span class="pl">[location condition 1]</span>
-   <span class="kw">OR</span>  <span class="pl">[location condition 2]</span>)
-  <span class="kw">AND</span>  <span class="pl">[female condition]</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">Show me schools in the US or UK with &gt; 50% female students</p>
-    <div style="margin-top:12px">
-      <div class="ai"><div class="ad">&#128161;</div><div class="at">Use <strong>OR</strong> for the location filter and <strong>AND</strong> for the female % filter</div></div>
-      <div class="ai"><div class="ad">&#128161;</div><div class="at">Wrap <strong>OR</strong> conditions in parentheses to control operator precedence</div></div>
-    </div>
   </div>
 </section>
 
@@ -964,27 +800,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     27  EXERCISE: HIGHEST SALARY
-============================================================ -->
-<section data-label="Exercise: Highest Salary" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[columns]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">ORDER BY</span> <span class="pl">[column]</span>
-<span class="kw">LIMIT</span> <span class="pl">[ ]</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">Which school has the highest weighted average salary?</p>
-    <div style="margin-top:12px">
-      <div class="ai"><div class="ad">1</div><div class="at">Select <strong>school_name</strong> and <strong>weighted_salary_usd</strong></div></div>
-      <div class="ai"><div class="ad">2</div><div class="at">Sort by <strong>weighted_salary_usd DESC</strong></div></div>
-      <div class="ai"><div class="ad">3</div><div class="at">Limit to just <strong>1 row</strong></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      28  DISTINCT
 ============================================================ -->
 <section data-label="DISTINCT" class="split">
@@ -1034,18 +849,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <div style="font-size:24px;color:#374151">Aggregators enable summary statistics. <strong>DISTINCT</strong> returns unique entries.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     30  BREAK
-============================================================ -->
-<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
-  <div style="text-align:center">
-    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
-    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
-    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
-    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
   </div>
 </section>
 
@@ -1133,28 +936,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     36  EXERCISE: MAX SALARY BY COUNTRY
-============================================================ -->
-<section data-label="Exercise: MAX by Country" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[column]</span>
-       , <span class="pl">[aggregate]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">GROUP BY</span> <span class="pl">[column]</span>
-<span class="kw">ORDER BY</span> <span class="pl">[column]</span> <span class="pl">[direction]</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">What is the maximum salary for schools in different countries?</p>
-    <div style="margin-top:12px">
-      <div class="ai"><div class="ad">1</div><div class="at">Use <strong>MAX()</strong> to find the highest salary</div></div>
-      <div class="ai"><div class="ad">2</div><div class="at">Use <strong>GROUP BY primary_location</strong> to segment by country</div></div>
-      <div class="ai"><div class="ad">3</div><div class="at">Order results so the highest-salary country appears first</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      37  MAX + AS ALIAS
 ============================================================ -->
 <section data-label="MAX with AS Alias" class="split">
@@ -1207,26 +988,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <div class="si"><div class="sd"></div><div class="st">Shortens long <strong>expression names</strong></div></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     39  COUNT + GROUP BY EXERCISE
-============================================================ -->
-<section data-label="Exercise: COUNT by Country" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>   <span class="pl">[col]</span>
-       , <span class="pl">[aggregate]</span> <span class="kw">AS</span> <span class="pl">[new_name]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">GROUP BY</span> <span class="pl">[col]</span>
-<span class="kw">ORDER BY</span> <span class="pl">[new_name]</span> <span class="kw">DESC</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">How many schools are in each country?</p>
-    <div class="ai"><div class="ad">1</div><div class="at">Use <strong>COUNT(*)</strong> to count schools per group</div></div>
-    <div class="ai"><div class="ad">2</div><div class="at">Use <strong>GROUP BY primary_location</strong> to segment by country</div></div>
-    <div class="ai"><div class="ad">3</div><div class="at">Alias the count column as <strong>num_schools</strong></div></div>
   </div>
 </section>
 
@@ -1319,35 +1080,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     46  EXERCISE: PAY CATEGORY CASE WHEN
-============================================================ -->
-<section data-label="Exercise: Pay Category" class="split">
-  <div class="code-l">
-    <pre class="cb"><span class="kw">SELECT</span>
-  <span class="hi">CASE WHEN</span> weighted_salary_usd &gt; <span class="num">200000</span>
-       <span class="hi">THEN</span> <span class="pl">''</span>
-       <span class="hi">WHEN</span> weighted_salary_usd &gt; <span class="num">160000</span>
-       <span class="hi">THEN</span> <span class="pl">''</span>
-       <span class="hi">ELSE</span> <span class="pl">''</span>
-       <span class="hi">END</span> <span class="kw">AS</span> <span class="pl">pay_category</span>
-  , <span class="pl">[aggregate]</span>
-<span class="kw">FROM</span> business.business_schools
-<span class="kw">GROUP BY</span> <span class="pl">[col]</span>
-<span class="kw">ORDER BY</span> <span class="pl">[col]</span>;</pre>
-  </div>
-  <div class="code-r">
-    <div class="ex-badge">Exercise</div>
-    <p class="qlbl">How many schools fall into each pay category?</p>
-    <div style="font-size:24px;color:#374151;margin-bottom:20px">Create a column that labels schools as:</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#d97706">"Elite Pay"</strong> if salary &gt; $200k</div>
-      <div style="background:#dbeafe;border:1px solid #bfdbfe;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#2563eb">"Strong Pay"</strong> if $160k&ndash;$200k</div>
-      <div style="background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#6b7280">"Lower Pay"</strong> otherwise</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      47  PAY CATEGORY ANSWER
 ============================================================ -->
 <section data-label="Answer: Pay Category" class="split">
@@ -1414,37 +1146,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 </section>
 
 <!-- ============================================================
-     49  YOU CAN ALL NOW...
-============================================================ -->
-<section data-label="You Can All Now" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <span style="font-size:26px;color:#111827;font-weight:500">Interrogate the data</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <span style="font-size:26px;color:#111827;font-weight:500">Investigate and challenge hypotheses</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <span style="font-size:26px;color:#111827;font-weight:500">Check for discrepancies in the data</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <span style="font-size:26px;color:#111827;font-weight:500">Select and manipulate the relevant variables</span>
-        </div>
-      </div>
-      <img src="assets/Purple_small.jpg" style="width:70%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb;margin:0 auto">
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      51  SECTION: WHAT ABOUT GENAI?
 ============================================================ -->
 <section data-label="What About GenAI" class="sec-div">
@@ -1473,51 +1174,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <div style="font-size:160px;font-weight:700;color:#fda4af;line-height:1;letter-spacing:-.04em">10&times;</div>
         <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:600;color:#fda4af;letter-spacing:.12em;text-transform:uppercase;margin-top:8px">Slower</div>
         <div style="font-size:24px;color:#94a3b8;line-height:1.45;margin-top:18px">With <strong style="color:#fff">GenAI alone</strong> &mdash; debugging confidently-wrong queries you can't read.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     53  WHAT'S NEXT
-============================================================ -->
-<section data-label="What's Next" class="full-slide">
-  <div class="stripe"></div>
-  <div class="hdr"><span class="ttl">What's next?</span><img src="../../shared/assets/logo.png" class="logo"></div>
-  <div class="body" style="justify-content:center">
-    <div style="max-width:1700px;width:100%">
-      <div style="text-align:center;font-size:26px;color:#6b7280;margin-bottom:36px">Keep learning with us</div>
-      <div class="grid2">
-        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4;display:flex;flex-direction:column;position:relative">
-          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Course 01</div>
-          <h3 style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:10px;line-height:1.1">Intermediate SQL</h3>
-          <div style="font-size:24px;color:#6b7280;line-height:1.4;margin-bottom:24px;font-style:italic">From comfortable to confident.</div>
-          <div style="border-top:1px solid #e5e7eb;padding-top:22px">
-            <div style="font-size:22px;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-bottom:14px">You'll learn</div>
-            <div style="display:flex;flex-direction:column;gap:12px">
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">JOINs &mdash; INNER, LEFT, RIGHT &amp; FULL</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Subqueries &amp; Common Table Expressions</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Window functions &mdash; RANK, LAG, LEAD</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Query optimisation with AI</span></div>
-            </div>
-          </div>
-          <img src="../../shared/assets/courseinterest.png" style="position:absolute;bottom:24px;right:28px;width:100px;height:auto">
-        </div>
-        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0;display:flex;flex-direction:column;position:relative">
-          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Course 02</div>
-          <h3 style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:10px;line-height:1.1">Intro to Python for MBAs</h3>
-          <div style="font-size:24px;color:#6b7280;line-height:1.4;margin-bottom:24px;font-style:italic">Automate, analyse, accelerate.</div>
-          <div style="border-top:1px solid #e5e7eb;padding-top:22px">
-            <div style="font-size:22px;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-bottom:14px">You'll learn</div>
-            <div style="display:flex;flex-direction:column;gap:12px">
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Python fundamentals &mdash; syntax &amp; data types</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Pandas for data analysis &amp; wrangling</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Automating Excel &amp; reporting workflows</span></div>
-              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Automate your life admin</span></div>
-            </div>
-          </div>
-          <img src="../../shared/assets/courseinterest.png" style="position:absolute;bottom:24px;right:28px;width:100px;height:auto">
-        </div>
       </div>
     </div>
   </div>
@@ -1565,7 +1221,7 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 <script>
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "showConfidential": true,
-  "confidentialText": "Private and Confidential"
+  "confidentialText": "© Avid Learning · Participant Handout · Not for Distribution"
 }/*EDITMODE-END*/;
 
 function injectFooters() {
@@ -1608,13 +1264,13 @@ function applyTweaks(vals) {
 
 function loadState() {
   try {
-    const saved = JSON.parse(localStorage.getItem('sql-mbas-tweaks') || 'null');
+    const saved = JSON.parse(localStorage.getItem('sql-mbas-handout-tweaks') || 'null');
     return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
   } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
 }
 
 function saveState(vals) {
-  try { localStorage.setItem('sql-mbas-tweaks', JSON.stringify(vals)); } catch(e) {}
+  try { localStorage.setItem('sql-mbas-handout-tweaks', JSON.stringify(vals)); } catch(e) {}
 }
 
 let state = loadState();
