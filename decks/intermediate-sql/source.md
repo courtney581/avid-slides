@@ -3,8 +3,8 @@
 **Subtitle**: avidLearning · Workshop
 **Date**: [TODO: add date]
 
-> Follow-on workshop to [SQL for MBAs](../sql-for-mbas/source.md). Scaffolded from
-> the initial 10-slide outline; more slides will be added as the course develops.
+> Follow-on workshop to [SQL for MBAs](../sql-for-mbas/source.md). Covers JOINs,
+> subqueries, window functions, and using GenAI to move faster.
 > Layout-hint conventions follow [../../CLAUDE.md](../../CLAUDE.md).
 
 ## Slides
@@ -16,24 +16,24 @@
 
 ### 2. Agenda (full-slide, 2-column numbered card grid + dashed break card)
 - 01 Intro & expectations
-- 02 Learning objectives
-- 03 JOINs
+- 02 JOINs
 - (dashed) 10 minute break
-- 04 Subqueries
-- 05 Wrap-up & questions
+- 03 Subqueries
+- 04 Using GenAI to move faster (window functions are introduced as a fresh concept inside this section)
 
 ### 3. Workshop Expectations (full-slide, 3 cards with colored top borders)
 - Cameras on — interactive environment
 - Double-screen works best — slides on one screen, SQL tool on other
-- Ask questions — no silly questions, come off mute
+- Ask questions — just come off mute
 
 ### 4. Learning Objectives (full-slide, bulleted list `.si`/`.st`)
-- Understand what a JOIN is and when to use one
-- Combine data from multiple tables using a shared key
-- Distinguish between INNER, LEFT, RIGHT, and FULL OUTER JOINs
-- Write multi-table queries with table aliases
+- Understand what a JOIN is; distinguish INNER / LEFT / RIGHT / FULL OUTER
+- Combine multiple tables using table aliases and a shared key
+- Write subqueries in the WHERE and FROM clauses
+- Apply window functions like RANK() OVER for row-level analytics
+- Use AI assistants to accelerate SQL learning
 
-### 5. Section divider — "JOINs" (section divider, Section 01, teal accent)
+### 5. Section divider — "JOINs" (section divider, Section 01)
 - Subtitle: "A JOIN combines columns from multiple tables using a common unique identifier or 'key.'"
 
 ### 6. A note on relational databases (full-slide, bullets `.si`/`.st`)
@@ -43,67 +43,111 @@
 
 ### 7. JOIN Syntax — building blocks (full-slide, `.bb` list, FROM highlighted + alias callout)
 - SELECT / FROM / WHERE / GROUP BY / ORDER BY / LIMIT
-- FROM row highlighted (teal border, yellow keyword)
 - Callout: JOINs live inside FROM. Use `AS` (or whitespace) to alias long table names
 
 ### 8. Types of JOINs (full-slide, inline 4-panel Venn SVG)
 - LEFT JOIN / INNER JOIN / RIGHT JOIN / FULL OUTER JOIN
 
 ### 9. New data — `business.tuition_fees` (full-slide, `.dt` data table)
-- Two columns: `school_id`, `tuition_fees_usd`
-- Caption: Table: business.tuition_fees · 100 rows
+- Two columns: `school_id`, `tuition_fees_usd` · 95 rows
 
 ### 10. How much will I have to pay? (split code, INNER JOIN marker top-right)
-- Question: How do tuition fees compare between top MBA schools?
-- Code: `SELECT bs.*, tf.* FROM business.business_schools AS bs JOIN business.tuition_fees AS tf ON bs.school_rank = tf.school_id`
-- Annotations: `bs`/`tf` aliases; JOIN combines matching rows; ON defines the matching key
-- Callout: only 95 rows returned — INNER JOIN drops the 5 unmatched schools
+- Code: INNER JOIN on `bs.school_rank = tf.school_id`
+- Callout: only 95 rows returned — INNER JOIN drops unmatched
 
 ### 11. LEFT JOINs (split code, LEFT JOIN marker top-right)
-- Question: What if we want to keep every school, even those without tuition data?
-- Code: same as slide 10 but with `LEFT JOIN`
-- Annotations: LEFT JOIN keeps all rows from left table; result ≥ left table; unmatched rows become NULL
-- Callout: 100 rows — every school retained, 5 show NULL
+- Code: LEFT JOIN variant
+- Callout: 100 rows — every school retained, unmatched become NULL
 
 ### 12. Essential JOIN-ing tips (full-slide, 3 numbered rows)
-- 01 Know your keys — understand primary keys; that's what you JOIN ON
-- 02 Sense-check the size — INNER JOIN result ≤ smaller input table
-- 03 Alias sensibly — abbreviate the original table name (business_schools → bs)
+- Know your keys
+- Sense-check the size
+- Alias sensibly
 
-### 13. Let's test your understanding on some new data (exercise, full-slide, EXERCISE badge, 2-column)
-- Left (set-up): navigate to the `dvdrental` database in PGAdmin; browse tables and spot the primary keys
-- Right (5 questions):
-  1. List every film with its language name (e.g. "English")
-  2. List all customers and the number of rentals each has made
-  3. List every actor who has appeared in a film rated 'PG'
-  4. List each customer with the city they live in
-  5. How many films are in each category?
+### 13. Let's test your understanding on some new data (exercise, full-slide, EXERCISE badge)
+- Setup: dvdrental database in PGAdmin; identify primary keys
+- 5 questions: film+language, rentals per customer, actors in PG films, customer+city, films per category
 
-### 14. Solutions — skeleton queries (full-slide, 5 pink-title cards in a 3-col flex grid)
-- Scaffolds for each of the 5 questions with `[?]` / `[bridge]` placeholders
+### 14. Solutions — skeleton queries (full-slide, 5 pink-title cards)
 
-### 15. Solutions — full queries (full-slide, 5 teal-title cards in a 3-col flex grid)
-- Complete answers: INNER JOIN for films+languages; LEFT JOIN for rentals per customer; double JOIN with `film_actor`, filter on rating; double JOIN customer→address→city; double JOIN with `film_category`, GROUP BY
+### 15. Solutions — full queries (full-slide, 5 teal-title cards)
 
 ### 16. Break (navy bg, coffee icon, "10 minute break")
 
-### 17. Section divider — "Subqueries" (section divider, Section 02, teal accent)
+### 17. Section divider — "Subqueries" (section divider, Section 02)
 - Subtitle: "A query inside another query."
 
 ### 18. Subqueries (full-slide, concentric-circles SVG + bullets)
-- Diagram: solid teal outer circle "PARENT QUERY · runs second · uses the result"; inner pink-bordered navy circle bottom-aligned with the outer, labelled "SUBQUERY · runs first"
-- Bullets: subquery runs first; parent uses the result in WHERE/SELECT/FROM; handy for comparing rows against a summary
+- Subquery runs first; parent uses the result in WHERE / SELECT / FROM
 
 ### 19. Subquery worked example (split code)
 - Find schools with `weighted_salary_usd` above the overall average
-- Code highlights the subquery inside the WHERE clause
-- Annotations explain execution order and why it's cleaner than two separate queries
+- Subquery in the WHERE clause
+
+### 20. Exercise: your turn (split code, EXERCISE badge, skeleton starter)
+- Question: find schools with tuition fee data — without a JOIN
+- Starter code with `[?]` placeholders for the operator and the subquery's SELECT column
+- Hints: subquery returns a list; which operator checks "is in" a list?
+
+### 21. Solution: subquery in WHERE (split code, SOLUTION badge)
+- Reveal of the answer: `WHERE school_id IN (SELECT school_id FROM tuition_fees)`
+- Annotations explaining the subquery + IN pattern
+
+### 22. Exercise: subquery in FROM (split code, EXERCISE badge)
+- Question: countries where avg weighted salary > $180,000
+- Starter code: derived table `country_avg` aggregated by `primary_location`
+
+### 23. Solution: subquery in FROM (split code, SOLUTION badge)
+- Reveal of the answer with the derived table `country_avg` named via `AS`
+- Annotations explaining the mini table → name it → parent filters it
+
+### 24. Section divider — "Using GenAI to move faster" (section divider, Section 03)
+- Subtitle: "You have the fundamentals — now let AI help you go further, faster."
+
+### 25. Two ways AI can help (full-slide, 2-card grid)
+- Card 1 (teal): Give Claude your schema — same question, completely different answer
+- Card 2 (pink): Use Claude to learn new concepts — window functions today
+
+### 26. Without your schema, Claude is guessing (full-slide, mocked Claude chat + "Won't run" panel)
+- Question: for each customer, show their name and rental count, ordered by most rentals first (dvdrental)
+- Claude response uses generic guesses: `customers`, `c.name`, `r.id`
+- Right column flags what's wrong vs the real dvdrental schema
+
+### 27. Giving Claude the schema (split code)
+- Code: `SELECT table_name, column_name, data_type FROM information_schema.columns WHERE table_schema = 'public'`
+- Numbered steps: run in pgAdmin → copy result → paste into Claude with "Here is my schema:"
+
+### 28. Now Claude knows your tables (full-slide, mocked Claude chat + takeaway)
+- Same question as slide 26, but user pasted the schema first
+- Claude returns a correct query using `customer`, `rental`, `customer_id`, `rental_id`, with `GROUP BY customer_id`
+- Takeaway: real table names, real column names, smarter grouping
+
+### 29. Ask better questions (full-slide, 3-card grid + maxim)
+- Intro: when Claude gives you a query, don't stop there — the follow-up is where you actually learn
+- Card 1 (teal): Explain each line — ask Claude to comment every line so you can see what each piece does
+- Card 2 (pink): Why is this correct? — ask Claude why this is the right query and what would break if you changed it
+- Card 3 (teal): Is there a better way? — ask if there's a more elegant or efficient solution
+- Closing maxim (centred, italic, muted): "The best answers come from asking the best questions."
+
+### 30. Your turn — learn window functions with Claude (full-slide, EXERCISE badge, 15 min)
+- Step 1 (teal card): paste schema, ask Claude what a window function is and for an example
+- Step 2 (pink card): ask Claude to write a query for "rank films from longest to shortest within each category"
+- Run the query in pgAdmin and verify the output
+
+### 31. Knowledge check — what's a window function? (full-slide, MCQ, 4 lettered cards)
+- A: collapses rows like GROUP BY (wrong)
+- B: calculation across a set of rows related to the current row, without collapsing (correct)
+- C: a subquery in WHERE (wrong)
+- D: a way to JOIN tables (wrong)
+
+### 32. RANK worked example (split code, fallback if students struggled)
+- Same RANK example on `business.business_schools` — instructor pulls this up only if the room didn't get there themselves
+- Uses `RANK() OVER (PARTITION BY primary_location ORDER BY weighted_salary_usd DESC)`
 
 ---
 
 ## TODO list (for later iteration)
 
 - [ ] Fill in title date
-- [ ] Add further subquery examples (SELECT-clause subquery, correlated subquery)
 - [ ] Consider a CTEs section as a follow-on to subqueries
 - [ ] Add a wrap-up / Q&A closing slide

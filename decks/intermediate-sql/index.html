@@ -152,10 +152,6 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
         <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
-        <span style="font-size:26px;font-weight:500;color:#111827">Learning objectives</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
         <span style="font-size:26px;font-weight:500;color:#111827">JOINs</span>
       </div>
       <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
@@ -163,12 +159,12 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
       </div>
       <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
         <span style="font-size:26px;font-weight:500;color:#111827">Subqueries</span>
       </div>
       <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
-        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
-        <span style="font-size:26px;font-weight:500;color:#111827">Wrap-up &amp; questions</span>
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Using GenAI to move faster</span>
       </div>
     </div>
   </div>
@@ -187,7 +183,7 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <div class="card-ttl">Cameras on</div>
         <div class="card-body" style="font-size:24px">If at all possible</div>
       </div>
-      <div class="card" style="border-top:4px solid #E05FA0">
+      <div class="card" style="border-top:4px solid #2899A4">
         <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
         <div class="card-ttl">Double-screen works best</div>
         <div class="card-body" style="font-size:24px">Keep these slides on one screen and PGAdmin on the other, if possible</div>
@@ -210,10 +206,11 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
   <div class="body" style="justify-content:center">
     <div style="max-width:1400px">
       <div style="font-size:26px;color:#6b7280;margin-bottom:36px">By the end of this session you'll be able to:</div>
-      <div class="si"><div class="sd"></div><div class="st">Understand <strong>what a JOIN is</strong> and when to reach for one</div></div>
-      <div class="si"><div class="sd"></div><div class="st">Combine data from <strong>multiple tables</strong> using a shared key</div></div>
-      <div class="si"><div class="sd"></div><div class="st">Distinguish between <strong>INNER</strong>, <strong>LEFT</strong>, <strong>RIGHT</strong>, and <strong>FULL OUTER</strong> JOINs</div></div>
-      <div class="si"><div class="sd"></div><div class="st">Write multi-table queries using <strong>table aliases</strong> for readability</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Understand <strong>what a JOIN is</strong> and distinguish <strong>INNER</strong>, <strong>LEFT</strong>, <strong>RIGHT</strong>, and <strong>FULL OUTER</strong> JOINs</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Combine data from <strong>multiple tables</strong> using <strong>table aliases</strong> and a shared key</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Write <strong>subqueries</strong> in the <span style="font-family:'DM Mono',monospace;color:#0d1b2a">WHERE</span> and <span style="font-family:'DM Mono',monospace;color:#0d1b2a">FROM</span> clauses</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Apply <strong>window functions</strong> like <span style="font-family:'DM Mono',monospace;color:#0d1b2a">RANK() OVER</span> for row-level analytics</div></div>
+      <div class="si"><div class="sd"></div><div class="st">Use <strong>AI assistants</strong> to accelerate your SQL learning and problem-solving</div></div>
     </div>
   </div>
 </section>
@@ -223,7 +220,7 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 ============================================================ -->
 <section data-label="JOINs" class="sec-div">
   <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 01</div>
-  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">JOIN<span style="color:#2899A4">s</span></h2>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">JOINs</h2>
   <div style="width:60px;height:4px;background:#E05FA0;margin:36px 0 32px"></div>
   <p style="font-size:28px;color:#94a3b8;line-height:1.45;max-width:1200px">A JOIN combines columns from multiple tables using a common unique identifier, or <strong style="color:#fff;font-weight:600">&ldquo;key.&rdquo;</strong></p>
 </section>
@@ -239,6 +236,247 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       <div class="si"><div class="sd"></div><div class="st">SQL's superpower is letting businesses <strong>store enormous amounts of data efficiently</strong></div></div>
       <div class="si"><div class="sd"></div><div class="st">That efficiency comes from storing each entity <strong>separately</strong>, in its own table &mdash; no repetition</div></div>
       <div class="si"><div class="sd"></div><div class="st">To get a <strong>full picture</strong> of the data, we need to <strong>JOIN</strong> those tables back together</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6B  WHY EXCEL DOESN'T SCALE
+============================================================ -->
+<section data-label="Why Excel Doesn't Scale" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why Excel doesn't scale</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:24px;color:#6b7280;margin-bottom:24px;text-align:center">Excel spreadsheets lead to <strong style="color:#0d1b2a">redundancy</strong>. Relational databases eliminate it &mdash; storing each entity once and linking tables by keys.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="padding:18px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:14px;background:#fafafa">
+            <div style="width:8px;height:44px;background:#E05FA0;border-radius:3px"></div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.08em;text-transform:uppercase">The Excel way</div>
+              <div style="font-size:24px;font-weight:600;color:#0d1b2a;margin-top:2px">One flat table, repeated data</div>
+            </div>
+          </div>
+          <div style="padding:22px 24px;background:#fff;flex:1;display:flex;flex-direction:column">
+            <div style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden">
+              <table class="dt" style="font-size:14px">
+                <thead>
+                  <tr>
+                    <th style="padding:6px 9px">order_id</th>
+                    <th style="padding:6px 9px">customer_name</th>
+                    <th style="padding:6px 9px">customer_city</th>
+                    <th style="padding:6px 9px">product_name</th>
+                    <th style="padding:6px 9px">product_category</th>
+                    <th style="padding:6px 9px">product_price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1001</td>
+                    <td style="padding:6px 10px">John Smith</td>
+                    <td style="padding:6px 10px">London</td>
+                    <td style="padding:6px 10px">Wireless Mouse</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">25</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1002</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">John Smith</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">London</td>
+                    <td style="padding:6px 10px">Keyboard</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">45</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1003</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">John Smith</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">London</td>
+                    <td style="padding:6px 10px">Laptop Stand</td>
+                    <td style="padding:6px 10px">Accessories</td>
+                    <td style="padding:6px 10px;text-align:right">30</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1004</td>
+                    <td style="padding:6px 10px">Sarah Jones</td>
+                    <td style="padding:6px 10px">Manchester</td>
+                    <td style="padding:6px 10px">Monitor</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">200</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1005</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">Sarah Jones</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">Manchester</td>
+                    <td style="padding:6px 10px">Keyboard</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">45</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1006</td>
+                    <td style="padding:6px 10px">Ali Khan</td>
+                    <td style="padding:6px 10px">Birmingham</td>
+                    <td style="padding:6px 10px">Monitor</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">200</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1007</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">Ali Khan</td>
+                    <td style="padding:6px 10px;background:#fde8f2;color:#9f2c66">Birmingham</td>
+                    <td style="padding:6px 10px">Wireless Mouse</td>
+                    <td style="padding:6px 10px">Electronics</td>
+                    <td style="padding:6px 10px;text-align:right">25</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 10px;font-family:'DM Mono',monospace">1008</td>
+                    <td style="padding:6px 10px">Emma Brown</td>
+                    <td style="padding:6px 10px">Leeds</td>
+                    <td style="padding:6px 10px">Laptop Stand</td>
+                    <td style="padding:6px 10px">Accessories</td>
+                    <td style="padding:6px 10px;text-align:right">30</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="font-size:22px;color:#6b7280;margin-top:auto;padding-top:20px;line-height:1.45">Customer details are repeated on every order row &mdash; storage balloons and updates are error-prone.</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="padding:18px 28px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:14px;background:#fafafa">
+            <div style="width:8px;height:44px;background:#2899A4;border-radius:3px"></div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;text-transform:uppercase">The SQL way</div>
+              <div style="font-size:24px;font-weight:600;color:#0d1b2a;margin-top:2px">Related tables, stored once</div>
+            </div>
+          </div>
+          <div style="padding:22px 24px;background:#fff;flex:1;display:flex;flex-direction:column;gap:10px">
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:14px;color:#6b7280;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">Orders</div>
+              <div style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden">
+                <table class="dt" style="font-size:15px">
+                  <thead>
+                    <tr>
+                      <th style="padding:6px 10px;background:#2899A4">order_id</th>
+                      <th style="padding:6px 10px;background:#E05FA0">customer_id</th>
+                      <th style="padding:6px 10px;background:#E05FA0">product_id</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">1001</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">C1</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">P1</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">1002</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">C1</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">P2</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">1003</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">C1</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">P3</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">1004</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">C2</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">P4</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">1005</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">C2</td>
+                      <td style="padding:5px 10px;background:#fde8f2;color:#9f2c66;font-family:'DM Mono',monospace">P2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:14px;color:#6b7280;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">Customers</div>
+              <div style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden">
+                <table class="dt" style="font-size:15px">
+                  <thead>
+                    <tr>
+                      <th style="padding:6px 10px;background:#2899A4">customer_id</th>
+                      <th style="padding:6px 10px">customer_name</th>
+                      <th style="padding:6px 10px">customer_city</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">C1</td>
+                      <td style="padding:5px 10px">John Smith</td>
+                      <td style="padding:5px 10px">London</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">C2</td>
+                      <td style="padding:5px 10px">Sarah Jones</td>
+                      <td style="padding:5px 10px">Manchester</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">C3</td>
+                      <td style="padding:5px 10px">Ali Khan</td>
+                      <td style="padding:5px 10px">Birmingham</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">C4</td>
+                      <td style="padding:5px 10px">Emma Brown</td>
+                      <td style="padding:5px 10px">Leeds</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:14px;color:#6b7280;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px">Products</div>
+              <div style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden">
+                <table class="dt" style="font-size:15px">
+                  <thead>
+                    <tr>
+                      <th style="padding:6px 10px;background:#2899A4">product_id</th>
+                      <th style="padding:6px 10px">product_name</th>
+                      <th style="padding:6px 10px">product_category</th>
+                      <th style="padding:6px 10px">product_price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">P1</td>
+                      <td style="padding:5px 10px">Wireless Mouse</td>
+                      <td style="padding:5px 10px">Electronics</td>
+                      <td style="padding:5px 10px;text-align:right">25</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">P2</td>
+                      <td style="padding:5px 10px">Keyboard</td>
+                      <td style="padding:5px 10px">Electronics</td>
+                      <td style="padding:5px 10px;text-align:right">45</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">P3</td>
+                      <td style="padding:5px 10px">Laptop Stand</td>
+                      <td style="padding:5px 10px">Accessories</td>
+                      <td style="padding:5px 10px;text-align:right">30</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:5px 10px;background:#e0f2f3;color:#0d5e67;font-family:'DM Mono',monospace">P4</td>
+                      <td style="padding:5px 10px">Monitor</td>
+                      <td style="padding:5px 10px">Electronics</td>
+                      <td style="padding:5px 10px;text-align:right">200</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div style="display:flex;gap:22px;align-items:center;font-size:15px;color:#6b7280;margin-top:2px">
+              <span style="display:flex;align-items:center;gap:7px"><span style="width:13px;height:13px;background:#2899A4;border-radius:3px;display:inline-block"></span>primary key</span>
+              <span style="display:flex;align-items:center;gap:7px"><span style="width:13px;height:13px;background:#E05FA0;border-radius:3px;display:inline-block"></span>foreign key</span>
+            </div>
+            <div style="font-size:20px;color:#6b7280;margin-top:auto;padding-top:10px;line-height:1.4">Each entity lives in one table. <strong style="color:#0d1b2a">Primary keys</strong> identify rows; <strong style="color:#0d1b2a">foreign keys</strong> link tables &mdash; cheaper, cleaner, scales to billions of rows.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -349,7 +587,7 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
         <tr><td>7</td><td>98,200</td></tr>
         <tr><td>&hellip;</td><td>&hellip;</td></tr>
       </table>
-      <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.tuition_fees &middot; 100 rows</div>
+      <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.tuition_fees &middot; 95 rows</div>
     </div>
   </div>
 </section>
@@ -500,7 +738,8 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;max-width:1760px">
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q1 &middot; Film + language</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, l.name <span class="kw">AS</span> language
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title
+     , l.name <span class="kw">AS</span> language
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="pl">[?]</span> <span class="kw">JOIN</span> dvdrental.<span class="pl">[?]</span> <span class="kw">AS</span> l
   <span class="kw">ON</span> f.<span class="pl">[?]</span> = l.<span class="pl">[?]</span>
@@ -508,8 +747,9 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q2 &middot; Rentals per customer</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name,
-       <span class="fn">COUNT</span>(<span class="pl">[?]</span>) <span class="kw">AS</span> rental_count
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name
+     , c.last_name
+     , <span class="fn">COUNT</span>(<span class="pl">[?]</span>) <span class="kw">AS</span> rental_count
 <span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
 <span class="pl">[?]</span> <span class="kw">JOIN</span> dvdrental.<span class="pl">[?]</span> <span class="kw">AS</span> r
   <span class="kw">ON</span> c.<span class="pl">[?]</span> = r.<span class="pl">[?]</span>
@@ -518,7 +758,9 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q3 &middot; Actors in PG films</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, a.first_name, a.last_name
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title
+     , a.first_name
+     , a.last_name
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="kw">JOIN</span>   dvdrental.<span class="pl">[bridge]</span> <span class="kw">AS</span> fa <span class="kw">ON</span> <span class="pl">[?]</span>
 <span class="kw">JOIN</span>   dvdrental.actor <span class="kw">AS</span> a  <span class="kw">ON</span> <span class="pl">[?]</span>
@@ -527,7 +769,9 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q4 &middot; Customer + city</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name, ci.city
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name
+     , c.last_name
+     , ci.city
 <span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
 <span class="kw">JOIN</span>   dvdrental.<span class="pl">[?]</span>   <span class="kw">AS</span> a  <span class="kw">ON</span> c.<span class="pl">[?]</span> = a.<span class="pl">[?]</span>
 <span class="kw">JOIN</span>   dvdrental.city <span class="kw">AS</span> ci <span class="kw">ON</span> a.<span class="pl">[?]</span> = ci.<span class="pl">[?]</span>
@@ -535,7 +779,8 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q5 &middot; Films per category</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name, <span class="pl">[?]</span> <span class="kw">AS</span> film_count
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name
+     , <span class="pl">[?]</span> <span class="kw">AS</span> film_count
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="kw">JOIN</span>   dvdrental.<span class="pl">[bridge]</span> <span class="kw">AS</span> fc  <span class="kw">ON</span> <span class="pl">[?]</span>
 <span class="kw">JOIN</span>   dvdrental.category <span class="kw">AS</span> cat <span class="kw">ON</span> <span class="pl">[?]</span>
@@ -556,9 +801,10 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;max-width:1760px">
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q1 &middot; Film + language</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, f.rating,
-       f.rental_rate,
-       l.name <span class="kw">AS</span> language
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title
+     , f.rating
+     , f.rental_rate
+     , l.name <span class="kw">AS</span> language
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="hi">INNER JOIN</span> dvdrental.language <span class="kw">AS</span> l
   <span class="kw">ON</span> f.language_id = l.language_id
@@ -566,39 +812,48 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q2 &middot; Rentals per customer</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name,
-       <span class="fn">COUNT</span>(r.rental_id) <span class="kw">AS</span> rental_count
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name
+     , c.last_name
+     , <span class="fn">COUNT</span>(r.rental_id) <span class="kw">AS</span> rental_count
 <span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
 <span class="hi">LEFT JOIN</span> dvdrental.rental <span class="kw">AS</span> r
   <span class="kw">ON</span> c.customer_id = r.customer_id
-<span class="kw">GROUP BY</span> c.customer_id, c.first_name, c.last_name
+<span class="kw">GROUP BY</span> c.customer_id
+       , c.first_name
+       , c.last_name
 <span class="kw">ORDER BY</span> rental_count <span class="hi">DESC</span>;</pre>
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q3 &middot; Actors in PG films</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title, a.first_name, a.last_name
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> f.title
+     , a.first_name
+     , a.last_name
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="kw">JOIN</span>   dvdrental.film_actor <span class="kw">AS</span> fa
   <span class="kw">ON</span> f.film_id   = fa.film_id
 <span class="kw">JOIN</span>   dvdrental.actor <span class="kw">AS</span> a
   <span class="kw">ON</span> fa.actor_id = a.actor_id
 <span class="kw">WHERE</span>  f.rating = <span class="str">'PG'</span>
-<span class="kw">ORDER BY</span> f.title, a.last_name;</pre>
+<span class="kw">ORDER BY</span> f.title
+       , a.last_name;</pre>
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q4 &middot; Customer + city</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name, c.last_name, ci.city
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> c.first_name
+     , c.last_name
+     , ci.city
 <span class="kw">FROM</span>   dvdrental.customer <span class="kw">AS</span> c
 <span class="kw">JOIN</span>   dvdrental.address <span class="kw">AS</span> a
   <span class="kw">ON</span> c.address_id = a.address_id
 <span class="kw">JOIN</span>   dvdrental.city <span class="kw">AS</span> ci
   <span class="kw">ON</span> a.city_id    = ci.city_id
-<span class="kw">ORDER BY</span> ci.city, c.last_name;</pre>
+<span class="kw">ORDER BY</span> ci.city
+       , c.last_name;</pre>
       </div>
       <div class="card" style="flex:0 0 calc((100% - 32px) / 3);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
         <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:18px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">Q5 &middot; Films per category</div>
-<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name <span class="kw">AS</span> category,
-       <span class="fn">COUNT</span>(f.film_id) <span class="kw">AS</span> film_count
+<pre class="cb" style="font-size:15px;line-height:1.55;background:#0f1e2d;padding:14px 16px;border-radius:8px;margin:0"><span class="kw">SELECT</span> cat.name <span class="kw">AS</span> category
+     , <span class="fn">COUNT</span>(f.film_id) <span class="kw">AS</span> film_count
 <span class="kw">FROM</span>   dvdrental.film <span class="kw">AS</span> f
 <span class="kw">JOIN</span>   dvdrental.film_category <span class="kw">AS</span> fc
   <span class="kw">ON</span> f.film_id      = fc.film_id
@@ -606,6 +861,43 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
   <span class="kw">ON</span> fc.category_id = cat.category_id
 <span class="kw">GROUP BY</span> cat.name
 <span class="kw">ORDER BY</span> film_count <span class="hi">DESC</span>;</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15B  AFL CHECK — INNER vs LEFT JOIN
+============================================================ -->
+<section data-label="AfL: INNER vs LEFT" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Quick check &mdash; INNER vs LEFT</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;margin:0 auto">
+      <div class="ex-badge" style="margin-bottom:20px">Quick check</div>
+      <p style="font-size:24px;color:#6b7280;margin-bottom:20px">Annotate an <strong style="color:#E05FA0">X</strong> in the box next to your chosen answer &mdash; we'll talk through your reasoning before the break.</p>
+      <p class="qlbl" style="margin-bottom:36px">We <span style="font-family:'DM Mono',monospace;color:#0d1b2a">INNER JOIN business_schools</span> (100 rows) with <span style="font-family:'DM Mono',monospace;color:#0d1b2a">tuition_fees</span> (95 rows) on <span style="font-family:'DM Mono',monospace;color:#0d1b2a">school_rank = school_id</span>. The result has 95 rows. What happened to the 5 schools with no row in <span style="font-family:'DM Mono',monospace;color:#0d1b2a">tuition_fees</span>?</p>
+      <div class="grid2" style="gap:20px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">A</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">They appear in the result with <span style="font-family:'DM Mono',monospace;color:#0d1b2a">NULL</span> in the tuition columns.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">B</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">They are silently dropped from the result.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">C</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">The query throws an error because of the missing keys.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">D</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">They appear with <span style="font-family:'DM Mono',monospace;color:#0d1b2a">0</span> in <span style="font-family:'DM Mono',monospace;color:#0d1b2a">tuition_fees_usd</span>.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -628,7 +920,7 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 ============================================================ -->
 <section data-label="Subqueries section" class="sec-div">
   <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
-  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Sub<span style="color:#2899A4">queries</span></h2>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Subqueries</h2>
   <div style="width:60px;height:4px;background:#E05FA0;margin:36px 0 32px"></div>
   <p style="font-size:28px;color:#94a3b8;line-height:1.45;max-width:1200px">A query <strong style="color:#fff;font-weight:600">inside</strong> another query.</p>
 </section>
@@ -677,7 +969,8 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
 <pre class="cb"><span class="cm">-- Find schools with salary above the overall average.</span>
 <span class="cm">-- Show: school_name, weighted_salary_usd (highest first).</span>
 
-<span class="kw">SELECT</span>   school_name, weighted_salary_usd
+<span class="kw">SELECT</span>   school_name
+       , weighted_salary_usd
 <span class="kw">FROM</span>     business.business_schools
 <span class="kw">WHERE</span>    weighted_salary_usd <span class="hi">&gt;</span> <span class="hi">(</span>
            <span class="hi"><span class="kw">SELECT</span> <span class="fn">AVG</span>(weighted_salary_usd)</span>
@@ -690,6 +983,490 @@ pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2
     <div class="ai"><div class="ad">1</div><div class="at">The <strong>subquery</strong> (in parentheses) runs first &mdash; returns a single number: the overall <strong>AVG</strong> salary</div></div>
     <div class="ai"><div class="ad">2</div><div class="at">The <strong>parent query</strong> then filters <span style="font-family:'DM Mono',monospace">WHERE weighted_salary_usd &gt; [that number]</span></div></div>
     <div class="ai"><div class="ad">3</div><div class="at">Much cleaner than running two queries and copy-pasting the result &mdash; and it always reflects the latest data</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  EXERCISE STARTER: SUBQUERY IN WHERE (your turn)
+============================================================ -->
+<section data-label="Exercise: your turn" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Starter code &middot; your turn</div>
+<pre class="cb"><span class="cm">-- Fill in the blanks to answer the question on the right.</span>
+
+<span class="kw">SELECT</span>   school_name
+       , primary_location
+<span class="kw">FROM</span>     business.business_schools
+<span class="kw">WHERE</span>    school_id <span class="pl">[?]</span> <span class="pl">(</span>
+           <span class="kw">SELECT</span> <span class="pl">[?]</span>
+           <span class="kw">FROM</span>   business.tuition_fees
+         <span class="pl">)</span>
+<span class="kw">ORDER BY</span> school_name;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Find all schools with tuition fee data &mdash; without using a JOIN.</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The subquery (in parentheses) should return a <strong>list</strong> of <span style="font-family:'DM Mono',monospace">school_id</span>s from <span style="font-family:'DM Mono',monospace">tuition_fees</span></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Which operator lets the parent query check whether <span style="font-family:'DM Mono',monospace">school_id</span> is <strong>in</strong> that list?</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Take 3&ndash;4 minutes &mdash; we'll reveal the solution on the next slide</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  SOLUTION: SUBQUERY IN WHERE (IN)
+============================================================ -->
+<section data-label="Solution: subquery in WHERE" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Solution &middot; business.business_schools</div>
+<pre class="cb"><span class="cm">-- The answer:</span>
+
+<span class="kw">SELECT</span>   school_name
+       , primary_location
+<span class="kw">FROM</span>     business.business_schools
+<span class="kw">WHERE</span>    school_id <span class="hi">IN</span> <span class="hi">(</span>
+           <span class="hi"><span class="kw">SELECT</span> school_id</span>
+           <span class="hi"><span class="kw">FROM</span>   business.tuition_fees</span>
+         <span class="hi">)</span>
+<span class="kw">ORDER BY</span> school_name;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Solution</div>
+    <p class="qlbl">Find all schools with tuition fee data &mdash; without using a JOIN.</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The subquery returns a <strong>list</strong> of <span style="font-family:'DM Mono',monospace">school_id</span>s from <span style="font-family:'DM Mono',monospace">tuition_fees</span></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>IN ( &hellip; )</strong> filters the parent query's rows to those matching that list</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Nice when you only need to <strong>filter</strong>, not combine columns &mdash; keeps the query simple and the output narrow</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  EXERCISE STARTER: SUBQUERY IN FROM (your turn)
+============================================================ -->
+<section data-label="Exercise: subquery in FROM (your turn)" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Starter code &middot; your turn</div>
+<pre class="cb"><span class="cm">-- Fill in the blanks. The subquery should return</span>
+<span class="cm">-- one row per country with its average salary.</span>
+
+<span class="kw">SELECT</span>   primary_location
+       , avg_salary
+<span class="kw">FROM</span>     <span class="hi">(</span>
+  <span class="hi"><span class="kw">SELECT</span>   <span class="pl">[?]</span></span>
+         <span class="hi">, <span class="fn">ROUND</span>(<span class="fn">AVG</span>(<span class="pl">[?]</span>)) <span class="kw">AS</span> avg_salary</span>
+  <span class="hi"><span class="kw">FROM</span>     business.business_schools</span>
+  <span class="hi"><span class="kw">GROUP BY</span> <span class="pl">[?]</span></span>
+<span class="hi">) <span class="kw">AS</span> country_avg</span>
+<span class="kw">WHERE</span>    avg_salary &gt; <span class="pl">[?]</span>
+<span class="kw">ORDER BY</span> avg_salary <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Using a subquery in the FROM clause, find all countries where the average weighted salary is above $180,000.</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The subquery should produce <strong>one row per country</strong> &mdash; what column do you <strong>GROUP BY</strong>?</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Which aggregate function gives you the <strong>average</strong> &mdash; and what column do you average over?</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Take 3&ndash;4 minutes &mdash; we'll reveal the solution on the next slide</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  SOLUTION: SUBQUERY IN FROM
+============================================================ -->
+<section data-label="Solution: subquery in FROM" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Solution &middot; business.business_schools</div>
+<pre class="cb"><span class="cm">-- The answer:</span>
+
+<span class="kw">SELECT</span>   primary_location
+       , avg_salary
+<span class="kw">FROM</span>     <span class="hi">(</span>
+  <span class="hi"><span class="kw">SELECT</span>   primary_location</span>
+         <span class="hi">, <span class="fn">ROUND</span>(<span class="fn">AVG</span>(weighted_salary_usd))</span>
+           <span class="hi"><span class="kw">AS</span> avg_salary</span>
+  <span class="hi"><span class="kw">FROM</span>     business.business_schools</span>
+  <span class="hi"><span class="kw">GROUP BY</span> primary_location</span>
+<span class="hi">) <span class="kw">AS</span> country_avg</span>
+<span class="kw">WHERE</span>    avg_salary &gt; <span class="num">180000</span>
+<span class="kw">ORDER BY</span> avg_salary <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Solution</div>
+    <p class="qlbl">Using a subquery in the FROM clause, find all countries where the average weighted salary is above $180,000.</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The subquery builds a <strong>mini table</strong> &mdash; one row per country with its average salary</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>AS country_avg</strong> names that derived table so the parent can query it</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The parent filters that derived table to rows where <span style="font-family:'DM Mono',monospace">avg_salary &gt; 180000</span></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23B  AFL CHECK — SUBQUERIES (find the lie)
+============================================================ -->
+<section data-label="AfL: Find the lie (subqueries)" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Find the lie &mdash; subqueries</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;margin:0 auto;width:100%">
+      <div class="ex-badge" style="margin-bottom:20px">Find the lie</div>
+      <p style="font-size:24px;color:#6b7280;margin-bottom:20px">Two of these statements about subqueries are true &mdash; one is a lie. Annotate an <strong style="color:#E05FA0">X</strong> next to the lie. Be ready to defend your call.</p>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">A</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">A subquery is just a regular <span style="font-family:'DM Mono',monospace;color:#0d1b2a">SELECT</span> statement nested inside another query, wrapped in parentheses.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">B</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">A subquery in the <span style="font-family:'DM Mono',monospace;color:#0d1b2a">FROM</span> clause behaves like a temporary table &mdash; and needs an alias so the outer query can refer to it.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:center">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">C</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;flex:1">The outer query is evaluated first, then the subquery runs to provide additional filters or columns.</div>
+          <div style="width:70px;height:70px;border:2px solid #d1d5db;border-radius:8px;flex-shrink:0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  SECTION: USING GENAI
+============================================================ -->
+<section data-label="GenAI section" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Using GenAI<br><span style="color:#2899A4">to move faster</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin:36px 0 32px"></div>
+  <p style="font-size:28px;color:#94a3b8;line-height:1.45;max-width:1200px">You have the fundamentals &mdash; now let AI help you go further, faster.</p>
+</section>
+
+<!-- ============================================================
+     24  WHY CONTEXT MATTERS (two cards)
+============================================================ -->
+<section data-label="Why context matters" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Two ways AI can help</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;margin:0 auto">
+      <div style="font-size:28px;color:#0d1b2a;margin-bottom:36px;line-height:1.4">AI assistants are great at SQL &mdash; but only when you give them <strong style="color:#2899A4">context</strong>. Two things to practise today:</div>
+      <div class="grid2" style="gap:32px">
+        <div class="card" style="border-top:4px solid #2899A4">
+          <div style="font-size:52px;margin-bottom:20px">&#128221;</div>
+          <div class="card-ttl" style="font-size:30px;margin-bottom:12px">Give Claude your schema</div>
+          <div class="card-body" style="font-size:24px">Same question, completely different answer once Claude knows your tables and columns.</div>
+        </div>
+        <div class="card" style="border-top:4px solid #E05FA0">
+          <div style="font-size:52px;margin-bottom:20px">&#128218;</div>
+          <div class="card-ttl" style="font-size:30px;margin-bottom:12px">Use Claude to learn new concepts</div>
+          <div class="card-body" style="font-size:24px">We haven't covered window functions &mdash; you'll use Claude to figure them out.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     25  CLAUDE WITHOUT SCHEMA (mocked chat)
+============================================================ -->
+<section data-label="Claude without schema" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Without your schema, Claude is guessing</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="padding:24px 80px 36px;justify-content:flex-start">
+    <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:40px;max-width:1760px;align-items:start">
+      <!-- Claude chat mockup -->
+      <div style="background:#fafaf7;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.08)">
+        <div style="background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 24px;display:flex;align-items:center;gap:12px">
+          <div style="width:28px;height:28px;border-radius:50%;background:#D97757;color:#fff;font-family:'DM Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px">C</div>
+          <div style="font-size:20px;font-weight:600;color:#0d1b2a">Claude</div>
+          <div style="margin-left:auto;font-size:16px;color:#9ca3af;font-family:'DM Mono',monospace">claude.ai</div>
+        </div>
+        <div style="padding:24px 28px;display:flex;flex-direction:column;gap:20px">
+          <!-- User message -->
+          <div style="display:flex;justify-content:flex-end">
+            <div style="max-width:80%;background:#2899A4;color:#fff;padding:14px 18px;border-radius:14px;border-bottom-right-radius:4px;font-size:20px;line-height:1.45">For each customer, show their name and how many rentals they've made &mdash; ordered by most rentals first.</div>
+          </div>
+          <!-- Claude response -->
+          <div style="display:flex;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#D97757;color:#fff;font-family:'DM Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:4px">C</div>
+            <div style="flex:1;font-size:19px;line-height:1.55;color:#0d1b2a">
+              <p style="margin-bottom:12px">Sure! Assuming a typical schema, you'd join a <strong>customers</strong> table to a <strong>rentals</strong> table on the customer id and count the rentals:</p>
+<pre style="font-family:'DM Mono',monospace;font-size:16px;line-height:1.55;background:#0f1e2d;color:#e2e8f0;padding:14px 16px;border-radius:8px;white-space:pre;margin:0"><span style="color:#7dd3fc">SELECT</span> c.name
+     , <span style="color:#4ade80">COUNT</span>(r.id) <span style="color:#7dd3fc">AS</span> rental_count
+<span style="color:#7dd3fc">FROM</span>   customers c
+<span style="color:#7dd3fc">LEFT JOIN</span> rentals r <span style="color:#7dd3fc">ON</span> c.id = r.customer_id
+<span style="color:#7dd3fc">GROUP BY</span> c.name
+<span style="color:#7dd3fc">ORDER BY</span> rental_count <span style="color:#7dd3fc">DESC</span>;</pre>
+              <p style="margin-top:12px">You may need to adjust the table or column names to match your actual schema.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- What's wrong panel -->
+      <div style="display:flex;flex-direction:column;gap:18px;padding-top:12px">
+        <div class="ex-badge" style="align-self:flex-start">Won't run</div>
+        <div style="font-size:30px;font-weight:600;color:#0d1b2a;line-height:1.25">A generic guess. Nothing here matches dvdrental.</div>
+        <div class="si"><div class="sd"></div><div class="st"><span style="font-family:'DM Mono',monospace;color:#0d1b2a">customers</span> &rarr; the table is <strong>customer</strong> (singular)</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><span style="font-family:'DM Mono',monospace;color:#0d1b2a">c.name</span> doesn't exist &mdash; it's <strong>first_name</strong> and <strong>last_name</strong></div></div>
+        <div class="si"><div class="sd"></div><div class="st"><span style="font-family:'DM Mono',monospace;color:#0d1b2a">r.id</span> isn't right either &mdash; the key is <strong>rental_id</strong></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  GIVING CLAUDE THE SCHEMA (split code)
+============================================================ -->
+<section data-label="Giving Claude the schema" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">In pgAdmin &middot; dvdrental</div>
+<pre class="cb"><span class="cm">-- One query gets you the whole schema.</span>
+
+<span class="kw">SELECT</span>   table_name
+       , column_name
+       , data_type
+<span class="kw">FROM</span>     information_schema.columns
+<span class="kw">WHERE</span>    table_schema = <span class="str">'public'</span>
+<span class="kw">ORDER BY</span> table_name
+       , ordinal_position;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I tell Claude about my tables?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Run this query in pgAdmin against the <strong>dvdrental</strong> database</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Select all the rows in the result grid and <strong>copy</strong> them</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Paste into Claude with a prefix like <span style="font-family:'DM Mono',monospace;color:#0d1b2a">&ldquo;Here is my schema:&rdquo;</span></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  CLAUDE WITH SCHEMA (mocked chat + takeaway)
+============================================================ -->
+<section data-label="Claude with schema" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Now Claude knows your tables</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="padding:24px 80px 36px;justify-content:flex-start">
+    <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:40px;max-width:1760px;align-items:start">
+      <!-- Claude chat mockup -->
+      <div style="background:#fafaf7;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.08)">
+        <div style="background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 24px;display:flex;align-items:center;gap:12px">
+          <div style="width:28px;height:28px;border-radius:50%;background:#D97757;color:#fff;font-family:'DM Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px">C</div>
+          <div style="font-size:20px;font-weight:600;color:#0d1b2a">Claude</div>
+          <div style="margin-left:auto;font-size:16px;color:#9ca3af;font-family:'DM Mono',monospace">claude.ai</div>
+        </div>
+        <div style="padding:24px 28px;display:flex;flex-direction:column;gap:18px">
+          <!-- User message -->
+          <div style="display:flex;justify-content:flex-end">
+            <div style="max-width:85%;background:#2899A4;color:#fff;padding:14px 18px;border-radius:14px;border-bottom-right-radius:4px;font-size:18px;line-height:1.45">Here is my schema: <span style="font-family:'DM Mono',monospace;background:rgba(255,255,255,0.18);padding:1px 6px;border-radius:4px;font-size:16px">customer (customer_id, first_name, last_name, &hellip;), rental (rental_id, customer_id, &hellip;), &hellip;</span><br><br>For each customer, show their name and how many rentals they've made &mdash; ordered by most rentals first.</div>
+          </div>
+          <!-- Claude response -->
+          <div style="display:flex;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#D97757;color:#fff;font-family:'DM Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:4px">C</div>
+            <div style="flex:1;font-size:19px;line-height:1.55;color:#0d1b2a">
+              <p style="margin-bottom:12px">Got it &mdash; <strong>customer</strong> joins to <strong>rental</strong> on <strong>customer_id</strong>:</p>
+<pre style="font-family:'DM Mono',monospace;font-size:16px;line-height:1.55;background:#0f1e2d;color:#e2e8f0;padding:14px 16px;border-radius:8px;white-space:pre;margin:0"><span style="color:#7dd3fc">SELECT</span> c.first_name
+     , c.last_name
+     , <span style="color:#4ade80">COUNT</span>(r.rental_id) <span style="color:#7dd3fc">AS</span> rental_count
+<span style="color:#7dd3fc">FROM</span>   customer c
+<span style="color:#7dd3fc">LEFT JOIN</span> rental r <span style="color:#7dd3fc">ON</span> c.customer_id = r.customer_id
+<span style="color:#7dd3fc">GROUP BY</span> c.customer_id, c.first_name, c.last_name
+<span style="color:#7dd3fc">ORDER BY</span> rental_count <span style="color:#7dd3fc">DESC</span>;</pre>
+              <p style="margin-top:12px">I grouped by <strong>customer_id</strong> as well as the name columns &mdash; that way two customers with the same name still come out as separate rows.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Takeaway -->
+      <div style="display:flex;flex-direction:column;gap:22px;padding-top:12px">
+        <div class="ex-badge" style="align-self:flex-start">Tip</div>
+        <div style="font-size:30px;font-weight:600;color:#0d1b2a;line-height:1.25">Same question. Totally different answer.</div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Real table names</strong> &mdash; <span style="font-family:'DM Mono',monospace;color:#0d1b2a">customer</span>, <span style="font-family:'DM Mono',monospace;color:#0d1b2a">rental</span></div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Real column names</strong> &mdash; <span style="font-family:'DM Mono',monospace;color:#0d1b2a">first_name</span>, <span style="font-family:'DM Mono',monospace;color:#0d1b2a">rental_id</span></div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Smarter grouping</strong> &mdash; uses the primary key, not just the name</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  ASK BETTER QUESTIONS (3-card grid + maxim)
+============================================================ -->
+<section data-label="Ask better questions" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Ask better questions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;margin:0 auto">
+      <div style="font-size:28px;color:#0d1b2a;margin-bottom:36px;line-height:1.4">When Claude gives you a query, don't stop there. The follow-up is where you actually <strong style="color:#2899A4">learn</strong>.</div>
+      <div class="grid3" style="gap:28px">
+        <div class="card" style="border-top:4px solid #2899A4">
+          <div style="font-size:52px;margin-bottom:20px">&#128221;</div>
+          <div class="card-ttl" style="font-size:28px;margin-bottom:12px">Explain each line</div>
+          <div class="card-body" style="font-size:22px">Ask Claude to add a comment to every line of the query so you can see what each piece is doing.</div>
+        </div>
+        <div class="card" style="border-top:4px solid #E05FA0">
+          <div style="font-size:52px;margin-bottom:20px">&#128270;</div>
+          <div class="card-ttl" style="font-size:28px;margin-bottom:12px">Why is this correct?</div>
+          <div class="card-body" style="font-size:22px">Ask Claude why this is the right query for your question &mdash; and what would break if you changed it.</div>
+        </div>
+        <div class="card" style="border-top:4px solid #2899A4">
+          <div style="font-size:52px;margin-bottom:20px">&#10024;</div>
+          <div class="card-ttl" style="font-size:28px;margin-bottom:12px">Is there a better way?</div>
+          <div class="card-body" style="font-size:22px">Ask if there's a more elegant or efficient solution. There usually is.</div>
+        </div>
+      </div>
+      <div style="margin-top:36px;font-size:26px;color:#6b7280;line-height:1.45;text-align:center;font-style:italic">The best answers come from asking the best questions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  YOUR TURN: WINDOW FUNCTIONS WITH CLAUDE
+============================================================ -->
+<section data-label="Your turn: learn window functions" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Your turn &mdash; learn a brand new concept</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;margin:0 auto">
+      <div class="ex-badge" style="margin-bottom:20px">Exercise &middot; 15 minutes</div>
+      <p class="qlbl" style="margin-bottom:36px">Use Claude to teach yourself what a <strong style="font-style:normal">window function</strong> is.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-left:5px solid #2899A4;border-radius:12px;padding:26px 32px">
+          <div style="font-size:22px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Step 1 &middot; Learn</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;margin-bottom:14px">Open Claude. Paste in your dvdrental schema (from the query you just ran) and ask:</div>
+          <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;font-size:22px;color:#0d1b2a;font-style:italic">&ldquo;What is a window function in SQL? Give me a small example using my schema.&rdquo;</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-left:5px solid #E05FA0;border-radius:12px;padding:26px 32px">
+          <div style="font-size:22px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Step 2 &middot; Try</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4;margin-bottom:14px">Now ask Claude to help you write a query that answers:</div>
+          <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;font-size:22px;color:#0d1b2a;font-style:italic">&ldquo;For each film category, rank the films from longest to shortest.&rdquo;</div>
+          <div style="font-size:22px;color:#6b7280;margin-top:14px;line-height:1.4">Run it in pgAdmin. Does the output match what you expected?</div>
+        </div>
+      </div>
+      <div style="margin-top:24px;font-size:22px;color:#6b7280;line-height:1.45;text-align:center">Bring your questions back to the room when we regroup.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     30  KNOWLEDGE CHECK (MCQ)
+============================================================ -->
+<section data-label="Knowledge check: window functions" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Knowledge check</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;margin:0 auto">
+      <div class="ex-badge" style="margin-bottom:20px">Quick check</div>
+      <p class="qlbl" style="margin-bottom:36px">Which of these best describes a window function?</p>
+      <div class="grid2" style="gap:20px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">A</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">It collapses rows into a single result per group &mdash; like <span style="font-family:'DM Mono',monospace;color:#0d1b2a">GROUP BY</span>, just with different syntax.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">B</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">It performs a calculation across a set of rows related to the current row, <strong>without</strong> collapsing the result.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">C</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">A subquery that runs inside the <span style="font-family:'DM Mono',monospace;color:#0d1b2a">WHERE</span> clause to filter rows.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">D</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">A way to join two tables together using a shared key.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     31  RANK WORKED EXAMPLE (fallback if students struggled)
+============================================================ -->
+<section data-label="RANK example" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+<pre class="cb"><span class="cm">-- Rank schools by salary, within each country.</span>
+
+<span class="kw">SELECT</span>   school_name
+       , primary_location <span class="kw">AS</span> country
+       , weighted_salary_usd
+       , <span class="hi"><span class="fn">RANK</span>() <span class="kw">OVER</span> (</span>
+           <span class="hi"><span class="kw">PARTITION BY</span> primary_location</span>
+           <span class="hi"><span class="kw">ORDER BY</span>     weighted_salary_usd <span class="kw">DESC</span></span>
+         <span class="hi">)</span> <span class="kw">AS</span> country_rank
+<span class="kw">FROM</span>     business.business_schools
+<span class="kw">ORDER BY</span> country
+       , country_rank;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Which school ranks #1 in each country by salary?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>RANK()</strong> is the window function &mdash; it assigns a rank to each row</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>PARTITION BY primary_location</strong> resets the rank for each country &mdash; each country starts at 1</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>ORDER BY weighted_salary_usd DESC</strong> defines what &ldquo;highest&rdquo; means within each partition</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Every row from the source table is kept &mdash; you just gain a new <strong>country_rank</strong> column</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     32  WRAP UP
+============================================================ -->
+<section data-label="Wrap Up" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">Section 05</div>
+    <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+    <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px;margin-bottom:48px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1300px">
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">INNER JOIN</div>
+        <div style="font-size:24px;color:#94a3b8">Matched rows only &mdash; drops unmatched</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">LEFT JOIN</div>
+        <div style="font-size:24px;color:#94a3b8">Keep all left rows &mdash; <span style="font-family:'DM Mono',monospace">NULL</span> on unmatched</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">AS (alias)</div>
+        <div style="font-size:24px;color:#94a3b8">Shorter table names in JOINs</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">Subqueries</div>
+        <div style="font-size:24px;color:#94a3b8">A query inside another &mdash; <span style="font-family:'DM Mono',monospace">WHERE</span>, <span style="font-family:'DM Mono',monospace">FROM</span></div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">Window functions</div>
+        <div style="font-size:24px;color:#94a3b8">Per-row analytics &mdash; without collapsing</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">GenAI + schema</div>
+        <div style="font-size:24px;color:#94a3b8">Force multiplier &mdash; when context is good</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:40px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     32  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
   </div>
 </section>
 
