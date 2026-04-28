@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SQL for MBAs &mdash; Sample Slides &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:186px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+
+/* Outreach watermark — tiled diagonal "Sample slides" */
+deck-stage > section::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:50;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='320'><text x='0' y='180' font-family='DM Mono, monospace' font-size='42' font-weight='700' fill='rgba(40,153,164,0.18)' transform='rotate(-28 260 160)'>Sample slides</text></svg>");
+  background-repeat:repeat;
+}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em">SQL for Business Leaders<br><span style="color:#2899A4;font-size:64px">SQL Foundations</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Intro &amp; expectations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">What is SQL?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">How does SQL work?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Aggregate functions</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Wrap-up &amp; questions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1200px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">To become a more <strong style="color:#2899A4">sophisticated</strong> and <strong style="color:#2899A4">better-informed</strong> user of data</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a data analyst or data scientist</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06  SECTION: WHAT IS SQL?
+============================================================ -->
+<section data-label="What is SQL" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">What is<br><span style="color:#2899A4">SQL?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     07  SQL DEFINITION
+============================================================ -->
+<section data-label="SQL Definition" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What is SQL?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:44px 48px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Stands for</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Structured</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Query</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a">Language</div>
+        <div style="margin-top:28px;font-size:24px;color:#6b7280;line-height:1.5">A language we use to <strong style="color:#2899A4">query</strong> and ask for information from large datasets.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Why it matters</div>
+        <div style="font-size:32px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:20px">SQL is <span style="color:#4ade80">ubiquitous</span></div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.6">Almost every large business employs analysts to answer business questions using SQL. It's the universal language of data.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     08  WHY YOU CARE
+============================================================ -->
+<section data-label="Why You Care" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why do you care?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">SQL enables <strong style="color:#0d1b2a">you</strong> to interrogate how a business is actually performing. A basic understanding makes you:</div>
+    <div class="grid2" style="max-width:1400px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Better informed</div>
+        <div style="font-size:24px;color:#6b7280">Make data-driven decisions with confidence, not guesswork.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Less reliant on analysts</div>
+        <div style="font-size:24px;color:#6b7280">Self-serve answers to common data questions without waiting in the queue.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More confident</div>
+        <div style="font-size:24px;color:#6b7280">Understand the data behind the dashboards your team presents.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More 'dangerous' in meetings</div>
+        <div style="font-size:24px;color:#6b7280">Know when the numbers don't add up &mdash; and be able to ask the right questions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  EXCEL VS SQL
+============================================================ -->
+<section data-label="Excel vs SQL" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">But can't I just use Excel?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
+        <div style="background:#f9fafb;padding:20px 32px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128202;</div>
+          <span style="font-size:26px;font-weight:600;color:#374151">Excel</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Only as fast as <strong>your computer</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Cannot handle <strong>'big data'</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Max <strong>1.1 million rows</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#34d399;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#374151">Good for small data visualisation</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;overflow:hidden">
+        <div style="background:#0f2236;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128451;</div>
+          <span style="font-size:26px;font-weight:600;color:#fff">SQL</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Easily retrieves <strong style="color:#fff">millions of records</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Cloud-based</strong> &mdash; not limited by laptop specs</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Handles <strong style="color:#fff">production-scale</strong> datasets</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Works on <strong style="color:#fff">relational databases</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  SECTION: HOW DOES SQL WORK?
+============================================================ -->
+<section data-label="How does SQL work" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">How does<br><span style="color:#2899A4">SQL work?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     13  DATASET
+============================================================ -->
+<section data-label="The Dataset" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Our dataset: FT MBA Rankings</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:24px;color:#6b7280;margin-bottom:14px">We'll use SQL to interrogate this dataset &mdash; the <strong style="color:#0d1b2a">Financial Times Global MBA Rankings</strong></div>
+    <div style="font-size:20px;color:#9ca3af;font-family:'DM Mono',monospace;margin-bottom:12px;letter-spacing:.02em;font-style:italic">Preview &mdash; the full table in the database has additional columns</div>
+    <table class="dt" style="max-width:1700px">
+      <tr><th>school_rank</th><th>school_name</th><th>weighted_salary_usd</th><th>primary_location</th></tr>
+      <tr><td>1</td><td>University of Pennsylvania: Wharton</td><td>245,772</td><td>US</td></tr>
+      <tr><td>2</td><td>Insead</td><td>198,904</td><td>France</td></tr>
+      <tr><td>3</td><td>Columbia Business School</td><td>232,760</td><td>US</td></tr>
+      <tr><td>4</td><td>SDA Bocconi School of Management</td><td>202,534</td><td>Italy</td></tr>
+      <tr><td>8</td><td>London Business School</td><td>192,331</td><td>UK</td></tr>
+    </table>
+    <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.business_schools &middot; 100 rows</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14  SQL BUILDING BLOCKS
+============================================================ -->
+<section data-label="SQL Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">SQL Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:900px">
+      <div class="bb"><div class="bb-kw">SELECT</div><div class="bb-desc">The columns to analyse</div></div>
+      <div class="bb"><div class="bb-kw">FROM</div><div class="bb-desc">The table</div></div>
+      <div class="bb"><div class="bb-kw">WHERE</div><div class="bb-desc">The filter(s)</div></div>
+      <div class="bb"><div class="bb-kw">ORDER BY</div><div class="bb-desc">The column(s) to use for sorting</div></div>
+      <div class="bb"><div class="bb-kw">LIMIT</div><div class="bb-desc">The maximum number of rows to return</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  SELECT * - ANNOTATED
+============================================================ -->
+<section data-label="SELECT *" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">business.business_schools</div>
+    <pre class="cb"><span class="kw">SELECT</span>  <span class="hi">*</span>
+
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Show me the first 10 rows of data</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>SELECT *</strong> &mdash; Retrieve all of the columns</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>FROM business.business_schools</strong> &mdash; From this specific table</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>LIMIT 10</strong> &mdash; Return only the first 10 rows</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     44  CASE WHEN - US VS INTERNATIONAL
+============================================================ -->
+<section data-label="CASE WHEN: US vs International" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>  school_name
+      , primary_location
+      , <span class="hi">CASE WHEN</span>
+          primary_location != <span class="str">'US'</span>
+          <span class="hi">THEN</span> <span class="str">'International'</span>
+          <span class="hi">ELSE</span> primary_location
+          <span class="hi">END</span> <span class="kw">AS</span> region
+<span class="kw">FROM</span> business.business_schools;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools are in the US versus everywhere else in the world?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>CASE WHEN</strong> checks a condition row by row</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>THEN</strong> sets the value if the condition is true</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>ELSE</strong> sets the fallback value</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>END AS region</strong> closes the CASE and names the new column</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     52  GENAI CONTENT
+============================================================ -->
+<section data-label="GenAI Content" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">GenAI is your force multiplier</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;gap:36px">
+    <div style="text-align:center;font-size:52px;font-weight:600;color:#0d1b2a;line-height:1.15;letter-spacing:-.01em;max-width:1500px;margin:0 auto">
+      GenAI doesn't <span style="color:#6b7280;text-decoration:line-through;text-decoration-color:#E05FA0;text-decoration-thickness:3px">replace</span> SQL knowledge.<br>It <span style="color:#2899A4">amplifies</span> it.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1700px;width:100%;margin:0 auto">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:40px 48px;border-top:4px solid #4ade80;display:flex;flex-direction:column;align-items:center;text-align:center">
+        <div style="font-size:160px;font-weight:700;color:#16a34a;line-height:1;letter-spacing:-.04em">10&times;</div>
+        <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:600;color:#16a34a;letter-spacing:.12em;text-transform:uppercase;margin-top:8px">Faster</div>
+        <div style="font-size:24px;color:#374151;line-height:1.45;margin-top:18px">With <strong style="color:#0d1b2a">SQL fundamentals</strong> &mdash; you can read, validate &amp; correct what the AI gives you.</div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:40px 48px;border-top:4px solid #E05FA0;display:flex;flex-direction:column;align-items:center;text-align:center">
+        <div style="font-size:160px;font-weight:700;color:#fda4af;line-height:1;letter-spacing:-.04em">10&times;</div>
+        <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:600;color:#fda4af;letter-spacing:.12em;text-transform:uppercase;margin-top:8px">Slower</div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.45;margin-top:18px">With <strong style="color:#fff">GenAI alone</strong> &mdash; debugging confidently-wrong queries you can't read.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     54  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "© Avid Learning · Outreach copy · Sample slides"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('sql-mbas-outreach-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('sql-mbas-outreach-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>
