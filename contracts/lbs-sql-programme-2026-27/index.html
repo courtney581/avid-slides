@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<!--
+  LBS SQL Programme — Statement of Work, 2026/27 academic year.
+  Multi-page A4 print doc. To export:
+    Open in Chrome → Cmd+P → Destination: Save as PDF
+    Paper: A4 · Margins: None · Background graphics: ON
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Statement of Work — Avid Learning &amp; London Business School</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #d9d9d9;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    color: #111827;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body { display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 20px; }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: #fafafa;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  }
+  @media print {
+    html, body { background: #fff; padding: 0; gap: 0; }
+    body { display: block; }
+    .page { box-shadow: none; margin: 0; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  .stripe {
+    height: 6px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    padding: 9mm 14mm 6mm;
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    min-height: 0;
+  }
+
+  /* ---------- Page-1 title header ---------- */
+  .hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1mm; }
+  .hdr .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+  .hdr h1 {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 2mm;
+  }
+  .hdr h1 .accent { color: #2899A4; }
+  .hdr .subtitle {
+    font-size: 11pt;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 1.5mm;
+  }
+  .hdr .meta {
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+  }
+  .hdr .accent-bar {
+    width: 50px; height: 3px;
+    background: #E05FA0;
+    margin-top: 3mm;
+  }
+  .hdr .logo { height: 44px; flex-shrink: 0; }
+
+  /* ---------- Section kicker (reused) ---------- */
+  .section-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 500;
+    margin-bottom: 2mm;
+  }
+
+  /* ---------- Numbered clause heading ---------- */
+  h2.clause {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #0d1b2a;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    margin-top: 1mm;
+    margin-bottom: 1.5mm;
+  }
+  h2.clause .num { color: #2899A4; margin-right: 2mm; }
+
+  h3.subclause {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #0d1b2a;
+    margin-top: 2.5mm;
+    margin-bottom: 1.8mm;
+  }
+
+  /* ---------- Body text ---------- */
+  p { font-size: 8.5pt; line-height: 1.4; color: #374151; }
+  p + p { margin-top: 1.5mm; }
+  p strong { color: #0d1b2a; font-weight: 600; }
+
+  /* ---------- Bulleted list (teal dot) ---------- */
+  ul.bullets { list-style: none; }
+  ul.bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+    margin-bottom: 1.2mm;
+    font-size: 8.5pt;
+    color: #374151;
+    line-height: 1.4;
+  }
+  ul.bullets li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #2899A4;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  ul.bullets li strong { color: #0d1b2a; font-weight: 600; }
+
+  /* ---------- Tables (key terms / schedule / fees) ---------- */
+  table.dt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+  table.dt th {
+    background: #0d1b2a;
+    color: #fff;
+    padding: 2.5mm 3mm;
+    text-align: left;
+    font-weight: 500;
+    font-size: 8.5pt;
+  }
+  table.dt td {
+    padding: 2mm 3mm;
+    border-top: 1px solid #e5e7eb;
+    color: #374151;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  table.dt td.row-lbl {
+    font-weight: 600;
+    color: #0d1b2a;
+    background: #f3f4f6;
+    width: 32%;
+  }
+  table.dt td.amount {
+    font-weight: 600;
+    color: #0d1b2a;
+    white-space: nowrap;
+  }
+  table.dt tr.total td {
+    background: #f3f4f6;
+    font-weight: 700;
+    color: #0d1b2a;
+    border-top: 2px solid #0d1b2a;
+  }
+
+  /* ---------- Signature block ---------- */
+  .sig-heading {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #0d1b2a;
+    margin-top: 3mm;
+    margin-bottom: 3mm;
+  }
+  .signature-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .sig-cell { padding: 5mm 6mm; }
+  .sig-cell + .sig-cell { border-left: 1px solid #e5e7eb; }
+  .sig-cell-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 500;
+    margin-bottom: 4mm;
+  }
+  .sig-line {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    border-bottom: 1px solid #9ca3af;
+    padding: 1.5mm 0 1mm;
+    font-size: 9pt;
+    color: #374151;
+    min-height: 7mm;
+  }
+  .sig-line .label { font-weight: 600; color: #0d1b2a; min-width: 18mm; flex-shrink: 0; }
+  .sig-line .value { color: #111827; }
+  .sig-line.filled { border-bottom-color: #e5e7eb; }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 3mm 14mm;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    font-size: 8pt;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+  .footer a { color: #2899A4; text-decoration: none; }
+  .footer .left { text-align: left; }
+  .footer .center {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #6b7280;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .footer .right { text-align: right; }
+  .footer-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- =================================================================== -->
+<!-- ============================== PAGE 1 ============================= -->
+<!-- =================================================================== -->
+<div class="page">
+
+  <div class="stripe"></div>
+
+  <div class="content">
+
+    <div class="hdr">
+      <div>
+        <h1>Statement <span class="accent">of Work</span></h1>
+        <div class="subtitle">Between Avid Learning and London Business School</div>
+        <div class="meta">SQL for Business Leaders &mdash; 2026/27 Academic Year</div>
+        <div class="accent-bar"></div>
+      </div>
+      <img src="../../shared/assets/logo.png" alt="avidLearning" class="logo">
+    </div>
+
+    <table class="dt" style="margin-top:2mm;">
+      <tbody>
+        <tr>
+          <td class="row-lbl">Supplier</td>
+          <td>Avid Learning, sole trader (trading name), Courtney Laing, United Kingdom</td>
+        </tr>
+        <tr>
+          <td class="row-lbl">Client</td>
+          <td>London Business School, Regent's Park, London NW1 4SA</td>
+        </tr>
+        <tr>
+          <td class="row-lbl">Effective date</td>
+          <td>On signature by both parties</td>
+        </tr>
+        <tr>
+          <td class="row-lbl">Term</td>
+          <td>From the Effective Date to 31 August 2027 (the 2026/27 academic year)</td>
+        </tr>
+        <tr>
+          <td class="row-lbl">Total fee</td>
+          <td><strong>&pound;27,000</strong> + VAT if applicable (see clause 4)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <h2 class="clause"><span class="num">1.</span>Background</h2>
+      <p>Avid Learning has previously delivered SQL workshops to LBS MBA cohorts, including a paid trial on 24 April 2026 attended by 11 students, with positive feedback and demonstrable demand. This Statement of Work (SOW) sets out the terms on which Avid Learning will deliver three (3) cohort runs of the SQL for Business Leaders programme to LBS during the 2026/27 academic year.</p>
+      <p>This SOW is intended to be light-touch and pragmatic. If LBS requires Avid Learning to contract under LBS's standard supplier terms, the parties will substitute those terms in good faith, retaining the commercial provisions in clauses 2&ndash;5.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">2.</span>Scope of services</h2>
+      <p>Avid Learning will deliver three (3) cohort runs of the SQL for Business Leaders programme. Each cohort run consists of two workshops:</p>
+      <ul class="bullets" style="margin-top:1.5mm;">
+        <li><span><strong>Part 1</strong> &mdash; SQL: Foundations (3 hours)</span></li>
+        <li><span><strong>Part 2</strong> &mdash; SQL: AI &amp; Applications (3 hours)</span></li>
+      </ul>
+      <p style="margin-top:2mm;">Each cohort accommodates up to 25 students. For each cohort, Avid Learning will provide:</p>
+      <ul class="bullets" style="margin-top:1.5mm;">
+        <li><span>Live workshop delivery (in-person at LBS or online, at LBS's election)</span></li>
+        <li><span>Participant handout (PDF)</span></li>
+        <li><span>Access to a hosted SQL practice environment for 6 months from the date of Part 1</span></li>
+        <li><span>A post-cohort feedback report including NPS, satisfaction scores and qualitative comments</span></li>
+      </ul>
+
+      <h3 class="subclause">Founding Partner status</h3>
+      <p>LBS is recognised as Avid Learning's Founding Partner for the 2026/27 academic year. This includes:</p>
+      <ul class="bullets" style="margin-top:1.5mm;">
+        <li><span>Right of first refusal on any new course Avid Learning launches during the term</span></li>
+        <li><span>Use of the LBS&ndash;Avid Learning relationship in marketing, subject to LBS's prior written approval of any specific use of the LBS name or logo</span></li>
+        <li><span>A 5% discount applied to the standard per-cohort price (already reflected in the fees in clause 4)</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="left"></div>
+    <div class="center">Page 1 of 3</div>
+    <div class="right"><a href="https://avidlearning.tech/">avidlearning.tech</a></div>
+  </div>
+
+  <div class="footer-stripe"></div>
+
+</div>
+
+<!-- =================================================================== -->
+<!-- ============================== PAGE 2 ============================= -->
+<!-- =================================================================== -->
+<div class="page">
+
+  <div class="stripe"></div>
+
+  <div class="content">
+
+    <div>
+      <h2 class="clause"><span class="num">3.</span>Schedule and delivery</h2>
+      <p>The three cohorts will be scheduled across the 2026/27 academic year as follows:</p>
+
+      <table class="dt" style="margin-top:2.5mm;">
+        <thead>
+          <tr>
+            <th style="width:14%;">Cohort</th>
+            <th style="width:32%;">Workshop</th>
+            <th style="width:26%;">Indicative window</th>
+            <th>Format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-lbl" style="width:14%; text-align:center;">1</td>
+            <td>SQL: Foundations + SQL: AI &amp; Applications</td>
+            <td>Autumn term 2026</td>
+            <td>In-person at LBS or online (LBS to choose)</td>
+          </tr>
+          <tr>
+            <td class="row-lbl" style="width:14%; text-align:center;">2</td>
+            <td>SQL: Foundations + SQL: AI &amp; Applications</td>
+            <td>Spring term 2027</td>
+            <td>In-person at LBS or online (LBS to choose)</td>
+          </tr>
+          <tr>
+            <td class="row-lbl" style="width:14%; text-align:center;">3</td>
+            <td>SQL: Foundations + SQL: AI &amp; Applications</td>
+            <td>Summer term 2027 (pre-internship)</td>
+            <td>In-person at LBS or online (LBS to choose)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:3mm;">Specific dates for each cohort will be agreed by the parties in writing (email is sufficient) at least 30 days before the proposed delivery date. Avid Learning will use reasonable endeavours to accommodate LBS's preferred dates but is not obligated to deliver on dates that materially conflict with prior commitments.</p>
+
+      <p style="margin-top:2mm;">If LBS cancels a confirmed cohort:</p>
+      <ul class="bullets" style="margin-top:1.5mm;">
+        <li><span><strong>More than 30 days</strong> before the scheduled date: no fee</span></li>
+        <li><span><strong>Between 14 and 30 days</strong> before: 50% of the per-cohort fee (&pound;4,500)</span></li>
+        <li><span><strong>Less than 14 days</strong> before: 100% of the per-cohort fee (&pound;9,000)</span></li>
+      </ul>
+
+      <p style="margin-top:2mm;">If Avid Learning is unable to deliver a confirmed cohort due to illness or other reasonable cause, Avid Learning will offer a substitute date within 60 days at no additional cost. If no substitute date can be agreed, the per-cohort fee will not be charged.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">4.</span>Fees and payment</h2>
+      <p>The total fee for the three cohort runs is <strong>&pound;27,000</strong> (twenty-seven thousand pounds sterling), payable in three instalments of &pound;9,000 as set out below:</p>
+
+      <table class="dt" style="margin-top:2.5mm;">
+        <thead>
+          <tr>
+            <th>Milestone</th>
+            <th>Trigger</th>
+            <th style="width:22%; text-align:right;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-lbl">Mobilisation</td>
+            <td>Within 14 days of signature</td>
+            <td class="amount" style="text-align:right;">&pound;9,000</td>
+          </tr>
+          <tr>
+            <td class="row-lbl">Cohort 2 delivery</td>
+            <td>Within 14 days of completion of Cohort 2</td>
+            <td class="amount" style="text-align:right;">&pound;9,000</td>
+          </tr>
+          <tr>
+            <td class="row-lbl">Cohort 3 delivery</td>
+            <td>Within 14 days of completion of Cohort 3</td>
+            <td class="amount" style="text-align:right;">&pound;9,000</td>
+          </tr>
+          <tr class="total">
+            <td>Total</td>
+            <td></td>
+            <td style="text-align:right;">&pound;27,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:3mm;">All fees are exclusive of VAT. Avid Learning is currently below the UK VAT registration threshold and will not charge VAT unless and until registration is required, in which case VAT will be added at the prevailing rate.</p>
+
+      <p style="margin-top:2mm;">Reasonable travel and accommodation expenses incurred for in-person delivery will be reimbursed at cost on production of receipts, capped at &pound;200 per cohort without prior written approval. Online delivery does not attract expenses.</p>
+
+      <p style="margin-top:2mm;">Invoices are payable within 30 days of issue. Late payments accrue interest at 4% above the Bank of England base rate, accruing daily.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">5.</span>Intellectual property</h2>
+      <p>All course materials &mdash; including slides, exercises, datasets, the practice environment, and any derivative works &mdash; remain the property of Avid Learning. LBS and its students are granted a non-exclusive, non-transferable licence to use the materials for educational purposes during the term and for 12 months thereafter.</p>
+      <p>LBS may not redistribute, sublicence, or use the materials to deliver competing training, whether internally or via a third party, without Avid Learning's prior written consent.</p>
+      <p>Feedback, testimonials and aggregated, anonymised performance data (e.g. NPS scores, satisfaction ratings) may be used by Avid Learning for marketing purposes. Identifiable student data will not be shared without consent.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="left"></div>
+    <div class="center">Page 2 of 3</div>
+    <div class="right"><a href="https://avidlearning.tech/">avidlearning.tech</a></div>
+  </div>
+
+  <div class="footer-stripe"></div>
+
+</div>
+
+<!-- =================================================================== -->
+<!-- ============================== PAGE 3 ============================= -->
+<!-- =================================================================== -->
+<div class="page">
+
+  <div class="stripe"></div>
+
+  <div class="content">
+
+    <div>
+      <h2 class="clause"><span class="num">6.</span>Confidentiality and data</h2>
+      <p>Each party will keep confidential any non-public information disclosed by the other in connection with this SOW. This obligation survives termination for two (2) years.</p>
+      <p>Avid Learning will process student personal data (name, email, attendance, feedback responses) solely for the purpose of delivering the workshops and producing the feedback report. Avid Learning acts as a data processor on LBS's behalf and will comply with UK GDPR. Student data will be deleted within 90 days of the end of the term unless LBS instructs otherwise in writing.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">7.</span>Liability</h2>
+      <p>Neither party excludes liability for death or personal injury caused by negligence, fraud, or any other liability that cannot be limited by law.</p>
+      <p>Subject to the above, each party's total aggregate liability under this SOW is capped at the total fees paid or payable under it (&pound;27,000). Neither party is liable for indirect, consequential, or loss-of-profit damages.</p>
+      <p>Avid Learning maintains professional indemnity and public liability insurance appropriate to the services and will provide evidence on request.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">8.</span>Termination</h2>
+      <p>Either party may terminate this SOW for material breach by the other if the breach is not remedied within 30 days of written notice.</p>
+      <p>LBS may terminate for convenience on 60 days' written notice. In that event, LBS will pay for any cohorts already delivered and 50% of the fee for any cohort confirmed but not yet delivered.</p>
+    </div>
+
+    <div>
+      <h2 class="clause"><span class="num">9.</span>General</h2>
+      <p>This SOW is governed by the laws of England and Wales and the parties submit to the exclusive jurisdiction of the English courts.</p>
+      <p>This SOW constitutes the entire agreement between the parties in respect of its subject matter. Variations must be agreed in writing and signed by both parties.</p>
+      <p>Neither party may assign this SOW without the other's prior written consent.</p>
+      <p>Notices must be in writing and sent by email to the addresses on the signature page (deemed received the next business day) or by recorded post (deemed received on signed delivery).</p>
+    </div>
+
+    <div class="sig-heading">Signed for and on behalf of</div>
+
+    <div class="signature-block">
+      <div class="sig-cell">
+        <div class="sig-cell-title">Avid Learning</div>
+        <div class="sig-line filled"><span class="label">Name:</span><span class="value">Courtney Laing</span></div>
+        <div class="sig-line filled"><span class="label">Title:</span><span class="value">Founder</span></div>
+        <div class="sig-line"><span class="label">Signature:</span></div>
+        <div class="sig-line"><span class="label">Date:</span></div>
+        <div class="sig-line filled"><span class="label">Email:</span><span class="value">courtney@avidlearning.tech</span></div>
+      </div>
+      <div class="sig-cell">
+        <div class="sig-cell-title">London Business School</div>
+        <div class="sig-line"><span class="label">Name:</span></div>
+        <div class="sig-line"><span class="label">Title:</span></div>
+        <div class="sig-line"><span class="label">Signature:</span></div>
+        <div class="sig-line"><span class="label">Date:</span></div>
+        <div class="sig-line"><span class="label">Email:</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="left"></div>
+    <div class="center">Page 3 of 3</div>
+    <div class="right"><a href="https://avidlearning.tech/">avidlearning.tech</a></div>
+  </div>
+
+  <div class="footer-stripe"></div>
+
+</div>
+
+</body>
+</html>

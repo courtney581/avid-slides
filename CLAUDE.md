@@ -134,3 +134,7 @@ Append one `<a class="deck-link">` entry inside the `<main>` of the root [index.
 ## Proposals & one-pagers
 
 Single-page printable docs (sales proposals, briefs) live under `proposals/<name>/index.html`. They share the deck palette and fonts but use A4 print CSS instead of the `<deck-stage>` web component — sized in `mm`/`pt` rather than the deck's `px`-on-1920 canvas. Canonical reference: [proposals/lbs-sql-programme/index.html](proposals/lbs-sql-programme/index.html). Export the same way as a deck: open in Chrome → Cmd+P → Save as PDF (Paper: A4, Margins: None, Background graphics: on). Don't list proposals on the root [index.html](index.html) — that page is the public GitHub Pages landing for decks.
+
+## Contracts & SOWs
+
+Multi-page commercial documents (Statements of Work, MSAs) live under `contracts/<engagement>-<term>/index.html` (e.g. `lbs-sql-programme-2026-27`). They share the proposal's palette, fonts, and A4 print CSS, but stack multiple `<div class="page">` blocks with `page-break-after: always` in print media so each clause set lands on its own A4 sheet. Canonical reference: [contracts/lbs-sql-programme-2026-27/index.html](contracts/lbs-sql-programme-2026-27/index.html). Adds a few patterns the proposal doesn't have: numbered clause headings (`h2.clause` with teal `.num`), a `.signature-block` with `page-break-inside: avoid`, and `Page X of Y` in the footer. Export the same way (Chrome → Cmd+P → A4, Margins: None, Background graphics: on). Don't list contracts on the root [index.html](index.html) — they're private.
