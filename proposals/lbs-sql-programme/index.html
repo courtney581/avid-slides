@@ -47,7 +47,8 @@
 
   .content {
     flex: 1;
-    padding: 9mm 14mm 6mm;
+    min-height: 0;
+    padding: 9mm 14mm 4mm;
     display: flex;
     flex-direction: column;
     gap: 4mm;
@@ -329,15 +330,19 @@
     background: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    padding: 3.5mm 4mm;
+    padding: 4mm 4mm;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 18mm;
   }
   .invest-card.featured {
     border: 1px solid #E05FA0;
     background: #fff;
   }
   .invest-card.featured::after {
-    content: 'Recommended';
+    content: '2 year partnership';
     position: absolute;
     top: -7px; right: 8px;
     background: #E05FA0;
@@ -356,7 +361,6 @@
     text-transform: uppercase;
     letter-spacing: .06em;
     font-weight: 500;
-    margin-bottom: 2mm;
     line-height: 1.3;
   }
   .invest-fee {
@@ -407,7 +411,7 @@
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2mm; flex-shrink:0; max-width:55mm;">
         <img src="../../shared/assets/logo.png" alt="avidLearning" class="logo">
-        <div class="strapline" style="text-align:right; margin-top:0;">Avid Learning is a specialist MBA technical skills training company.</div>
+        <div class="strapline" style="text-align:right; margin-top:0;">Technical skills for MBAs.  </div>
       </div>
     </div>
 
@@ -418,8 +422,8 @@
         <div class="stat-lbl">NPS &middot; across all cohorts</div>
       </div>
       <div class="stat">
-        <div class="stat-num"><span class="accent">9.2</span> / 10</div>
-        <div class="stat-lbl">Average student rating</div>
+        <div class="stat-num"><span class="accent">20</div>
+        <div class="stat-lbl">Students paid out of pocket</div>
       </div>
       <div class="stat">
         <div class="stat-num"><span class="accent">100%</span></div>
@@ -500,7 +504,7 @@
 
         <div class="quote">
           <div class="quote-text">Super useful workshop because you actually get to play around in the tool &mdash; Courtney is also super helpful answering questions as they pop up to make sure that no one gets stuck at any point.</div>
-          <div class="quote-attr">&mdash; LBS MBA26, SQL Foundations Workshop 24/04/26</div>
+          <div class="quote-attr">&mdash; Prapti Patel, LBS MBA26, SQL Foundations Trial Workshop 24/04/26</div>
         </div>
 
       </div>
@@ -540,15 +544,20 @@
           <div style="display:inline-block; background:#E05FA0; color:#fff; font-family:'DM Mono',monospace; font-size:7pt; font-weight:500; letter-spacing:.08em; text-transform:uppercase; padding:1mm 3mm; border-radius:999px; margin-bottom:2.5mm;">Founding partner pricing</div>
           <div class="invest">
             <div class="invest-card">
-              <div class="invest-pkg">Both workshops<br>(single cohort run)</div>
+              <div class="invest-pkg">Per cohort</div>
               <div class="invest-fee">&pound;10,000</div>
             </div>
             <div class="invest-card featured">
-              <div class="invest-pkg">Annual partnership<br>(3&times; runs / year)</div>
-              <div class="invest-fee">&pound;28,500<small> / yr</small></div>
+              <div class="invest-pkg">Min. 3&times; / yr<br></div>
+              <div class="invest-fee">&pound;9,500</div>
             </div>
           </div>
-          <p style="font-size:8pt; color:#6b7280; line-height:1.4; margin-top:2.5mm;"><strong style="color:#E05FA0; font-weight:600;">Founding Partner status</strong> provides LBS a 5% discount on the standard per-cohort price and the ability to choose in-person delivery. Students also benefit from 6 additional months of access to the practice environment.</p>
+          <p style="font-size:8pt; color:#6b7280; line-height:1.35; margin-top:2mm;"><strong style="color:#E05FA0; font-weight:600;">Founding Partner status</strong> locks in £9,500 per cohort across 2026/27 and 2027/28, in exchange for a minimum commitment of 3 cohorts per year.</p>
+          <p style="font-size:8pt; color:#6b7280; line-height:1.35; margin-top:1.2mm;">Includes:</p>
+          <ul style="list-style:none; margin-top:0.6mm; padding:0;">
+            <li style="font-size:8pt; color:#6b7280; line-height:1.35; display:flex; align-items:flex-start; gap:2mm; margin-bottom:0.4mm;"><span style="width:4px; height:4px; border-radius:50%; background:#E05FA0; flex-shrink:0; margin-top:5px;"></span>In-person delivery (vs online only)</li>
+            <li style="font-size:8pt; color:#6b7280; line-height:1.35; display:flex; align-items:flex-start; gap:2mm;"><span style="width:4px; height:4px; border-radius:50%; background:#E05FA0; flex-shrink:0; margin-top:5px;"></span>6 months extended practice environment access for students</li>
+          </ul>
         </div>
 
         <div>

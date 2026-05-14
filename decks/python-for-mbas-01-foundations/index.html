@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python for MBAs &mdash; Foundations &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:300px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop &middot; Part 1 of 4</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Python<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:34px;color:#fff;font-weight:500">Foundations &mdash; Session 01</p>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400;margin-top:8px">[TODO: add date]</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Intro &amp; expectations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">What is Python?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Variables &amp; data types</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Collections &amp; control flow</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Functions &amp; Claude &middot; Wrap-up</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  WORKSHOP EXPECTATIONS
+============================================================ -->
+<section data-label="Workshop Expectations" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Workshop Expectations</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid3" style="max-width:1500px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128247;</div>
+        <div class="card-ttl">Cameras on</div>
+        <div class="card-body" style="font-size:24px">If at all possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
+        <div class="card-ttl">Double-screen works best</div>
+        <div class="card-body" style="font-size:24px">Keep these slides on one screen and Colab on the other, if possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128587;</div>
+        <div class="card-ttl">Ask questions</div>
+        <div class="card-body" style="font-size:24px">Just come off mute and shout out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  ABOUT THE INSTRUCTOR
+============================================================ -->
+<section data-label="About Instructor" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Who am I?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:1300px">
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">01</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-data scientist</div>
+          <div style="font-size:24px;color:#374151">&gt;2 years at <img src="../../shared/assets/deliveroo.png" alt="Deliveroo" style="height:56px;width:auto;vertical-align:middle;margin-left:10px"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">02</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-consultant</div>
+          <div style="font-size:24px;color:#374151">&gt;4 years <img src="../../shared/assets/strategy.png" alt="Strategy&amp;" style="height:26px;width:auto;vertical-align:-6px;margin:0 6px 0 6px"> - data and analytics specialty</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">03</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Experienced instructor</div>
+          <div style="font-size:24px;color:#374151">&gt;5 years teaching analytics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">Become <strong style="color:#2899A4">comfortable</strong> writing simple Python in a notebook &mdash; and confident enough to <strong style="color:#2899A4">read</strong> what Claude gives you</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a software engineer or memorise the entire language</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06  THE PROGRAMME - 4 SESSIONS
+============================================================ -->
+<section data-label="The Programme" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The programme &mdash; 4 sessions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">Today is the first of four 3-hour sessions. Here's where we're going:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:18px;max-width:1700px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">01 &middot; TODAY</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Foundations</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Variables, loops, your first function</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">02</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Functions &amp; libraries</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Reusable code, errors, the standard library</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">03</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Pandas</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Data analysis at scale</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #E05FA0">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.08em;margin-bottom:10px">04</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Visualisation</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Charts, dashboards &amp; the art of the possible</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  SECTION: WHAT IS PYTHON?
+============================================================ -->
+<section data-label="What is Python" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">What is<br><span style="color:#2899A4">Python?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     08  WHAT IS PYTHON
+============================================================ -->
+<section data-label="Python Definition" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What is Python?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:44px 48px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">What it is</div>
+        <div style="font-size:38px;font-weight:700;color:#0d1b2a;line-height:1.2;margin-bottom:20px">A general-purpose programming language</div>
+        <div style="font-size:24px;color:#6b7280;line-height:1.55">We write instructions in plain text, the computer runs them. No compiling, no setup magic.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Why it matters</div>
+        <div style="font-size:32px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:20px">Python is the <span style="color:#4ade80">lingua franca of data</span></div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.6">Almost every data team, ML team, and analytics function uses it. If you ever want to peek inside what an analyst does &mdash; this is the language they're typing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  WHY YOU CARE
+============================================================ -->
+<section data-label="Why You Care" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why do you care?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">Python doesn't make you a programmer. It makes you <strong style="color:#0d1b2a">fluent in what your team is doing</strong> &mdash; and unlocks what's possible.</div>
+    <div class="grid2" style="max-width:1400px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More leverage</div>
+        <div style="font-size:24px;color:#6b7280">Automate the spreadsheet drudgery that eats your week.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Less reliant on analysts</div>
+        <div style="font-size:24px;color:#6b7280">Self-serve a 'quick look' instead of waiting for someone's queue.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Sharper with GenAI</div>
+        <div style="font-size:24px;color:#6b7280">Read, run, and verify what Claude writes for you.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">The art of the possible</div>
+        <div style="font-size:24px;color:#6b7280">See what data, automation, and AI can actually do &mdash; beyond Excel's ceiling.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  EXCEL VS PYTHON
+============================================================ -->
+<section data-label="Excel vs Python" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">But can't I just use Excel?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
+        <div style="background:#f9fafb;padding:20px 32px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128202;</div>
+          <span style="font-size:26px;font-weight:600;color:#374151">Excel</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Single user, <strong>single laptop</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151"><strong>Manual</strong> every single time</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Limited charting &amp; <strong>no real automation</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#34d399;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#374151">Good for ad-hoc small data</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;overflow:hidden">
+        <div style="background:#0f2236;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128013;</div>
+          <span style="font-size:26px;font-weight:600;color:#fff">Python</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Runs the same analysis on <strong style="color:#fff">any size dataset</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Automatable</strong> &mdash; same code, run on a schedule</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Thousands of libraries</strong> &mdash; stats, ML, viz, APIs</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Pairs perfectly with <strong style="color:#fff">GenAI</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  WHERE WE'LL WRITE PYTHON - COLAB
+============================================================ -->
+<section data-label="Let's Get Connected" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Where we'll write Python</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px;width:100%">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:24px">We're using <strong style="color:#0d1b2a">Google Colab</strong> &mdash; Python running in your browser, nothing to install.</div>
+      <div style="background:#0d1b2a;border-radius:16px;overflow:hidden;margin-bottom:28px">
+        <div style="padding:20px 32px;background:#0f2236;border-bottom:1px solid rgba(255,255,255,.08)">
+          <div style="display:flex;gap:8px"><div style="width:12px;height:12px;border-radius:50%;background:#f87171"></div><div style="width:12px;height:12px;border-radius:50%;background:#fbbf24"></div><div style="width:12px;height:12px;border-radius:50%;background:#4ade80"></div></div>
+        </div>
+        <div style="padding:36px 52px;font-family:'DM Mono',monospace">
+          <span style="color:#64748b;font-size:24px">URL</span><br>
+          <span style="color:#7dd3fc;font-size:30px">https://colab.research.google.com</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">1</span><div style="font-size:23px;color:#374151;margin-top:8px">Sign in with any Google account</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">2</span><div style="font-size:23px;color:#374151;margin-top:8px">File &rarr; New notebook</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">3</span><div style="font-size:23px;color:#374151;margin-top:8px">Type code into a cell</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">4</span><div style="font-size:23px;color:#374151;margin-top:8px">Press <strong>Shift+Enter</strong> to run</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12  WHAT'S A NOTEBOOK?
+============================================================ -->
+<section data-label="What's a Notebook" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What's a notebook?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="font-size:30px;color:#374151;line-height:1.5">
+        A Colab notebook is a stack of <strong style="color:#2899A4">cells</strong>. Some hold code, some hold notes. You run each cell and the output appears underneath &mdash; like a conversation with the computer.
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px">
+        <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:18px">
+          <div style="background:#0f1e2d;padding:16px 22px;font-family:'DM Mono',monospace;font-size:24px;color:#e2e8f0">2 + 2</div>
+          <div style="padding:12px 22px;font-family:'DM Mono',monospace;font-size:24px;color:#374151;background:#f9fafb">4</div>
+        </div>
+        <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+          <div style="background:#0f1e2d;padding:16px 22px;font-family:'DM Mono',monospace;font-size:24px;color:#e2e8f0"><span class="fn">print</span>(<span class="str">"Hello, MBAs"</span>)</div>
+          <div style="padding:12px 22px;font-family:'DM Mono',monospace;font-size:24px;color:#374151;background:#f9fafb">Hello, MBAs</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-top:18px">Type &rarr; Shift+Enter &rarr; output</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  SECTION: VARIABLES & DATA TYPES
+============================================================ -->
+<section data-label="Variables and Types" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Variables &amp;<br><span style="color:#2899A4">data types</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     14  PYTHON BUILDING BLOCKS
+============================================================ -->
+<section data-label="Python Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Python Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1100px">
+      <div class="bb"><div class="bb-kw">variable</div><div class="bb-desc">A name that holds a value</div></div>
+      <div class="bb"><div class="bb-kw">type</div><div class="bb-desc">Whether the value is text, a number, true/false, or a list</div></div>
+      <div class="bb"><div class="bb-kw">operator</div><div class="bb-desc">What we do with values (+, -, ==, in, &hellip;)</div></div>
+      <div class="bb"><div class="bb-kw">statement</div><div class="bb-desc">A single instruction the computer runs</div></div>
+      <div class="bb"><div class="bb-kw">comment</div><div class="bb-desc">A note for humans (starts with #), ignored by Python</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  VARIABLES
+============================================================ -->
+<section data-label="Variables" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your first cell</div>
+    <pre class="cb">store_name = <span class="str">"Astoria"</span>
+daily_revenue = <span class="num">1842.50</span>
+is_open = <span class="kw">True</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I save a value for later?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>=</strong> means <strong>assign</strong> &mdash; read it as "becomes"</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The <strong>name</strong> on the left is yours to choose</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The <strong>value</strong> on the right can be text, a number, True/False, or anything else</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     16  DATA TYPES
+============================================================ -->
+<section data-label="Data Types" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Data types</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1500px">
+      <tr><th>Type</th><th>Example</th><th>What it's for</th></tr>
+      <tr><td><span class="op">int</span></td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#c2710c">7</span></td><td>Whole numbers</td></tr>
+      <tr><td><span class="op">float</span></td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#c2710c">4.95</span></td><td>Decimals &mdash; prices, percentages</td></tr>
+      <tr><td><span class="op">str</span></td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#be185d">"Latte"</span></td><td>Text in quotes</td></tr>
+      <tr><td><span class="op">bool</span></td><td style="font-family:'DM Mono',monospace;color:#374151">True / False</td><td>Yes/no flags</td></tr>
+      <tr><td><span class="op">list</span></td><td style="font-family:'DM Mono',monospace;color:#374151">["A", "B", "C"]</td><td>Ordered collection &mdash; next section</td></tr>
+      <tr><td><span class="op">dict</span></td><td style="font-family:'DM Mono',monospace;color:#374151">{"city": <span style="color:#be185d">"London"</span>}</td><td>Key-value pairs &mdash; next section</td></tr>
+    </table>
+    <div style="margin-top:24px;font-size:24px;color:#6b7280"><strong style="color:#0d1b2a">type(x)</strong> tells you what type a value is &mdash; useful when Python complains.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  TYPE CONVERSION
+============================================================ -->
+<section data-label="Type Conversion" class="split">
+  <div class="code-l">
+    <pre class="cb">price = <span class="str">"4.95"</span>          <span class="cm"># str</span>
+price_num = <span class="fn">float</span>(price) <span class="cm"># &rarr; 4.95</span>
+
+qty = <span class="num">3</span>
+total = price_num * qty  <span class="cm"># &rarr; 14.85</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Why does adding "4.95" to a number fail?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Numbers as <strong>text</strong> can't be added &mdash; Python won't guess</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>int(x)</strong>, <strong>float(x)</strong>, <strong>str(x)</strong> convert between types</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Mixing types is the <strong>#1 beginner error</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     18  F-STRINGS
+============================================================ -->
+<section data-label="f-strings" class="split">
+  <div class="code-l">
+    <pre class="cb">store = <span class="str">"Astoria"</span>
+cups = <span class="num">312</span>
+
+<span class="fn">print</span>(<span class="str">f"{store} sold {cups} cups today"</span>)
+<span class="cm"># Astoria sold 312 cups today</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I print a sentence with values in it?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">An <strong>f-string</strong> starts with <strong>f"&hellip;"</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Anything in <strong>{ }</strong> gets replaced with the value</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Use these for any output you'd want a human to read</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  EXERCISE: YOUR FIRST VARIABLES
+============================================================ -->
+<section data-label="Exercise: First Variables" class="split">
+  <div class="code-l">
+    <pre class="cb">product = <span class="str">"<span class="pl">[?]</span>"</span>
+unit_price = <span class="pl">[?]</span>
+qty_sold = <span class="pl">[?]</span>
+total = <span class="pl">[?]</span>
+
+<span class="fn">print</span>(<span class="str">f"We sold {qty_sold} {product}s for &pound;{total}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Create three variables and print a sentence using them</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Pick a coffee product (e.g. <strong>"latte"</strong>)</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Set a <strong>price</strong> and a <strong>quantity</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Multiply to get the <strong>total</strong>, then run with Shift+Enter</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  INDENTATION MATTERS
+============================================================ -->
+<section data-label="Indentation Matters" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Indentation matters</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:32px;max-width:1600px;align-items:flex-start">
+      <div style="flex:1">
+        <div style="font-size:26px;color:#374151;line-height:1.6">Python is <strong style="color:#0d1b2a">whitespace-sensitive</strong> &mdash; indentation defines which lines belong inside <strong style="color:#2899A4">if</strong>, <strong style="color:#2899A4">for</strong>, or <strong style="color:#2899A4">def</strong>. No curly braces. <strong style="color:#0d1b2a">4 spaces</strong> per level is the standard.</div>
+        <div style="font-size:24px;color:#6b7280;line-height:1.5;margin-top:24px">Colab auto-indents &mdash; let it. If you get an <strong style="color:#0d1b2a">IndentationError</strong>, count your spaces.</div>
+      </div>
+      <div style="flex:0 0 640px;display:flex;flex-direction:column;gap:16px">
+        <div style="background:#0d1b2a;border-radius:12px;overflow:hidden;border-top:4px solid #4ade80">
+          <div style="padding:12px 24px;background:#0f2236;font-size:22px;color:#4ade80;font-family:'DM Mono',monospace;letter-spacing:.06em">GOOD &#10003;</div>
+          <pre class="cb" style="padding:24px 28px;font-size:24px"><span class="kw">if</span> cups &gt; <span class="num">100</span>:
+    <span class="fn">print</span>(<span class="str">"Busy day"</span>)</pre>
+        </div>
+        <div style="background:#0d1b2a;border-radius:12px;overflow:hidden;border-top:4px solid #E05FA0">
+          <div style="padding:12px 24px;background:#0f2236;font-size:22px;color:#fda4af;font-family:'DM Mono',monospace;letter-spacing:.06em">BAD &#10007;</div>
+          <pre class="cb" style="padding:24px 28px;font-size:24px"><span class="kw">if</span> cups &gt; <span class="num">100</span>:
+<span class="fn">print</span>(<span class="str">"Busy day"</span>)  <span class="cm"># IndentationError</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  OPERATORS REFERENCE
+============================================================ -->
+<section data-label="Operators Reference" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Operators</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1600px">
+      <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><span class="op">+ - * /</span></td><td>Arithmetic</td><td style="font-family:'DM Mono',monospace;color:#374151">price * qty</td></tr>
+      <tr><td><span class="op">==</span></td><td>Equal to</td><td style="font-family:'DM Mono',monospace;color:#374151">store == <span style="color:#be185d">"Astoria"</span></td></tr>
+      <tr><td><span class="op">!=</span></td><td>Not equal to</td><td style="font-family:'DM Mono',monospace;color:#374151">category != <span style="color:#be185d">"Tea"</span></td></tr>
+      <tr><td><span class="op">&gt; &lt; &gt;= &lt;=</span></td><td>Comparison</td><td style="font-family:'DM Mono',monospace;color:#374151">qty &gt;= <span style="color:#c2710c">10</span></td></tr>
+      <tr><td><span class="op">and</span></td><td>Both must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">qty &gt; <span style="color:#c2710c">5</span> and price &lt; <span style="color:#c2710c">10</span></td></tr>
+      <tr><td><span class="op">or</span></td><td>Either must be true</td><td style="font-family:'DM Mono',monospace;color:#374151">city == <span style="color:#be185d">"LDN"</span> or city == <span style="color:#be185d">"NYC"</span></td></tr>
+      <tr><td><span class="op">in</span></td><td>Membership</td><td style="font-family:'DM Mono',monospace;color:#374151"><span style="color:#be185d">"Latte"</span> in product_list</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  SECTION: COLLECTIONS
+============================================================ -->
+<section data-label="Collections" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Collections</h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:700px;line-height:1.5">Holding many things at once &mdash; lists &amp; dictionaries</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     23  LISTS
+============================================================ -->
+<section data-label="Lists" class="split">
+  <div class="code-l">
+    <pre class="cb">products = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>, <span class="str">"Mocha"</span>]
+
+<span class="fn">print</span>(products[<span class="num">0</span>])      <span class="cm"># &rarr; Latte</span>
+<span class="fn">print</span>(products[<span class="num">-1</span>])     <span class="cm"># &rarr; Mocha</span>
+<span class="fn">print</span>(<span class="fn">len</span>(products))    <span class="cm"># &rarr; 3</span>
+
+products.<span class="fn">append</span>(<span class="str">"Flat White"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I hold a list of things?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Use <strong>square brackets</strong> with comma-separated values</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Index starts at <strong>0</strong> &mdash; [0] is the first item</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>[-1]</strong> is a shortcut for the last item</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>len(list)</strong> counts &middot; <strong>.append(x)</strong> adds to the end</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     24  LIST SLICING
+============================================================ -->
+<section data-label="List Slicing" class="split">
+  <div class="code-l">
+    <pre class="cb">products = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>,
+            <span class="str">"Mocha"</span>, <span class="str">"Cappuccino"</span>,
+            <span class="str">"Flat White"</span>]
+
+products[<span class="num">0</span>:<span class="num">3</span>]      <span class="cm"># &rarr; first 3</span>
+products[<span class="num">-2</span>:]      <span class="cm"># &rarr; last 2</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I grab a chunk of a list?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>[start:stop]</strong> &mdash; stop is <strong>exclusive</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Empty start means <strong>"from the beginning"</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Negative numbers count <strong>from the end</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     25  DICTIONARIES
+============================================================ -->
+<section data-label="Dictionaries" class="split">
+  <div class="code-l">
+    <pre class="cb">store = {
+    <span class="str">"name"</span>: <span class="str">"Astoria"</span>,
+    <span class="str">"city"</span>: <span class="str">"New York"</span>,
+    <span class="str">"open"</span>: <span class="kw">True</span>,
+    <span class="str">"daily_cups"</span>: <span class="num">312</span>,
+}
+
+<span class="fn">print</span>(store[<span class="str">"name"</span>])       <span class="cm"># &rarr; Astoria</span>
+store[<span class="str">"manager"</span>] = <span class="str">"Sam"</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I hold labelled information?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">A <strong>dict</strong> is a collection of <strong>key &rarr; value</strong> pairs</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Look up with <strong>dict["key"]</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Add a new pair with <strong>dict["new_key"] = value</strong></div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Far more useful than lists for <strong>real-world records</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  EXERCISE: BUILD A COFFEE DICTIONARY
+============================================================ -->
+<section data-label="Exercise: Coffee Dict" class="split">
+  <div class="code-l">
+    <pre class="cb">drink = {
+    <span class="str">"name"</span>: <span class="str">"<span class="pl">[?]</span>"</span>,
+    <span class="str">"price"</span>: <span class="pl">[?]</span>,
+    <span class="str">"category"</span>: <span class="str">"<span class="pl">[?]</span>"</span>,
+    <span class="str">"in_stock"</span>: <span class="pl">[?]</span>,
+}
+
+<span class="fn">print</span>(<span class="str">f"{drink['name']} costs &pound;{drink['price']}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Build a coffee dictionary</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Fill in any <strong>coffee product</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Use a <strong>float</strong> for the price, <strong>True/False</strong> for in_stock</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Try changing the print to show <strong>category</strong> instead</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  LISTS OF DICTS
+============================================================ -->
+<section data-label="Lists of Dicts" class="split">
+  <div class="code-l">
+    <pre class="cb">transactions = [
+    {<span class="str">"store"</span>: <span class="str">"Astoria"</span>,  <span class="str">"product"</span>: <span class="str">"Latte"</span>,
+     <span class="str">"qty"</span>: <span class="num">2</span>, <span class="str">"price"</span>: <span class="num">4.50</span>},
+    {<span class="str">"store"</span>: <span class="str">"Astoria"</span>,  <span class="str">"product"</span>: <span class="str">"Espresso"</span>,
+     <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">3.00</span>},
+]
+
+<span class="fn">print</span>(transactions[<span class="num">0</span>][<span class="str">"product"</span>])  <span class="cm"># &rarr; Latte</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I represent a table of transactions?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">A list of dicts &asymp; a <strong>table</strong> &mdash; each dict is a <strong>row</strong>, each key a <strong>column</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">This is <strong>exactly</strong> how pandas thinks about data internally</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Get row 0's product with <strong>transactions[0]["product"]</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  SECTION: CONTROL FLOW
+============================================================ -->
+<section data-label="Control Flow" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Control flow</h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:760px;line-height:1.5">Making the computer choose, and making it repeat</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     30  COMPARISON & LOGIC
+============================================================ -->
+<section data-label="Comparison and Logic" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Comparison &amp; logic</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1600px">
+      <tr><th>Operator</th><th>Question it asks</th><th>Example</th></tr>
+      <tr><td><span class="op">==</span></td><td>"are these equal?"</td><td style="font-family:'DM Mono',monospace;color:#374151">category == <span style="color:#be185d">"Coffee"</span></td></tr>
+      <tr><td><span class="op">!=</span></td><td>"are these different?"</td><td style="font-family:'DM Mono',monospace;color:#374151">store != <span style="color:#be185d">"Astoria"</span></td></tr>
+      <tr><td><span class="op">&gt; &lt;</span></td><td>Numeric comparison</td><td style="font-family:'DM Mono',monospace;color:#374151">price &gt; <span style="color:#c2710c">5</span></td></tr>
+      <tr><td><span class="op">and</span></td><td>"both true?"</td><td style="font-family:'DM Mono',monospace;color:#374151">qty &gt; <span style="color:#c2710c">0</span> and in_stock</td></tr>
+      <tr><td><span class="op">or</span></td><td>"either true?"</td><td style="font-family:'DM Mono',monospace;color:#374151">city == <span style="color:#be185d">"NYC"</span> or city == <span style="color:#be185d">"LDN"</span></td></tr>
+      <tr><td><span class="op">not</span></td><td>"flip it"</td><td style="font-family:'DM Mono',monospace;color:#374151">not in_stock</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     31  IF / ELIF / ELSE
+============================================================ -->
+<section data-label="if elif else" class="split">
+  <div class="code-l">
+    <pre class="cb">price = <span class="num">4.95</span>
+
+<span class="kw">if</span> price &gt; <span class="num">6</span>:
+    label = <span class="str">"Premium"</span>
+<span class="kw">elif</span> price &gt; <span class="num">3</span>:
+    label = <span class="str">"Standard"</span>
+<span class="kw">else</span>:
+    label = <span class="str">"Cheap"</span>
+
+<span class="fn">print</span>(label)   <span class="cm"># &rarr; Standard</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How does the computer choose a path?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>if</strong> checks the first condition</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>elif</strong> (else-if) checks the next, only if previous were false</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>else</strong> catches everything left</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Mind the <strong>colons</strong> and <strong>indentation</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     32  EXERCISE: PAY CATEGORY
+============================================================ -->
+<section data-label="Exercise: Order Size" class="split">
+  <div class="code-l">
+    <pre class="cb">total = qty * price
+
+<span class="kw">if</span> total &gt; <span class="pl">[?]</span>:
+    size = <span class="str">"<span class="pl">[?]</span>"</span>
+<span class="kw">elif</span> total &gt; <span class="pl">[?]</span>:
+    size = <span class="str">"<span class="pl">[?]</span>"</span>
+<span class="kw">else</span>:
+    size = <span class="str">"<span class="pl">[?]</span>"</span>
+
+<span class="fn">print</span>(size)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Label a transaction by its size</p>
+    <div style="font-size:24px;color:#374151;margin-bottom:20px">Create a column that labels orders as:</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#d97706">"Large"</strong> if total &gt; 20</div>
+      <div style="background:#dbeafe;border:1px solid #bfdbfe;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#2563eb">"Medium"</strong> if total &gt; 5</div>
+      <div style="background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;padding:12px 18px;font-size:24px;color:#374151"><strong style="color:#6b7280">"Small"</strong> otherwise</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     33  FOR LOOPS
+============================================================ -->
+<section data-label="For Loops" class="split">
+  <div class="code-l">
+    <pre class="cb">products = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>, <span class="str">"Mocha"</span>]
+
+<span class="kw">for</span> product <span class="kw">in</span> products:
+    <span class="fn">print</span>(<span class="str">f"Today's special: {product}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I do something for every item in a list?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>for X in LIST:</strong> walks through each item</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>X</strong> is a new variable name <strong>you choose</strong> &mdash; it holds the current item</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Indent the body &mdash; that's what's inside the loop</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>print</strong> runs once per item</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     34  LOOPING WITH RANGE
+============================================================ -->
+<section data-label="range" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)
+<span class="cm"># &rarr; 0, 1, 2, 3, 4</span>
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="fn">print</span>(i)
+<span class="cm"># &rarr; 1, 2, 3, 4, 5</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I loop a specific number of times?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>range(n)</strong> gives you 0 to n-1</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>range(a, b)</strong> gives you a to b-1</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Stop is <strong>exclusive</strong> &mdash; same rule as list slicing</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     35  LOOPING OVER A DICT
+============================================================ -->
+<section data-label="Looping over a Dict" class="split">
+  <div class="code-l">
+    <pre class="cb">store = {<span class="str">"name"</span>: <span class="str">"Astoria"</span>,
+         <span class="str">"city"</span>: <span class="str">"NYC"</span>,
+         <span class="str">"cups"</span>: <span class="num">312</span>}
+
+<span class="kw">for</span> key, value <span class="kw">in</span> store.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"{key}: {value}"</span>)
+<span class="cm"># name: Astoria</span>
+<span class="cm"># city: NYC</span>
+<span class="cm"># cups: 312</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I walk through a dictionary?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.items()</strong> gives you key/value pairs</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>for key, value in &hellip;</strong> unpacks them in one step</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Use this to inspect any dict</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  LOOP + IF
+============================================================ -->
+<section data-label="Loop plus If" class="split">
+  <div class="code-l">
+    <pre class="cb">prices = [<span class="num">3.00</span>, <span class="num">4.50</span>, <span class="num">6.95</span>, <span class="num">2.50</span>, <span class="num">5.10</span>]
+expensive = []
+
+<span class="kw">for</span> price <span class="kw">in</span> prices:
+    <span class="kw">if</span> price &gt; <span class="num">5</span>:
+        expensive.<span class="fn">append</span>(price)
+
+<span class="fn">print</span>(expensive)   <span class="cm"># &rarr; [6.95, 5.10]</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I filter a list?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Start with an <strong>empty list</strong> to collect results</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Loop over prices</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">If the condition is true, <strong>.append()</strong> it</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Same idea as SQL's <strong>WHERE</strong> &mdash; now you've written it from scratch</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     37  EXERCISE: FILTER THE TRANSACTIONS
+============================================================ -->
+<section data-label="Exercise: Filter Transactions" class="split">
+  <div class="code-l">
+    <pre class="cb">transactions = [
+    {<span class="str">"product"</span>: <span class="str">"Latte"</span>,    <span class="str">"qty"</span>: <span class="num">2</span>, <span class="str">"price"</span>: <span class="num">4.50</span>},
+    {<span class="str">"product"</span>: <span class="str">"Espresso"</span>, <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">3.00</span>},
+    {<span class="str">"product"</span>: <span class="str">"Mocha"</span>,    <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">4.95</span>},
+    {<span class="str">"product"</span>: <span class="str">"Tea"</span>,      <span class="str">"qty"</span>: <span class="num">3</span>, <span class="str">"price"</span>: <span class="num">2.50</span>},
+]
+
+big_orders = []
+<span class="kw">for</span> tx <span class="kw">in</span> transactions:
+    total = <span class="pl">[?]</span>
+    <span class="kw">if</span> <span class="pl">[?]</span>:
+        big_orders.<span class="fn">append</span>(tx)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Keep only the orders worth more than &pound;7</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>total = tx["qty"] * tx["price"]</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Keep orders where <strong>total &gt; 7</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Run and check &mdash; you should see <strong>2 orders</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     38  ANSWER: FILTER THE TRANSACTIONS
+============================================================ -->
+<section data-label="Answer: Filter Transactions" class="split">
+  <div class="code-l">
+    <pre class="cb">big_orders = []
+
+<span class="kw">for</span> tx <span class="kw">in</span> transactions:
+    total = <span class="hi">tx[<span class="str">"qty"</span>] * tx[<span class="str">"price"</span>]</span>
+    <span class="kw">if</span> <span class="hi">total &gt; <span class="num">7</span></span>:
+        big_orders.<span class="fn">append</span>(tx)
+
+<span class="fn">print</span>(big_orders)
+<span class="cm"># [{'product': 'Latte', 'qty': 2, ...},</span>
+<span class="cm">#  {'product': 'Tea',   'qty': 3, ...}]</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Keep only the orders worth more than &pound;7</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Multiply <strong>qty by price</strong> for each row</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>if total &gt; 7:</strong> keeps only the big ones</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Python returned the matching <strong>dictionaries</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     39  WHILE LOOPS
+============================================================ -->
+<section data-label="While Loops" class="split">
+  <div class="code-l">
+    <pre class="cb">cups = <span class="num">0</span>
+
+<span class="kw">while</span> cups &lt; <span class="num">5</span>:
+    cups = cups + <span class="num">1</span>
+    <span class="fn">print</span>(<span class="str">f"Pouring cup {cups}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What if I want to loop until something is true?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>while CONDITION:</strong> keeps repeating until the condition is false</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Must</strong> change the variable inside, or you loop forever</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Use <strong>for</strong> 90% of the time &mdash; <strong>while</strong> only when you don't know how many iterations in advance</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     40  SUMMARY SO FAR
+============================================================ -->
+<section data-label="Summary So Far" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Summary so far</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">variables</div>
+        <div style="font-size:24px;color:#374151">Names that hold values. Types: <strong>int, float, str, bool</strong>.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">lists &amp; dicts</div>
+        <div style="font-size:24px;color:#374151">Lists are <strong>ordered</strong>; dicts hold <strong>key&rarr;value</strong> pairs.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">if / elif / else</div>
+        <div style="font-size:24px;color:#374151">Choose a path based on a <strong>condition</strong>.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">for loops</div>
+        <div style="font-size:24px;color:#374151">Do something <strong>for every item</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     41  SECTION: FUNCTIONS & CLAUDE
+============================================================ -->
+<section data-label="Functions and Claude" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 05</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Functions</h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:760px;line-height:1.5">A name for some code &mdash; a first taste</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     42  FUNCTIONS - YOUR FIRST DEF
+============================================================ -->
+<section data-label="Functions Intro" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">total_for</span>(qty, price):
+    <span class="kw">return</span> qty * price
+
+<span class="fn">print</span>(<span class="fn">total_for</span>(<span class="num">3</span>, <span class="num">4.50</span>))   <span class="cm"># &rarr; 13.5</span>
+<span class="fn">print</span>(<span class="fn">total_for</span>(<span class="num">1</span>, <span class="num">6.95</span>))   <span class="cm"># &rarr; 6.95</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I name a chunk of logic and reuse it?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>def NAME(args):</strong> defines a function</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Indented body holds the logic</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>return</strong> sends the result back</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Call with <strong>NAME(values)</strong> &mdash; Python plugs them in</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     43  WHY FUNCTIONS MATTER
+============================================================ -->
+<section data-label="Why Functions Matter" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why functions matter</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:32px;max-width:1600px;align-items:center">
+      <div style="flex:1">
+        <div style="font-size:28px;color:#374151;line-height:1.6">You <strong style="color:#0d1b2a">already use</strong> functions all the time &mdash; <strong style="color:#2899A4">print(&hellip;)</strong>, <strong style="color:#2899A4">len(&hellip;)</strong>, <strong style="color:#2899A4">type(&hellip;)</strong>.</div>
+        <div style="font-size:28px;color:#374151;line-height:1.6;margin-top:24px">Writing your own means you can name <strong style="color:#0d1b2a">your</strong> logic and reuse it everywhere &mdash; instead of pasting the same code into 8 cells.</div>
+      </div>
+      <div style="flex:0 0 460px;background:#f0fafb;border:1px solid #bae6ef;border-radius:14px;padding:36px 40px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px">Why write your own?</div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Reuse</strong> &mdash; write once, call many times</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Read</strong> &mdash; total_for(3, 4.50) says what it does</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Refactor</strong> &mdash; fix it once, every caller benefits</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Claude-friendly</strong> &mdash; easier to ask for help</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     44  EXERCISE: WRITE YOUR FIRST FUNCTION
+============================================================ -->
+<section data-label="Exercise: First Function" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">revenue_for</span>(transactions):
+    total = <span class="pl">[?]</span>
+    <span class="kw">for</span> tx <span class="kw">in</span> transactions:
+        total = total + <span class="pl">[?]</span>
+    <span class="kw">return</span> <span class="pl">[?]</span>
+
+<span class="fn">print</span>(<span class="fn">revenue_for</span>(transactions))</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Write a function that totals revenue across transactions</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Start <strong>total = 0</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Add <strong>tx["qty"] * tx["price"]</strong> each iteration</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Return <strong>total</strong></div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">The previous <strong>transactions</strong> list still works</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  SECTION: WORKING WITH CLAUDE
+============================================================ -->
+<section data-label="Working with Claude" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 06</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Working with<br><span style="color:#E05FA0">Claude</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:760px;line-height:1.5">Your coding partner &mdash; not your replacement</div>
+  <div style="width:60px;height:4px;background:#2899A4;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     46  HOW TO PROMPT CLAUDE WHEN STUCK
+============================================================ -->
+<section data-label="How to Prompt Claude" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">How to prompt Claude when you're stuck</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">When something doesn't work, Claude can help &mdash; but <strong style="color:#0d1b2a">how</strong> you ask matters.</div>
+    <div class="grid3" style="max-width:1600px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:48px;margin-bottom:16px">&#128203;</div>
+        <div class="card-ttl">Show your code</div>
+        <div class="card-body" style="font-size:24px">Paste the cell that's misbehaving in full, not just a summary</div>
+      </div>
+      <div class="card" style="border-top:4px solid #E05FA0">
+        <div style="font-size:48px;margin-bottom:16px">&#9888;&#65039;</div>
+        <div class="card-ttl">Show the error</div>
+        <div class="card-body" style="font-size:24px">Paste the <strong>entire</strong> traceback, including the last line &mdash; that's the actual error</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:48px;margin-bottom:16px">&#127919;</div>
+        <div class="card-ttl">Say what you expected</div>
+        <div class="card-body" style="font-size:24px">"I expected 5 cups but it printed 0" &mdash; gives Claude the goal, not just the symptom</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:26px;color:#6b7280;font-style:italic;margin-top:32px">The clearer your question, the better Claude's answer.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     47  A GOOD CLAUDE PROMPT
+============================================================ -->
+<section data-label="A Good Claude Prompt" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">A good Claude prompt</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden">
+        <div style="background:#f0fafb;border-bottom:1px solid #e5e7eb;padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">You</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"I'm trying to count how many transactions are over &pound;5. Here's my code: <span style="font-family:'DM Mono',monospace;color:#6b7280">[paste 5 lines]</span>. I expected 3 but got 0. What am I doing wrong?"</div>
+        </div>
+        <div style="padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Claude</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"Your loop is comparing <span style="font-family:'DM Mono',monospace;color:#6b7280">tx</span> (a dict) to a number. You meant <span style="font-family:'DM Mono',monospace;color:#6b7280">tx['price']</span>. Here's the fix: <span style="font-family:'DM Mono',monospace;color:#6b7280">[3 corrected lines]</span>. Try this &mdash; it should give you 3."</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:24px;color:#6b7280;font-style:italic;margin-top:28px">Notice &mdash; code, expectation, and the <strong>specific question</strong>. Claude responded with a targeted fix, not a guess.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     48  THE TWO-TRY RULE
+============================================================ -->
+<section data-label="The Two-Try Rule" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The two-try rule</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px;width:100%">
+      <div style="background:#f0fafb;border:1px solid #bae6ef;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:44px 52px;margin-bottom:32px">
+        <div style="font-size:42px;font-weight:700;color:#0d1b2a;line-height:1.25">"Try it twice yourself before you ask Claude."</div>
+      </div>
+      <div style="display:flex;gap:24px;margin-bottom:32px">
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">FIRST TRY</div>
+          <div style="font-size:24px;color:#374151">Write the code as best you can</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">SECOND TRY</div>
+          <div style="font-size:24px;color:#374151">Read the error, change one thing</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:22px;margin-bottom:8px">THEN</div>
+          <div style="font-size:24px;color:#374151">Paste it into Claude with context</div>
+        </div>
+      </div>
+      <div style="font-size:26px;color:#6b7280;line-height:1.5">Reaching for Claude before thinking means you never learn the syntax. The rule keeps Claude as a <strong style="color:#0d1b2a">partner</strong>, not a crutch.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     49  SECTION: WRAP-UP
+============================================================ -->
+<section data-label="Wrap Up" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">Section 07</div>
+    <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+    <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px;margin-bottom:48px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1300px">
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">variables &middot; types</div>
+        <div style="font-size:24px;color:#94a3b8">int, float, str, bool</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">lists &middot; dicts</div>
+        <div style="font-size:24px;color:#94a3b8">Hold many things at once</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">if / elif / else</div>
+        <div style="font-size:24px;color:#94a3b8">Choose a path</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">for / while</div>
+        <div style="font-size:24px;color:#94a3b8">Repeat instructions</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">def &middot; return</div>
+        <div style="font-size:24px;color:#94a3b8">Name &amp; reuse logic</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">two-try rule</div>
+        <div style="font-size:24px;color:#94a3b8">Then ask Claude</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:40px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     50  YOU CAN ALL NOW...
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Open a Colab notebook and write code</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Use variables, lists, and dictionaries</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Filter and transform data with if and for</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Write a basic function</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Ask Claude a question that actually helps</span>
+        </div>
+      </div>
+      <img src="../sql-for-mbas/assets/Purple_small.jpg" style="width:78%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb;margin:0 auto">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     51  COMING UP NEXT TIME
+============================================================ -->
+<section data-label="Coming Up Next" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Coming up next time</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;width:100%">
+      <div style="text-align:center;font-size:26px;color:#6b7280;margin-bottom:36px">Next session we'll go deeper:</div>
+      <div class="grid2">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 02</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">Functions in depth</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">Parameters, defaults, list comprehensions, and reading errors with confidence.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 02</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">Python's standard library</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">math, random, datetime, statistics &mdash; and the Claude-as-debugger workflow.</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:26px;color:#0d1b2a;font-style:italic;margin-top:36px">By Session 4, you'll have built a coffee shop dashboard from scratch.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     52  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining &mdash; see you next week!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="../sql-for-mbas/assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('py-mbas-01-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('py-mbas-01-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>

@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Literacy for MBAs &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:186px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">AI Literacy<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400">Friday 22nd May 2026</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Intro &amp; expectations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">The AI landscape</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">How to prompt</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">AI + data</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Where it goes wrong</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  WORKSHOP EXPECTATIONS
+============================================================ -->
+<section data-label="Workshop Expectations" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Workshop Expectations</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid3" style="max-width:1500px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128247;</div>
+        <div class="card-ttl">Cameras on</div>
+        <div class="card-body" style="font-size:24px">If at all possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128421;</div>
+        <div class="card-ttl">Double-screen works best</div>
+        <div class="card-body" style="font-size:24px">Keep these slides on one screen and Claude on the other, if possible</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div style="font-size:52px;margin-bottom:20px">&#128587;</div>
+        <div class="card-ttl">Ask questions</div>
+        <div class="card-body" style="font-size:24px">Just come off mute and shout out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  ABOUT THE INSTRUCTOR
+============================================================ -->
+<section data-label="About Instructor" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Who am I?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:1300px">
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">01</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-data scientist</div>
+          <div style="font-size:24px;color:#374151">&gt;2 years at Deliveroo</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">02</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Ex-consultant</div>
+          <div style="font-size:24px;color:#374151">&gt;4 years at Strategy&amp; &mdash; data and analytics specialty</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:36px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 36px">
+        <span style="font-size:56px;font-weight:700;font-family:'DM Mono',monospace;color:#2899A4;min-width:72px">03</span>
+        <div style="width:1px;height:60px;background:#e5e7eb"></div>
+        <div>
+          <div style="font-size:24px;font-weight:600;color:#2899A4;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Experienced instructor</div>
+          <div style="font-size:24px;color:#374151">&gt;5 years teaching analytics &amp; AI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1200px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">To become a more <strong style="color:#2899A4">sophisticated</strong> and <strong style="color:#2899A4">better-informed</strong> user of AI tools at work</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a machine-learning engineer or build models from scratch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06  SPEAK FLUENT AI
+============================================================ -->
+<section data-label="Speak fluent AI" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Speak fluent AI</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%;text-align:center">
+      <div style="font-size:44px;color:#111827;line-height:1.4;font-weight:500;margin-bottom:36px">
+        Most people use AI like a <strong style="color:#6b7280;font-weight:700">search engine</strong>.<br>
+        The ones who get value from it use it like a <strong style="color:#2899A4;font-weight:700">junior analyst</strong>.
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.12em;text-transform:uppercase">That's the gap we're closing today</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  SECTION: THE AI LANDSCAPE
+============================================================ -->
+<section data-label="The AI Landscape" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">The AI<br><span style="color:#2899A4">landscape</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     08  WHAT IS AN LLM
+============================================================ -->
+<section data-label="What is an LLM" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What is an LLM?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:44px 48px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Stands for</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Large</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:4px">Language</div>
+        <div style="font-size:40px;font-weight:700;color:#0d1b2a">Model</div>
+        <div style="margin-top:28px;font-size:24px;color:#6b7280;line-height:1.5">A statistical engine that <strong style="color:#2899A4">predicts the next chunk of text</strong> given everything before it &mdash; trained on roughly the public internet.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">What it isn't</div>
+        <div style="font-size:32px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:20px">Not a search engine.<br>Not a database.<br>Not a calculator.</div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.6">It's <span style="color:#4ade80">a writer that has read a lot</span>. Treat it accordingly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  WHY YOU CARE
+============================================================ -->
+<section data-label="Why You Care" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why do you care?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">AI fluency is no longer a 'nice to have'. A working command makes <strong style="color:#0d1b2a">you</strong>:</div>
+    <div class="grid2" style="max-width:1400px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">10&times; faster on first drafts</div>
+        <div style="font-size:24px;color:#6b7280">Memos, decks, models, summaries &mdash; from blank page to draft in minutes.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Less reliant on junior staff</div>
+        <div style="font-size:24px;color:#6b7280">Self-serve the things you'd have delegated &mdash; without the queue.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More 'dangerous' in meetings</div>
+        <div style="font-size:24px;color:#6b7280">Synthesise documents in seconds, not hours.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Day-one credible</div>
+        <div style="font-size:24px;color:#6b7280">Employers expect this on arrival, not after training.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  THE FRONTIER LABS
+============================================================ -->
+<section data-label="The frontier labs" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The frontier labs</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1700px">
+      <tr><th>Lab</th><th>Flagship</th><th>Known for</th><th>Best for</th></tr>
+      <tr><td><strong style="color:#0d1b2a">Anthropic</strong></td><td><span class="op">Claude</span></td><td>Writing &amp; reasoning</td><td>Long-form analysis, careful answers</td></tr>
+      <tr><td><strong style="color:#0d1b2a">OpenAI</strong></td><td><span class="op">ChatGPT</span></td><td>Broad ecosystem</td><td>General-purpose, image generation, voice</td></tr>
+      <tr><td><strong style="color:#0d1b2a">Google</strong></td><td><span class="op">Gemini</span></td><td>Google integration</td><td>Docs, Sheets, Gmail workflows</td></tr>
+      <tr><td><strong style="color:#0d1b2a">Meta</strong></td><td><span class="op">Llama</span></td><td>Open weights</td><td>Running locally, fine-tuning</td></tr>
+      <tr><td><strong style="color:#0d1b2a">xAI</strong></td><td><span class="op">Grok</span></td><td>Real-time X data</td><td>Live search, social context</td></tr>
+    </table>
+    <div style="margin-top:24px;font-size:24px;color:#6b7280">All five are useful. The right one depends on <strong style="color:#0d1b2a">what you're doing</strong> &mdash; not which logo you like.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  THE TOOL LAYERS
+============================================================ -->
+<section data-label="The tool layers" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The tool layers</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:28px">AI doesn't live in one box. It shows up in <strong style="color:#0d1b2a">four shapes</strong>:</div>
+    <div class="grid2" style="max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Chatbot UIs</div>
+        <div style="font-size:24px;color:#6b7280"><span style="font-family:'DM Mono',monospace;color:#374151">claude.ai &middot; chatgpt.com &middot; gemini.google.com</span> &mdash; the front door</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">IDE &amp; doc assistants</div>
+        <div style="font-size:24px;color:#6b7280">Cursor, Copilot, Notion AI &mdash; AI inside the tool you already use</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Agentic tools</div>
+        <div style="font-size:24px;color:#6b7280">Claude Code, Devin, Manus &mdash; AI that <strong>takes actions</strong>, not just answers</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">APIs</div>
+        <div style="font-size:24px;color:#6b7280">Anthropic, OpenAI, Google APIs &mdash; what powers everything your engineering team builds</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12  WHICH TOOL WHEN
+============================================================ -->
+<section data-label="Which tool when" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Which tool when</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1700px">
+      <tr><th>Task</th><th>Pick this</th><th>Why</th></tr>
+      <tr><td>Long-form writing &amp; reasoning</td><td><span class="op">Claude</span></td><td>Best instruction-following, longest careful answers</td></tr>
+      <tr><td>General questions &amp; images</td><td><span class="op">ChatGPT</span></td><td>Largest feature surface, image generation built in</td></tr>
+      <tr><td>Inside Google Docs / Sheets / Gmail</td><td><span class="op">Gemini</span></td><td>Native, sees your files</td></tr>
+      <tr><td>Code in your editor</td><td><span class="op">Cursor / Copilot</span></td><td>Sees your repo, edits in place</td></tr>
+      <tr><td>Live search &amp; citations</td><td><span class="op">Perplexity</span></td><td>Built around web search with sources</td></tr>
+      <tr><td>Synthesise many documents</td><td><span class="op">NotebookLM</span></td><td>Upload a pile, query the pile</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  AI BUILDING BLOCKS
+============================================================ -->
+<section data-label="AI Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The AI building blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1100px">
+      <div class="bb"><div class="bb-kw">MODEL</div><div class="bb-desc">Which AI you pick (Claude, GPT-4, Gemini&hellip;)</div></div>
+      <div class="bb"><div class="bb-kw">CONTEXT</div><div class="bb-desc">What you give it (files, links, conversation history)</div></div>
+      <div class="bb"><div class="bb-kw">PROMPT</div><div class="bb-desc">What you ask it to do</div></div>
+      <div class="bb"><div class="bb-kw">TOOLS</div><div class="bb-desc">What it can use (search, code execution, files)</div></div>
+      <div class="bb"><div class="bb-kw">OUTPUT</div><div class="bb-desc">The shape you want back (prose, table, JSON&hellip;)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14  LET'S GET CONNECTED
+============================================================ -->
+<section data-label="Let's Get Connected" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Let's get connected</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1000px;width:100%">
+      <div style="background:#0d1b2a;border-radius:16px;overflow:hidden">
+        <div style="padding:20px 32px;background:#0f2236;border-bottom:1px solid rgba(255,255,255,.08)">
+          <div style="display:flex;gap:8px"><div style="width:12px;height:12px;border-radius:50%;background:#f87171"></div><div style="width:12px;height:12px;border-radius:50%;background:#fbbf24"></div><div style="width:12px;height:12px;border-radius:50%;background:#4ade80"></div></div>
+        </div>
+        <div style="padding:44px 52px;font-family:'DM Mono',monospace">
+          <div style="margin-bottom:24px">
+            <span style="color:#64748b;font-size:24px">URL</span><br>
+            <a style="color:#7dd3fc;font-size:26px;text-decoration:none">https://claude.ai/new</a>
+          </div>
+          <div style="margin-bottom:24px">
+            <span style="color:#64748b;font-size:24px">Account</span><br>
+            <span style="color:#4ade80;font-size:26px">Use your LBS Google or a personal account</span>
+          </div>
+          <div>
+            <span style="color:#64748b;font-size:24px">Fallback</span><br>
+            <span style="color:#fda4af;font-size:26px">chatgpt.com works too &mdash; examples will use Claude</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  SECTION: HOW TO PROMPT
+============================================================ -->
+<section data-label="How to prompt" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">How to<br><span style="color:#2899A4">prompt</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     16  ANATOMY OF A PROMPT
+============================================================ -->
+<section data-label="Anatomy of a prompt" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Anatomy of a prompt</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1100px">
+      <div class="bb"><div class="bb-kw">ROLE</div><div class="bb-desc">Who the AI should act as</div></div>
+      <div class="bb"><div class="bb-kw">CONTEXT</div><div class="bb-desc">What it needs to know first</div></div>
+      <div class="bb"><div class="bb-kw">TASK</div><div class="bb-desc">What you want it to do</div></div>
+      <div class="bb"><div class="bb-kw">FORMAT</div><div class="bb-desc">How the answer should look</div></div>
+      <div class="bb"><div class="bb-kw">EXAMPLES</div><div class="bb-desc">What 'good' looks like &mdash; optional but powerful</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  THE BAD PROMPT
+============================================================ -->
+<section data-label="The bad prompt" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt</div>
+    <pre class="cb"><span class="hi">write me something</span> about
+<span class="hi">pricing strategy</span></pre>
+    <div style="margin-top:48px;border-top:1px solid rgba(255,255,255,.08);padding-top:32px">
+      <div style="font-size:24px;color:#4a5e70;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Typical output</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:22px;color:#94a3b8;line-height:1.55">&bull; Understand your customer<br>&bull; Know your competitors<br>&bull; Test and iterate<br>&bull; Align price with value</div>
+    </div>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Why is the output so generic?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">No <strong>role</strong> &mdash; the AI defaults to 'helpful generalist'</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">No <strong>context</strong> &mdash; what business, what market, what stage</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">No <strong>task shape</strong> &mdash; memo? deck? checklist?</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">No <strong>audience</strong> &mdash; CEO, board, intern?</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     18  THE GOOD PROMPT
+============================================================ -->
+<section data-label="The good prompt" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt</div>
+    <pre class="cb"><span class="kw">ROLE:</span> SaaS pricing strategist
+
+<span class="kw">CONTEXT:</span> Series-B fintech,
+&pound;8M ARR, current flat-tier
+pricing, US &amp; UK customers.
+
+<span class="kw">TASK:</span> Recommend <span class="hi">3 pricing
+moves</span> for the next 12 months.
+
+<span class="kw">FORMAT:</span> Numbered list. Each
+move: one-line summary,
+tradeoff, expected impact.</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Same topic. Different output. What changed?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Role</strong> anchors the tone &mdash; expert, not generalist</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Context</strong> narrows the answer to your business, not 'any business'</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Task</strong> spells out the deliverable &mdash; not just a topic</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>Format</strong> dictates the shape &mdash; no more bullet soup</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  EXERCISE 1
+============================================================ -->
+<section data-label="Exercise: Rewrite prompt" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your turn</div>
+    <pre class="cb"><span class="kw">ROLE:</span>    <span class="pl">[who?]</span>
+<span class="kw">CONTEXT:</span> <span class="pl">[what should it know?]</span>
+<span class="kw">TASK:</span>    <span class="pl">[what to produce?]</span>
+<span class="kw">FORMAT:</span>  <span class="pl">[what shape?]</span>
+<span class="kw">EXAMPLES:</span> <span class="pl">[skip for now]</span></pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Rewrite this lazy prompt using the 5 building blocks</p>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 20px;font-family:'DM Mono',monospace;font-size:24px;color:#374151;margin-bottom:20px">help me with a hiring decision</div>
+    <div class="ai"><div class="ad">&#128161;</div><div class="at">Scenario: <strong>PM at a fintech</strong>, hiring a senior data analyst, comparing two final candidates</div></div>
+    <div class="ai"><div class="ad">&#128161;</div><div class="at">Run your rewrite in Claude &mdash; compare to the unprompted answer</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  ANSWER 1
+============================================================ -->
+<section data-label="Answer: Rewrite prompt" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">worked rewrite</div>
+    <pre class="cb"><span class="kw">ROLE:</span> experienced hiring
+manager at an early-stage
+fintech.
+
+<span class="kw">CONTEXT:</span> pasting two
+anonymised CV summaries below,
+hiring a senior data analyst
+for a team of 4.
+
+<span class="kw">TASK:</span> structured comparison +
+<span class="hi">recommended hire</span> with risks.
+
+<span class="kw">FORMAT:</span> markdown table of
+strengths/weaknesses, then a
+short paragraph.</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">From 'lazy' to 'usable' in five lines</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Role</strong> gives it a voice you can argue with</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Context</strong> bounds the answer &mdash; no generic HR fluff</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Task</strong> names the deliverable &mdash; not 'help', but 'compare + recommend'</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>Format</strong> prevents prose-soup &mdash; table + paragraph</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  FEW-SHOT
+============================================================ -->
+<section data-label="Few-shot prompting" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt</div>
+    <pre class="cb"><span class="cm">// Classify customer complaints</span>
+
+<span class="kw">EXAMPLES:</span>
+&quot;<span class="str">item arrived damaged</span>&quot;
+   &rarr; <span class="hi">Product quality</span>
+&quot;<span class="str">why is shipping so slow?</span>&quot;
+   &rarr; <span class="hi">Delivery</span>
+
+<span class="kw">NEW:</span>
+&quot;<span class="str">your prices keep going up</span>&quot;
+   &rarr; ?</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do you teach Claude a pattern? Show it the pattern.</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Examples are stronger</strong> than instructions &mdash; especially for classification</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>2&ndash;5 examples</strong> is the sweet spot &mdash; enough to set the pattern, not enough to overfit</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Pick <strong>edge cases</strong> that show the rule, not just easy ones</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  EXERCISE 2
+============================================================ -->
+<section data-label="Exercise: Classify complaints" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your turn</div>
+    <pre class="cb"><span class="cm">// 3 worked examples</span>
+<span class="pl">[complaint 1]</span> &rarr; <span class="pl">[category]</span>
+<span class="pl">[complaint 2]</span> &rarr; <span class="pl">[category]</span>
+<span class="pl">[complaint 3]</span> &rarr; <span class="pl">[category]</span>
+
+<span class="cm">// 5 to classify</span>
+<span class="pl">[new complaint 1]</span> &rarr; ?
+<span class="pl">[new complaint 2]</span> &rarr; ?
+&hellip;</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Use few-shot prompting to classify 5 new complaints</p>
+    <div style="font-size:24px;color:#374151;margin-bottom:14px">Categories:</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:22px;color:#374151">Pricing &middot; Product quality &middot; Delivery &middot; Support &middot; Other</div>
+    </div>
+    <div class="ai" style="margin-top:18px"><div class="ad">&#128161;</div><div class="at">Paste into Claude &mdash; check the labels match what you'd say</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  ANSWER 2
+============================================================ -->
+<section data-label="Answer: Classify complaints" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">worked prompt</div>
+    <pre class="cb"><span class="cm">// Categories: Pricing, Product
+// quality, Delivery, Support,
+// Other</span>
+
+<span class="kw">EXAMPLES:</span>
+&quot;<span class="str">item arrived broken</span>&quot;
+   &rarr; <span class="hi">Product quality</span>
+&quot;<span class="str">agent never replied</span>&quot;
+   &rarr; <span class="hi">Support</span>
+&quot;<span class="str">tracking shows nothing</span>&quot;
+   &rarr; <span class="hi">Delivery</span>
+
+<span class="kw">NEW:</span> &lt;paste 5 here&gt;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Typical output: 5 lines, one label each</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Examples beat <strong>describing the categories</strong> &mdash; the model infers from pattern</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Pick examples that <strong>force the boundary</strong> &mdash; ambiguous ones reveal the rule</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Spot-check 1&ndash;2 outputs &mdash; if they're wrong, your examples are too</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     24  CHAIN OF THOUGHT
+============================================================ -->
+<section data-label="Chain of thought" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt</div>
+    <pre class="cb"><span class="kw">CONTEXT:</span> our largest customer
+just asked for a 15% discount.
+ARR with them is &pound;1.2M; gross
+margin 62%.
+
+<span class="kw">TASK:</span> should we agree?
+
+<span class="hi">Think step by step before
+giving your final answer.</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Hard problems get better when you ask the AI to think first</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Forces the model to <strong>show its work in tokens</strong> &mdash; arithmetic, assumptions, alternatives</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Catches <strong>logic and arithmetic errors</strong> that pure-answer prompts miss</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Harmless on easy questions, <strong>transformative on hard ones</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     25  EXERCISE 3
+============================================================ -->
+<section data-label="Exercise: Deal memo" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your turn</div>
+    <pre class="cb"><span class="kw">CONTEXT:</span> target =
+&pound;4M revenue, 38% growth YoY,
+22% EBITDA margin. Offer:
+8&times; EBITDA, all cash.
+
+<span class="kw">TASK:</span> evaluate:
+  1. <span class="pl">[three biggest risks]</span>
+  2. <span class="pl">[multiple paid]</span>
+  3. <span class="pl">[go/no-go]</span>
+
+<span class="hi">Think step by step.</span></pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Use chain-of-thought to evaluate a small acquisition</p>
+    <div class="ai"><div class="ad">&#128161;</div><div class="at">Paste the <strong>full scenario</strong> &mdash; financials are context, not flavour</div></div>
+    <div class="ai"><div class="ad">&#128161;</div><div class="at">Ask for the <strong>work shown</strong>, not just the verdict</div></div>
+    <div class="ai"><div class="ad">&#128161;</div><div class="at">The goal is the <strong>reasoning</strong>, not the answer</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  ANSWER 3
+============================================================ -->
+<section data-label="Answer: Deal memo" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">worked prompt</div>
+    <pre class="cb"><span class="kw">ROLE:</span> M&amp;A associate at a
+mid-market PE fund.
+
+<span class="kw">CONTEXT:</span> &lt;financials above&gt;
+
+<span class="kw">TASK:</span> evaluate this deal.
+  1. Three biggest risks,
+     ranked by severity.
+  2. The multiple paid &mdash;
+     state your benchmark.
+  3. Go / no-go recommendation.
+
+<span class="hi">Think step by step before
+your final answer.</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What to look for in the output</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Does it <strong>surface the right risks first</strong> &mdash; not the easy ones?</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Is the multiple <strong>grounded in the numbers</strong> &mdash; or just asserted?</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Can you <strong>defend the answer in a meeting</strong>? If not, the prompt is missing something</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  ASKING FOR FORMAT
+============================================================ -->
+<section data-label="Asking for format" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">format moves</div>
+    <pre class="cb"><span class="cm">// 1. table</span>
+&hellip; <span class="hi">as a markdown table</span>
+with columns: option, cost,
+risk.
+
+<span class="cm">// 2. JSON</span>
+&hellip; <span class="hi">as JSON</span> with keys
+<span class="str">&quot;recommendation&quot;</span>,
+<span class="str">&quot;confidence&quot;</span>, <span class="str">&quot;risks&quot;</span>.
+
+<span class="cm">// 3. exec summary</span>
+&hellip; <span class="hi">5 bullets, max 25 words
+each</span>, plain English.</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">The shape of the answer matters as much as the content</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Tables</strong> beat prose for comparisons &mdash; you can scan them</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>JSON</strong> makes it pasteable into other tools without rewriting</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Word limits</strong> force the model to prioritise &mdash; the magic is in what gets cut</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  ITERATING
+============================================================ -->
+<section data-label="Iterating, not restarting" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Iterate, don't restart</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:36px">Don't start over. <strong style="color:#0d1b2a">Edit the conversation.</strong></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;Now do it again but <strong>shorter</strong>.&rdquo; &mdash; keeps the structure, trims the volume</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;<strong>Challenge that</strong> &mdash; what would change your mind?&rdquo; &mdash; surfaces hidden assumptions</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;Now in <strong>a table</strong> with these columns: X, Y, Z.&rdquo; &mdash; restructures, doesn't recompute</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;Imagine the <strong>opposite view</strong> is correct. Now what?&rdquo; &mdash; second-mind, free</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;Cite the <strong>source</strong> for each claim.&rdquo; &mdash; forces it to admit what it doesn't know</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  PROMPT PATTERNS RECAP
+============================================================ -->
+<section data-label="Prompt patterns recap" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Prompt patterns recap</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">ROLE &middot; CONTEXT</div>
+        <div style="font-size:24px;color:#374151">Anchor the tone, bound the scope. Without these the output is generic.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">EXAMPLES</div>
+        <div style="font-size:24px;color:#374151"><strong>Show, don't describe.</strong> 2&ndash;5 examples beat a paragraph of instructions.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">FORMAT</div>
+        <div style="font-size:24px;color:#374151">Name the shape &mdash; <strong>table, JSON, bullets, word count</strong>. The shape forces the substance.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">ITERATE</div>
+        <div style="font-size:24px;color:#374151"><strong>Edit the answer.</strong> Don't restart. Conversations beat one-shots.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     30  COMPREHENSION CHECK
+============================================================ -->
+<section data-label="Comprehension check" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Knowledge check</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;margin:0 auto">
+      <div class="ex-badge" style="margin-bottom:20px">Quick check</div>
+      <p class="qlbl" style="margin-bottom:36px">Which of these is the strongest move when an answer feels generic?</p>
+      <div class="grid2" style="gap:20px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">A</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">Start a new chat with a different model.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">B</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">Ask the model to &ldquo;be more specific&rdquo;.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">C</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">Add <strong>role</strong>, <strong>context</strong>, and an <strong>example</strong> of what good looks like.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start">
+          <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#2899A4;flex-shrink:0">D</div>
+          <div style="font-size:24px;color:#374151;line-height:1.4">Switch from a chatbot to an API.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     31  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     32  SECTION: AI + DATA
+============================================================ -->
+<section data-label="AI + data" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">AI<br><span style="color:#2899A4">+ data</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:700px;line-height:1.5">Handling large piles of information with AI as your analyst</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     33  DATA + AI WORKFLOW
+============================================================ -->
+<section data-label="The data + AI workflow" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The data + AI workflow</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid2" style="max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Step 01</div>
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Ingest</div>
+        <div style="font-size:24px;color:#6b7280">Get the data into the model &mdash; paste, upload, connect.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Step 02</div>
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Analyse</div>
+        <div style="font-size:24px;color:#6b7280">Ask the model to interrogate it &mdash; counts, outliers, trends.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Step 03</div>
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Synthesise</div>
+        <div style="font-size:24px;color:#6b7280">Combine multiple sources into one answer.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Step 04</div>
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Communicate</div>
+        <div style="font-size:24px;color:#6b7280">Convert the answer into the artefact you need &mdash; memo, slide, email.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     34  THREE WAYS AI HANDLES DATA
+============================================================ -->
+<section data-label="Three ways AI handles data" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Three ways AI handles data</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1300px">
+      <div class="bb"><div class="bb-kw">PASTE-IN</div><div class="bb-desc">Drop a table into the chat &mdash; fastest, fine for small data</div></div>
+      <div class="bb"><div class="bb-kw">FILE UPLOAD</div><div class="bb-desc">Attach a CSV / PDF / image &mdash; Claude &amp; ChatGPT both support this</div></div>
+      <div class="bb"><div class="bb-kw">CONNECTORS</div><div class="bb-desc">MCP, Gemini-on-Drive, Copilot-on-Office &mdash; the model reads live from your tools</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     35  PASTING STRUCTURED TEXT
+============================================================ -->
+<section data-label="Pasting structured text" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt</div>
+    <pre class="cb"><span class="cm">// Paste a small markdown table</span>
+
+<span class="kw">DATA:</span>
+| sku  | price | units |
+| ---- | ----- | ----- |
+| A101 |   <span class="num">12</span>  |  <span class="num">800</span>  |
+| A102 |   <span class="num">15</span>  |  <span class="num">120</span>  |
+| A103 |   <span class="num">90</span>  |   <span class="num">30</span>  |
+&hellip; (+5 more)
+
+<span class="kw">TASK:</span> find the <span class="hi">3 biggest
+revenue contributors</span> and the
+one whose price/unit is <span class="hi">out
+of line</span> with the rest.</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">For small tables, paste is the fastest move</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Markdown tables paste cleanly</strong> &mdash; pipes and dashes survive copy/paste</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Works up to <strong>~a few hundred rows</strong> &mdash; past that, the model loses the thread</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">For thousands of rows, <strong>upload instead</strong> &mdash; next slide</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  UPLOADING A CSV
+============================================================ -->
+<section data-label="Uploading a CSV" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">workflow</div>
+    <pre class="cb"><span class="cm">// 1. Click the paperclip
+// 2. Attach sales_2025.csv
+// 3. Prompt:</span>
+
+<span class="kw">ROLE:</span> data analyst.
+
+<span class="kw">CONTEXT:</span> the attached CSV is
+a year of regional sales,
+columns: region, week,
+revenue_gbp.
+
+<span class="kw">TASK:</span> find the <span class="hi">3 biggest
+outliers</span> and explain what
+could cause each.
+
+<span class="hi">Show your working.</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">For bigger data, attach and ask</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The model <strong>writes &amp; runs code</strong> to inspect the file &mdash; you'll see the steps</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">It <strong>checks the file shape first</strong> &mdash; columns, row count, types &mdash; before answering</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Tell it what the columns mean</strong> &mdash; so it doesn't guess</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     37  EXERCISE 4
+============================================================ -->
+<section data-label="Exercise: Analyse CSV" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">hands-on</div>
+    <pre class="cb"><span class="cm">// 1. Download
+// business_schools.csv
+// 2. Attach to Claude
+// 3. Ask these 3 questions:</span>
+
+<span class="hi">Q1:</span> how many schools are
+    in the dataset, and what
+    columns do you have?
+
+<span class="hi">Q2:</span> which 5 schools have
+    the largest gap between
+    rank and salary?
+
+<span class="hi">Q3:</span> any countries where the
+    average salary is
+    misleading?</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Upload the FT MBA Rankings CSV and ask three questions</p>
+    <div class="ai"><div class="ad">&#128190;</div><div class="at">Get the CSV from <strong>the workshop folder</strong> &mdash; same dataset as the SQL course</div></div>
+    <div class="ai"><div class="ad">&#10003;</div><div class="at"><strong>Verify each answer against the file</strong> &mdash; spot-check 2 numbers by eye</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     38  ANSWER 4
+============================================================ -->
+<section data-label="Answer: Analyse CSV" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">how claude responds</div>
+    <pre class="cb"><span class="cm">// Step 1: inspect file</span>
+<span class="kw">&gt;</span> 100 rows, 18 columns
+<span class="kw">&gt;</span> showing first 5&hellip;
+
+<span class="cm">// Step 2: answer Q2</span>
+<span class="kw">&gt;</span> ranked rank - salary_rank,
+  top 5:
+  <span class="str">SDA Bocconi</span>     <span class="num">+24</span>
+  <span class="str">IE Business</span>     <span class="num">+18</span>
+  <span class="str">Insead</span>          <span class="num">+15</span>
+  &hellip;
+
+<span class="cm">// Step 3: answer Q3</span>
+<span class="kw">&gt;</span> France: only 2 schools,
+  one outlier pulls avg
+  +&pound;30k.</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Common gotchas to flag in class</p>
+    <div class="ai"><div class="ad">1</div><div class="at">It will often confuse <strong>weighted_salary_usd</strong> with <strong>current_salary_usd</strong> &mdash; name the column you mean</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>'Outlier' is undefined</strong> &mdash; ask for the definition (z-score? top decile?)</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">If a chart is in the output, <strong>spot-check 2-3 numbers by eye</strong> against the CSV</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     39  AI WRITES SQL
+============================================================ -->
+<section data-label="AI writes SQL" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt &rarr; output</div>
+    <pre class="cb"><span class="cm">// Ask in English:</span>
+<span class="kw">&gt;</span> from business_schools,
+  show top 5 UK schools by
+  weighted_salary_usd
+
+<span class="cm">// Claude returns:</span>
+<span class="kw">SELECT</span>   school_name
+       , weighted_salary_usd
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">WHERE</span>  primary_location = <span class="str">'UK'</span>
+<span class="kw">ORDER BY</span> weighted_salary_usd <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">5</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Most analyst questions become SQL. AI shortens that distance.</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Works best when you <strong>tell the model the schema</strong> &mdash; next slide</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Ask Claude to <strong>explain the query line by line</strong> &mdash; you learn while it works</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Always run it yourself</strong> before trusting the answer &mdash; same as the SQL course</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     40  SCHEMA SHARING
+============================================================ -->
+<section data-label="Schema sharing" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">step 1: paste schema</div>
+    <pre class="cb"><span class="kw">CREATE TABLE</span> business_schools (
+   school_rank          <span class="kw">INT</span>
+ , school_name          <span class="kw">TEXT</span>
+ , primary_location     <span class="kw">TEXT</span>
+ , weighted_salary_usd  <span class="kw">INT</span>
+ , female_students_pct  <span class="kw">NUMERIC</span>
+);
+
+<span class="cm">// Then ask your question.</span>
+<span class="cm">// AI now knows the columns.</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">AI doesn't know your database. You tell it.</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Paste the schema once</strong> at the start of the chat &mdash; reused for the rest of the conversation</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Refresh the schema</strong> if your data model changes</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Without it, AI <strong>invents column names</strong> that don't exist &mdash; queries fail at runtime</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     41  EXERCISE 5
+============================================================ -->
+<section data-label="Exercise: NL to SQL" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your turn</div>
+    <pre class="cb"><span class="kw">CREATE TABLE</span> pizza_orders (
+   order_id     <span class="kw">INT</span>
+ , city         <span class="kw">TEXT</span>
+ , total_gbp    <span class="kw">NUMERIC</span>
+ , ordered_at   <span class="kw">TIMESTAMP</span>
+ , customer_id  <span class="kw">INT</span>
+);
+
+<span class="cm">// Question:</span>
+<span class="kw">&gt;</span> average order value by
+  city, last <span class="num">30</span> days,
+  ranked highest to lowest.</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Get Claude to write a query you can run</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Paste the schema first</strong>, then ask the question</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Ask Claude to <strong>explain the query line by line</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Then</strong> ask Claude to <strong>spot what could go wrong</strong> with it</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     42  ANSWER 5
+============================================================ -->
+<section data-label="Answer: NL to SQL" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">claude's answer</div>
+    <pre class="cb"><span class="kw">SELECT</span>   city
+       , <span class="fn">AVG</span>(total_gbp) <span class="kw">AS</span> aov
+<span class="kw">FROM</span> pizza_orders
+<span class="kw">WHERE</span> ordered_at &gt;= <span class="hi">NOW() -
+       INTERVAL <span class="str">'30 days'</span></span>
+<span class="kw">GROUP BY</span> city
+<span class="kw">ORDER BY</span> aov <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Verify before you trust</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Does the <strong>date filter handle timezones</strong>? Probably no &mdash; flag it</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Should 'average' be <strong>mean or median</strong>? Claude defaulted to mean</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Is <strong>total_gbp</strong> the right column? Could be a <strong>total_after_discount_gbp</strong> next to it</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     43  MANY DOCS ONE ANSWER
+============================================================ -->
+<section data-label="Many docs to one answer" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Many documents &rarr; one answer</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px;max-width:1400px">When you have a pile of documents &mdash; a deal room, a literature review, six earnings reports &mdash; uploading to a chat is the <strong style="color:#0d1b2a">wrong shape</strong>.</div>
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:40px 44px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">How it works</div>
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:16px">NotebookLM &middot; Claude Projects &middot; Custom GPTs</div>
+        <div style="font-size:24px;color:#374151;line-height:1.55">Upload your sources <strong style="color:#2899A4">once</strong>. Query them repeatedly. The model only answers from <strong style="color:#2899A4">your documents</strong> &mdash; not the open web.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:40px 44px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">When to use it</div>
+        <div style="font-size:28px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:16px">Deal due diligence. Board prep. Lit review. Deposition prep.</div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.55">Anything where you need answers <strong style="color:#fff">grounded in specific documents</strong>, not the open internet.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     44  WHAT AI CAN AND CAN'T SEE
+============================================================ -->
+<section data-label="What AI can and can't see" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What AI can &amp; can't see</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:36px">Three things to internalise about how AI <strong style="color:#0d1b2a">'sees'</strong> the world:</div>
+      <div class="si"><div class="sd"></div><div class="st"><strong>Context windows are finite</strong> &mdash; even long ones (~200k tokens / ~500 pages). Past that, it forgets the start.</div></div>
+      <div class="si"><div class="sd"></div><div class="st"><strong>No memory across chats by default</strong> &mdash; every new conversation starts cold, unless you've turned memory on.</div></div>
+      <div class="si"><div class="sd"></div><div class="st"><strong>Can't see the internet</strong> unless you turn on web search &mdash; out of the box, knowledge cuts off at training time.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  SECTION: WHERE IT GOES WRONG  (pink accent)
+============================================================ -->
+<section data-label="Where it goes wrong" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 05</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Where it<br><span style="color:#E05FA0">goes wrong</span></h2>
+  <div style="width:60px;height:4px;background:#2899A4;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     46  FOUR BIG PITFALLS
+============================================================ -->
+<section data-label="The four big pitfalls" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The four big pitfalls</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div class="grid2" style="max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-top:4px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Hallucination</div>
+        <div style="font-size:24px;color:#6b7280">Confidently wrong &mdash; invented facts, citations, quotes.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-top:4px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Sycophancy</div>
+        <div style="font-size:24px;color:#6b7280">Agrees with you because you asked, not because you're right.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-top:4px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Over-reliance</div>
+        <div style="font-size:24px;color:#6b7280">Stops you doing the thinking the answer was meant to inform.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-top:4px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Confidentiality</div>
+        <div style="font-size:24px;color:#6b7280">Anything you paste may train future models or leak.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     47  HALLUCINATION
+============================================================ -->
+<section data-label="Hallucination" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt &amp; output</div>
+    <pre class="cb"><span class="kw">&gt;</span> Summarise the key findings
+  of the 2024 Harvard Business
+  Review article on
+  <span class="str">'Mid-Market PE Pricing'</span>.
+
+<span class="cm">// Claude's response:</span>
+<span class="kw">&gt;</span> The <span class="hi">2024 HBR study by
+  Mendoza &amp; Park</span> found that
+  mid-market PE deals priced
+  at <span class="hi">7.2&times; EBITDA</span>
+  outperformed by &hellip;</pre>
+    <div style="margin-top:32px;font-family:'DM Mono',monospace;font-size:22px;color:#fda4af;letter-spacing:.04em">&triangle; The article doesn't exist. The authors don't exist. The number is invented.</div>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Confident, fluent, wrong</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Ask for <strong>sources you can verify</strong> &mdash; URLs, paper titles, page numbers</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">If it sounds <strong>too clean</strong>, it's invented &mdash; reality is messier than the model's training set</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Web-search models</strong> hallucinate less &mdash; but still cite wrongly. Check the link.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     48  SYCOPHANCY
+============================================================ -->
+<section data-label="Sycophancy" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">prompt &amp; output</div>
+    <pre class="cb"><span class="kw">&gt;</span> I think we should fire our
+  top sales rep because she
+  pushes back too much.
+  <span class="hi">Don't you agree?</span>
+
+<span class="cm">// Claude's response:</span>
+<span class="kw">&gt;</span> That's a reasonable
+  instinct. Pushback can
+  undermine team alignment.
+  Here are 4 reasons your
+  read is sound&hellip;</pre>
+    <div style="margin-top:32px;font-family:'DM Mono',monospace;font-size:22px;color:#fda4af;letter-spacing:.04em">&triangle; The model agreed with a bad decision because you asked it to.</div>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">AI tells you what you want to hear</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Trained on human feedback, and <strong>humans reward agreement</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The failure is <strong>silent</strong> &mdash; you won't notice unless you check</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The fix &mdash; <strong>next slide</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     49  HOW TO PUSH BACK
+============================================================ -->
+<section data-label="How to push back" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">How to push back</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:36px">Five moves to <strong style="color:#0d1b2a">break the sycophancy loop</strong>:</div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;<strong>What's the strongest argument against this?</strong>&rdquo; &mdash; explicit counter-prompt</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;<strong>Imagine you disagreed with me. What would you say?</strong>&rdquo; &mdash; role-flip</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;Rate this on a <strong>1&ndash;10 scale</strong>, then justify the score.&rdquo; &mdash; forces non-binary judgement</div></div>
+      <div class="si"><div class="sd"></div><div class="st">&ldquo;<strong>What did I miss?</strong>&rdquo; &mdash; open-ended catch-all</div></div>
+      <div class="si"><div class="sd"></div><div class="st"><strong>Switch model</strong> for a second opinion &mdash; Claude &rarr; ChatGPT, or vice versa</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     50  CONFIDENTIALITY RED LINES
+============================================================ -->
+<section data-label="Confidentiality red lines" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Confidentiality red lines</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px">
+      <div class="bb"><div class="bb-kw" style="background:#E05FA0;color:#fff">CLIENT DATA</div><div class="bb-desc">Names, contracts, financials of a third party &mdash; <strong>never paste</strong></div></div>
+      <div class="bb"><div class="bb-kw" style="background:#E05FA0;color:#fff">PII</div><div class="bb-desc">Customer names, emails, payment info &mdash; <strong>strip or never paste</strong></div></div>
+      <div class="bb"><div class="bb-kw" style="background:#E05FA0;color:#fff">TRADE SECRETS</div><div class="bb-desc">Internal strategy decks, source code, pre-announcement plans &mdash; <strong>enterprise-tier only</strong></div></div>
+      <div class="bb"><div class="bb-kw" style="background:#E05FA0;color:#fff">FREE TIERS</div><div class="bb-desc">Default ChatGPT, Gemini, Claude Free <strong>may train on your input</strong> &mdash; paid Team / Enterprise tiers don't</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     51  WRAP-UP
+============================================================ -->
+<section data-label="Wrap Up" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">Section 05</div>
+    <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+    <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px;margin-bottom:48px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1400px">
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">ROLE &middot; CONTEXT</div>
+        <div style="font-size:24px;color:#94a3b8">Anchor every prompt</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">EXAMPLES</div>
+        <div style="font-size:24px;color:#94a3b8">Show, don't describe</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">FORMAT</div>
+        <div style="font-size:24px;color:#94a3b8">Name the shape</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">ITERATE</div>
+        <div style="font-size:24px;color:#94a3b8">Edit, don't restart</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">VERIFY</div>
+        <div style="font-size:24px;color:#94a3b8">Sources, not vibes</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#7dd3fc;margin-bottom:6px">CONFIDENTIALITY</div>
+        <div style="font-size:24px;color:#94a3b8">Mind what you paste</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:40px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     52  YOU CAN ALL NOW
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:26px;color:#111827;font-weight:500">Pick the right AI tool for the job at hand</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:26px;color:#111827;font-weight:500">Write a prompt that gets a usable answer first time</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:26px;color:#111827;font-weight:500">Use AI to interrogate data you couldn't analyse manually</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:28px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:26px;color:#111827;font-weight:500">Spot when AI is hallucinating, agreeing, or making you lazy</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+        <div style="background:#0d1b2a;border-radius:14px;padding:60px 48px;width:100%;text-align:center">
+          <div style="font-size:72px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em">AI<br><span style="color:#2899A4">fluent</span></div>
+          <div style="width:60px;height:4px;background:#E05FA0;margin:28px auto 24px"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#94a3b8;letter-spacing:.08em;text-transform:uppercase">Day-one credible</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     53  WHAT'S NEXT
+============================================================ -->
+<section data-label="What's Next" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What's next?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="text-align:center;font-size:26px;color:#6b7280;margin-bottom:36px">Build on this with the rest of the curriculum</div>
+      <div class="grid2">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4;display:flex;flex-direction:column;position:relative">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Course 01</div>
+          <h3 style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:10px;line-height:1.1">SQL for MBAs</h3>
+          <div style="font-size:24px;color:#6b7280;line-height:1.4;margin-bottom:24px;font-style:italic">Talk to data, not analysts.</div>
+          <div style="border-top:1px solid #e5e7eb;padding-top:22px">
+            <div style="font-size:22px;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-bottom:14px">You'll learn</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">SELECT / FROM / WHERE / ORDER BY</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Comparison &amp; filtering</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Aggregates &amp; GROUP BY</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#2899A4;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">CASE WHEN &mdash; derive new fields on the fly</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0;display:flex;flex-direction:column;position:relative">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Course 02</div>
+          <h3 style="font-size:40px;font-weight:700;color:#0d1b2a;margin-bottom:10px;line-height:1.1">Intermediate SQL</h3>
+          <div style="font-size:24px;color:#6b7280;line-height:1.4;margin-bottom:24px;font-style:italic">From comfortable to confident.</div>
+          <div style="border-top:1px solid #e5e7eb;padding-top:22px">
+            <div style="font-size:22px;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;margin-bottom:14px">You'll learn</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">JOINs &mdash; INNER, LEFT, RIGHT &amp; FULL</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Subqueries &amp; Common Table Expressions</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Window functions &mdash; RANK, LAG, LEAD</span></div>
+              <div style="display:flex;gap:14px;align-items:flex-start"><span style="color:#E05FA0;font-size:22px;flex-shrink:0;line-height:1.3">&#9679;</span><span style="font-size:24px;color:#374151;line-height:1.3">Query optimisation with AI</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     54  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <div style="width:320px;height:320px;background:#f9fafb;border:1px dashed #e5e7eb;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:20px;color:#9ca3af;letter-spacing:.06em;text-align:center;padding:0 20px">QR placeholder<br>(generate before workshop)</div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('ai-literacy-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('ai-literacy-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>

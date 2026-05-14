@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python for MBAs &mdash; Functions &amp; Libraries &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:300px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop &middot; Part 2 of 4</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Python<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:34px;color:#fff;font-weight:500">Functions &amp; Libraries &mdash; Session 02</p>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400;margin-top:8px">[TODO: add date]</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Recap &amp; today's aim</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Why functions?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Built-in functions</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">List comprehensions &amp; libraries</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Errors &amp; Claude &middot; Mini-project</span>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:22px;color:#9ca3af;margin-top:28px;font-style:italic">Same workshop expectations as last time &mdash; cameras on, double-screen, shout out questions.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  LAST TIME - RECAP
+============================================================ -->
+<section data-label="Last Time Recap" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Last time</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1150px">
+      <div class="bb"><div class="bb-kw">variables</div><div class="bb-desc">name &rarr; value</div></div>
+      <div class="bb"><div class="bb-kw">int / float / str / bool</div><div class="bb-desc">the four basic types</div></div>
+      <div class="bb"><div class="bb-kw">lists &amp; dicts</div><div class="bb-desc">ordered items vs labelled records</div></div>
+      <div class="bb"><div class="bb-kw">if / elif / else</div><div class="bb-desc">branching</div></div>
+      <div class="bb"><div class="bb-kw">for / while</div><div class="bb-desc">repetition</div></div>
+      <div class="bb"><div class="bb-kw">def</div><div class="bb-desc">your first function &mdash; one tiny example</div></div>
+      <div style="font-size:26px;color:#6b7280;margin-top:24px;text-align:center">Today we turn that one tiny <strong style="color:#0d1b2a">def</strong> into the workhorse of your Python.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">Write <strong style="color:#2899A4">reusable functions</strong> that wrap your logic &mdash; and feel confident <strong style="color:#2899A4">reading errors</strong>, with Claude on standby</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To memorise every Python built-in or library</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  SECTION: WHY FUNCTIONS?
+============================================================ -->
+<section data-label="Why Functions" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Why<br><span style="color:#2899A4">functions?</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     06  THE DRY PRINCIPLE
+============================================================ -->
+<section data-label="The DRY Principle" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The DRY principle</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:25px;color:#6b7280;margin-bottom:24px;text-align:center">When you find yourself <strong style="color:#0d1b2a">pasting the same code</strong> with one small change &mdash; it's time for a function.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="background:#0d1b2a;border-radius:14px;overflow:hidden;border-top:4px solid #E05FA0">
+          <div style="padding:14px 24px;background:#0f2236;font-size:22px;color:#fda4af;font-family:'DM Mono',monospace;letter-spacing:.06em">BEFORE</div>
+          <pre class="cb" style="padding:28px 32px;font-size:22px"><span class="fn">print</span>(<span class="str">f"Astoria sold 312 cups"</span>)
+<span class="fn">print</span>(<span class="str">f"Hell's K sold 287 cups"</span>)
+<span class="fn">print</span>(<span class="str">f"Lower M. sold 195 cups"</span>)</pre>
+        </div>
+        <div style="background:#0d1b2a;border-radius:14px;overflow:hidden;border-top:4px solid #4ade80">
+          <div style="padding:14px 24px;background:#0f2236;font-size:22px;color:#4ade80;font-family:'DM Mono',monospace;letter-spacing:.06em">AFTER</div>
+          <pre class="cb" style="padding:28px 32px;font-size:22px"><span class="kw">def</span> <span class="fn">report</span>(store, n):
+    <span class="fn">print</span>(<span class="str">f"{store} sold {n} cups"</span>)
+
+<span class="fn">report</span>(<span class="str">"Astoria"</span>, <span class="num">312</span>)
+<span class="fn">report</span>(<span class="str">"Hell's K"</span>, <span class="num">287</span>)
+<span class="fn">report</span>(<span class="str">"Lower M."</span>, <span class="num">195</span>)</pre>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;margin-top:24px">DRY &mdash; <strong style="color:#0d1b2a">Don't Repeat Yourself</strong>. Same output, far less code, one place to fix bugs.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  DEFINING A FUNCTION - BUILDING BLOCKS
+============================================================ -->
+<section data-label="Function Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Defining a function</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1150px">
+      <div class="bb"><div class="bb-kw">def</div><div class="bb-desc">The keyword that says "I'm defining a function"</div></div>
+      <div class="bb"><div class="bb-kw">name</div><div class="bb-desc">What you'll call it later (your choice)</div></div>
+      <div class="bb"><div class="bb-kw">(parameters)</div><div class="bb-desc">Inputs the function expects</div></div>
+      <div class="bb"><div class="bb-kw">: &amp; indent</div><div class="bb-desc">The body of the function</div></div>
+      <div class="bb"><div class="bb-kw">return</div><div class="bb-desc">The value sent back to the caller</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     08  PARAMETERS & RETURN
+============================================================ -->
+<section data-label="Parameters and Return" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">revenue</span>(qty, price):
+    total = qty * price
+    <span class="kw">return</span> total
+
+morning = <span class="fn">revenue</span>(<span class="num">3</span>, <span class="num">4.50</span>)   <span class="cm"># &rarr; 13.5</span>
+evening = <span class="fn">revenue</span>(<span class="num">8</span>, <span class="num">5.95</span>)   <span class="cm"># &rarr; 47.6</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I take inputs and give back an answer?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>(qty, price)</strong> are <strong>parameters</strong> &mdash; placeholders for inputs</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>return total</strong> sends the result back</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Call with values &mdash; Python plugs them in</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Each call is <strong>independent</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  NAMED VS POSITIONAL ARGUMENTS
+============================================================ -->
+<section data-label="Named vs Positional" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">report</span>(store, product, cups):
+    <span class="kw">return</span> <span class="str">f"{store} sold {cups} {product}s"</span>
+
+<span class="cm"># Positional &mdash; order matters</span>
+<span class="fn">report</span>(<span class="str">"Astoria"</span>, <span class="str">"Latte"</span>, <span class="num">312</span>)
+
+<span class="cm"># Named &mdash; order doesn't matter</span>
+<span class="fn">report</span>(cups=<span class="num">312</span>, product=<span class="str">"Latte"</span>,
+       store=<span class="str">"Astoria"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">Why give arguments names when calling?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Positional is fine for <strong>2-3 args</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Named (keyword) arguments are clearer when the function has many params</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">You can mix &mdash; positional first, then named</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Named arguments make your code <strong>self-documenting</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  DEFAULT ARGUMENTS
+============================================================ -->
+<section data-label="Default Arguments" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">revenue</span>(qty, price, discount=<span class="num">0</span>):
+    total = qty * price * (<span class="num">1</span> - discount)
+    <span class="kw">return</span> total
+
+<span class="fn">revenue</span>(<span class="num">10</span>, <span class="num">4.50</span>)              <span class="cm"># &rarr; 45.0</span>
+<span class="fn">revenue</span>(<span class="num">10</span>, <span class="num">4.50</span>, discount=<span class="num">0.1</span>) <span class="cm"># &rarr; 40.5</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I have an optional input?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>discount=0</strong> is a <strong>default</strong> &mdash; used if caller doesn't pass it</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Defaults must come <strong>after</strong> non-default params</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Keeps the simple case simple, the flexible case possible</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  DOCSTRINGS
+============================================================ -->
+<section data-label="Docstrings" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">revenue</span>(qty, price, discount=<span class="num">0</span>):
+    <span class="str">"""Return total revenue after a discount.
+
+    qty:      number of items sold
+    price:    unit price
+    discount: 0.1 = 10% off (default 0)
+    """</span>
+    <span class="kw">return</span> qty * price * (<span class="num">1</span> - discount)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I leave a note for future-me?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">A <strong>docstring</strong> is a string at the top of a function in triple quotes</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>help(revenue)</strong> will show it</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Write one when the inputs <strong>aren't obvious</strong> &mdash; not for every function</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12  EXERCISE: WRITE A DISCOUNT FUNCTION
+============================================================ -->
+<section data-label="Exercise: VAT Function" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">final_price</span>(price, vat_pct=<span class="num">20</span>):
+    <span class="str">"""<span class="pl">[?]</span>"""</span>
+    vat = <span class="pl">[?]</span>
+    <span class="kw">return</span> <span class="pl">[?]</span>
+
+<span class="fn">print</span>(<span class="fn">final_price</span>(<span class="num">10.00</span>))      <span class="cm"># expect 12.0</span>
+<span class="fn">print</span>(<span class="fn">final_price</span>(<span class="num">10.00</span>, <span class="num">5</span>))   <span class="cm"># expect 10.5</span></pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Write a function that adds VAT to a price</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>vat = price * vat_pct / 100</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Return <strong>price + vat</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Test both: default VAT (20%) and a reduced rate</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  SECTION: BUILT-IN FUNCTIONS
+============================================================ -->
+<section data-label="Built-in Functions" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Built-in<br><span style="color:#2899A4">functions</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     14  YOU'VE BEEN USING FUNCTIONS ALL ALONG
+============================================================ -->
+<section data-label="Functions All Along" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You've been using functions all along</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:center">
+    <div style="max-width:1300px;text-align:center">
+      <div style="font-size:32px;color:#374151;line-height:1.5;margin-bottom:44px">You've used functions in every cell so far. Here's the secret: most of Python's power is in its <strong style="color:#2899A4">built-in</strong> functions.</div>
+      <div style="display:flex;gap:18px;justify-content:center">
+        <span style="font-family:'DM Mono',monospace;font-size:30px;color:#7dd3fc;background:#0d1b2a;padding:16px 32px;border-radius:8px">print()</span>
+        <span style="font-family:'DM Mono',monospace;font-size:30px;color:#7dd3fc;background:#0d1b2a;padding:16px 32px;border-radius:8px">len()</span>
+        <span style="font-family:'DM Mono',monospace;font-size:30px;color:#7dd3fc;background:#0d1b2a;padding:16px 32px;border-radius:8px">type()</span>
+        <span style="font-family:'DM Mono',monospace;font-size:30px;color:#7dd3fc;background:#0d1b2a;padding:16px 32px;border-radius:8px">range()</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  BUILT-IN FUNCTIONS REFERENCE
+============================================================ -->
+<section data-label="Built-ins Reference" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Built-in functions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1600px">
+      <tr><th>Function</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><span class="op">len()</span></td><td>Count items</td><td style="font-family:'DM Mono',monospace;color:#374151">len(transactions) &rarr; 4</td></tr>
+      <tr><td><span class="op">sum()</span></td><td>Add up a list of numbers</td><td style="font-family:'DM Mono',monospace;color:#374151">sum([1, 2, 3]) &rarr; 6</td></tr>
+      <tr><td><span class="op">min()</span></td><td>Smallest value</td><td style="font-family:'DM Mono',monospace;color:#374151">min([4.50, 3.00]) &rarr; 3.00</td></tr>
+      <tr><td><span class="op">max()</span></td><td>Largest value</td><td style="font-family:'DM Mono',monospace;color:#374151">max([4.50, 3.00]) &rarr; 4.50</td></tr>
+      <tr><td><span class="op">sorted()</span></td><td>Return a sorted list</td><td style="font-family:'DM Mono',monospace;color:#374151">sorted([3, 1, 2]) &rarr; [1, 2, 3]</td></tr>
+      <tr><td><span class="op">range()</span></td><td>Sequence of numbers</td><td style="font-family:'DM Mono',monospace;color:#374151">range(5) &rarr; 0..4</td></tr>
+      <tr><td><span class="op">enumerate()</span></td><td>Pair index with item</td><td style="font-family:'DM Mono',monospace;color:#374151">for i, x in enumerate(list)</td></tr>
+      <tr><td><span class="op">zip()</span></td><td>Pair up two lists</td><td style="font-family:'DM Mono',monospace;color:#374151">for p, q in zip(prices, qtys)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     16  SUM & LEN IN PRACTICE
+============================================================ -->
+<section data-label="sum and len" class="split">
+  <div class="code-l">
+    <pre class="cb">prices = [<span class="num">4.50</span>, <span class="num">3.00</span>, <span class="num">4.95</span>, <span class="num">2.50</span>, <span class="num">5.10</span>]
+
+total = <span class="fn">sum</span>(prices)                 <span class="cm"># &rarr; 20.05</span>
+avg   = <span class="fn">sum</span>(prices) / <span class="fn">len</span>(prices)   <span class="cm"># &rarr; 4.01</span>
+
+<span class="fn">print</span>(<span class="str">f"&pound;{total:.2f} across {len(prices)} items"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I get headline stats without writing a loop?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>sum()</strong> adds every number in a list</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>len()</strong> counts items</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Average = sum / len &mdash; a one-liner</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>:.2f</strong> in an f-string rounds to 2 decimal places</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  ENUMERATE
+============================================================ -->
+<section data-label="enumerate" class="split">
+  <div class="code-l">
+    <pre class="cb">products = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>, <span class="str">"Mocha"</span>]
+
+<span class="kw">for</span> i, product <span class="kw">in</span> <span class="fn">enumerate</span>(products):
+    <span class="fn">print</span>(<span class="str">f"{i + 1}. {product}"</span>)
+<span class="cm"># 1. Latte</span>
+<span class="cm"># 2. Espresso</span>
+<span class="cm"># 3. Mocha</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I get the index and the item in a loop?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>enumerate(list)</strong> yields <strong>(index, item)</strong> pairs</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Unpack with <strong>for i, x in &hellip;</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Indexes start at 0 &mdash; add 1 if you want to count from 1</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     18  ZIP
+============================================================ -->
+<section data-label="zip" class="split">
+  <div class="code-l">
+    <pre class="cb">products = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>, <span class="str">"Mocha"</span>]
+prices   = [<span class="num">4.50</span>, <span class="num">3.00</span>, <span class="num">4.95</span>]
+
+<span class="kw">for</span> product, price <span class="kw">in</span> <span class="fn">zip</span>(products, prices):
+    <span class="fn">print</span>(<span class="str">f"{product}: &pound;{price}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I loop two lists in parallel?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>zip</strong> pairs items at the same index</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Stops at the <strong>shorter</strong> of the two</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Common pattern when two lists describe the same things</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  EXERCISE: STATS ON DAILY TAKINGS
+============================================================ -->
+<section data-label="Exercise: Daily Takings" class="split">
+  <div class="code-l">
+    <pre class="cb">takings = [<span class="num">842.50</span>, <span class="num">1241.20</span>, <span class="num">998.40</span>,
+           <span class="num">1567.80</span>, <span class="num">1102.55</span>]
+
+total   = <span class="pl">[?]</span>
+average = <span class="pl">[?]</span>
+best    = <span class="pl">[?]</span>
+worst   = <span class="pl">[?]</span>
+
+<span class="fn">print</span>(<span class="str">f"Total: &pound;{total:.2f}"</span>)
+<span class="fn">print</span>(<span class="str">f"Average: &pound;{average:.2f}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Get headline stats on five days of takings</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>sum()</strong> for total</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Average = total / <strong>len()</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>max()</strong> and <strong>min()</strong> for best/worst</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  LIST COMPREHENSIONS - THE ONE-LINER LOOP
+============================================================ -->
+<section data-label="List Comprehensions" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Before &mdash; explicit loop</span>
+prices = [<span class="num">3.00</span>, <span class="num">4.50</span>, <span class="num">6.95</span>, <span class="num">2.50</span>]
+in_pence = []
+<span class="kw">for</span> p <span class="kw">in</span> prices:
+    in_pence.<span class="fn">append</span>(p * <span class="num">100</span>)
+
+<span class="cm"># After &mdash; list comprehension</span>
+in_pence = <span class="hi">[p * <span class="num">100</span> <span class="kw">for</span> p <span class="kw">in</span> prices]</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I express a loop in one line?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Read it left-to-right: <strong>"for each p in prices, compute p &times; 100"</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Result is a <strong>new list</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Once you see this, you'll see it everywhere &mdash; pandas, NumPy, GenAI-generated code</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  LIST COMPREHENSION WITH A FILTER
+============================================================ -->
+<section data-label="Comprehension Filter" class="split">
+  <div class="code-l">
+    <pre class="cb">prices = [<span class="num">3.00</span>, <span class="num">4.50</span>, <span class="num">6.95</span>, <span class="num">2.50</span>, <span class="num">5.10</span>]
+
+expensive = [p <span class="kw">for</span> p <span class="kw">in</span> prices <span class="hi"><span class="kw">if</span> p &gt; <span class="num">4</span></span>]
+<span class="cm"># &rarr; [4.50, 6.95, 5.10]</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I filter in a list comprehension?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Add <strong>if CONDITION</strong> at the end</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Only items where the condition is true survive</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Same logic as <strong>for + if + append</strong> &mdash; just compressed</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  EXERCISE: DISCOUNT THE CHEAP ITEMS
+============================================================ -->
+<section data-label="Exercise: Discount Cheap" class="split">
+  <div class="code-l">
+    <pre class="cb">prices = [<span class="num">3.00</span>, <span class="num">4.50</span>, <span class="num">6.95</span>, <span class="num">2.50</span>, <span class="num">5.10</span>]
+
+<span class="cm"># Halve every price below &pound;4 &mdash; return a new list</span>
+cheap_half = [<span class="pl">[?]</span> <span class="kw">for</span> p <span class="kw">in</span> prices <span class="kw">if</span> <span class="pl">[?]</span>]
+
+<span class="fn">print</span>(cheap_half)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Halve every price below &pound;4 with a comprehension</p>
+    <div class="ai"><div class="ad">1</div><div class="at">The output expression is <strong>p / 2</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The filter is <strong>p &lt; 4</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Expected output: <strong>[1.5, 1.25]</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     24  SECTION: PYTHON'S STANDARD LIBRARY
+============================================================ -->
+<section data-label="Standard Library" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Python's<br><span style="color:#2899A4">standard library</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:760px;line-height:1.5">Batteries included &mdash; and you only have to know they exist</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     25  WHAT'S A LIBRARY?
+============================================================ -->
+<section data-label="What's a Library" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What's a library?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1600px;width:100%;align-items:center">
+      <div style="font-size:28px;color:#374151;line-height:1.6">
+        A <strong style="color:#2899A4">library</strong> (or "module") is pre-written Python that someone else has packaged up. You use <strong style="color:#0d1b2a">import</strong> to bring it in, then call its functions. Python ships with dozens of standard libraries &mdash; already installed, no setup.
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:36px 44px">
+        <pre class="cb" style="font-size:26px"><span class="kw">import</span> math
+<span class="kw">import</span> random
+<span class="kw">import</span> datetime
+<span class="kw">import</span> statistics
+<span class="kw">import</span> csv
+<span class="kw">import</span> json</pre>
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.06em;margin-top:24px;text-transform:uppercase">These four are today's focus</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  IMPORT MATH
+============================================================ -->
+<section data-label="import math" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">import</span> math
+
+math.<span class="fn">sqrt</span>(<span class="num">16</span>)        <span class="cm"># &rarr; 4.0</span>
+math.pi              <span class="cm"># &rarr; 3.14159...</span>
+math.<span class="fn">ceil</span>(<span class="num">4.2</span>)       <span class="cm"># &rarr; 5</span>
+math.<span class="fn">floor</span>(<span class="num">4.8</span>)      <span class="cm"># &rarr; 4</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What's the syntax for using a library?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>import math</strong> once at the top of the notebook</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Then call <strong>math.FUNCTION(&hellip;)</strong> &mdash; the dot says "from this library"</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Tab-complete in Colab shows you everything available</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  IMPORT RANDOM
+============================================================ -->
+<section data-label="import random" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">import</span> random
+
+random.<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">10</span>)          <span class="cm"># &rarr; 1..10</span>
+random.<span class="fn">choice</span>([<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"C"</span>]) <span class="cm"># &rarr; "B"</span>
+random.<span class="fn">shuffle</span>(my_list)         <span class="cm"># mixes in place</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">When would I ever need random?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>Sampling</strong> &mdash; pick 5 random transactions from a dataset</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Simulation</strong> &mdash; model 1000 random customer orders</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Testing</strong> &mdash; generate fake data while you build</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  IMPORT DATETIME
+============================================================ -->
+<section data-label="import datetime" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">from</span> datetime <span class="kw">import</span> datetime
+
+now = datetime.<span class="fn">now</span>()
+<span class="fn">print</span>(now.year)             <span class="cm"># &rarr; 2026</span>
+<span class="fn">print</span>(now.<span class="fn">strftime</span>(<span class="str">"%A"</span>))  <span class="cm"># &rarr; "Thursday"</span>
+
+<span class="cm"># Parse a string into a datetime</span>
+d = datetime.<span class="fn">strptime</span>(<span class="str">"2025-04-12"</span>, <span class="str">"%Y-%m-%d"</span>)
+<span class="fn">print</span>(d.month)            <span class="cm"># &rarr; 4</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I work with dates?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>from X import Y</strong> imports a specific tool &mdash; saves typing</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>.now()</strong>, <strong>.year</strong>, <strong>.month</strong> are common</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">You'll meet this again in <strong>Session 03</strong> &mdash; the coffee dataset has dates</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  IMPORT STATISTICS
+============================================================ -->
+<section data-label="import statistics" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">import</span> statistics <span class="kw">as</span> stats
+
+takings = [<span class="num">842.50</span>, <span class="num">1241.20</span>, <span class="num">998.40</span>,
+           <span class="num">1567.80</span>, <span class="num">1102.55</span>]
+
+stats.<span class="fn">mean</span>(takings)     <span class="cm"># &rarr; 1150.49</span>
+stats.<span class="fn">median</span>(takings)   <span class="cm"># &rarr; 1102.55</span>
+stats.<span class="fn">stdev</span>(takings)    <span class="cm"># &rarr; 273.21</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What about basic statistics?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>import X as Y</strong> gives the library a <strong>short alias</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>mean / median / stdev</strong> are the common three</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">For anything heavier &mdash; pandas, next session</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     30  EXERCISE: RANDOM COFFEE PICKER
+============================================================ -->
+<section data-label="Exercise: Random Picker" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">import</span> random
+
+menu = [<span class="str">"Latte"</span>, <span class="str">"Espresso"</span>, <span class="str">"Mocha"</span>,
+        <span class="str">"Flat White"</span>, <span class="str">"Cappuccino"</span>]
+
+<span class="cm"># Pick today's special &mdash; at random</span>
+todays_special = <span class="pl">[?]</span>
+
+<span class="cm"># Pick 3 random options for a flight</span>
+flight = <span class="pl">[?]</span>
+
+<span class="fn">print</span>(todays_special, flight)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Pick a random special and a 3-coffee flight</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>random.choice(menu)</strong> picks one</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>random.sample(menu, 3)</strong> picks 3 without repeats</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Run the cell a few times &mdash; different each time</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     31  SECTION: READING ERRORS
+============================================================ -->
+<section data-label="Reading Errors" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 05</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Reading<br><span style="color:#2899A4">errors</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:780px;line-height:1.5">What Python is actually telling you &mdash; and how to ask Claude</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     32  THE SHAPE OF A TRACEBACK
+============================================================ -->
+<section data-label="Shape of a Traceback" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The shape of a traceback</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:32px;max-width:1700px;align-items:center">
+      <div style="flex:0 0 800px;background:#0d1b2a;border-radius:14px;padding:36px 40px">
+        <pre class="cb" style="font-size:23px">Traceback (most recent call last):
+  File <span class="str">"&lt;cell line 3&gt;"</span>, line <span class="num">3</span>, in &lt;module&gt;
+    total = qty + price
+<span class="hi">TypeError: unsupported operand type(s)
+for +: 'int' and 'str'</span></pre>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:22px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px">The bottom-up rule</div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Read the last line first</strong> &mdash; that's the actual error</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Then the line before</strong> &mdash; where it happened</div></div>
+        <div class="si"><div class="sd"></div><div class="st"><strong>Then the type</strong> &mdash; TypeError, NameError, KeyError tell you what kind of mistake</div></div>
+        <div style="font-size:24px;color:#6b7280;margin-top:20px;line-height:1.5">Tracebacks look scary. They aren't &mdash; they always tell you exactly where and why.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     33  THE THREE ERRORS YOU'LL MEET
+============================================================ -->
+<section data-label="Three Errors" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The errors you'll meet most</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1700px">
+      <tr><th>Error</th><th>What it means</th><th>Likely fix</th></tr>
+      <tr><td><span class="op">NameError</span></td><td>Python doesn't know this name</td><td>You misspelled a variable, or forgot to define it</td></tr>
+      <tr><td><span class="op">TypeError</span></td><td>Wrong type for the operation</td><td>Probably mixing str and int &mdash; try int() or float()</td></tr>
+      <tr><td><span class="op">KeyError</span></td><td>Dict doesn't have that key</td><td>Check the spelling and capitalisation of the key</td></tr>
+      <tr><td><span class="op">IndentationError</span></td><td>Wrong whitespace</td><td>Count your spaces &mdash; 4 per level</td></tr>
+      <tr><td><span class="op">SyntaxError</span></td><td>The code isn't valid Python</td><td>Usually a missing : ( or quote</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     34  WORKED EXAMPLE - FIXING A NAMEERROR
+============================================================ -->
+<section data-label="Fixing a NameError" class="split">
+  <div class="code-l">
+    <pre class="cb">qty = <span class="num">5</span>
+price = <span class="num">4.50</span>
+
+total = <span class="hi">qnty</span> * price
+<span class="cm"># NameError: name 'qnty' is not defined</span>
+
+<span class="cm"># Fix: qty, not qnty</span>
+total = qty * price    <span class="cm"># &rarr; 22.5</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What does Python actually tell me?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>NameError: name 'qnty' is not defined</strong> &mdash; the name doesn't exist</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Look &mdash; <strong>qnty</strong> is missing a "u"</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Fix the typo, run again</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     35  USING CLAUDE AS YOUR DEBUGGER
+============================================================ -->
+<section data-label="Claude as Debugger" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Using Claude as your debugger</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden">
+        <div style="background:#f0fafb;border-bottom:1px solid #e5e7eb;padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">You</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"I got this error: <span style="font-family:'DM Mono',monospace;color:#6b7280">TypeError: unsupported operand type(s) for +: 'int' and 'str'</span>. Here's my code: <span style="font-family:'DM Mono',monospace;color:#6b7280">[paste 4 lines]</span>. What's wrong?"</div>
+        </div>
+        <div style="padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Claude</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"On line 3 you're adding <span style="font-family:'DM Mono',monospace;color:#6b7280">qty</span> (an integer) to <span style="font-family:'DM Mono',monospace;color:#6b7280">price</span>, which is a string because you read it from a CSV. Wrap <span style="font-family:'DM Mono',monospace;color:#6b7280">price</span> in <span style="font-family:'DM Mono',monospace;color:#6b7280">float()</span>: <span style="font-family:'DM Mono',monospace;color:#6b7280">total = qty + float(price)</span>."</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:24px;color:#6b7280;font-style:italic;margin-top:28px">Paste the code, paste the <strong>whole</strong> error, and the fix is usually one message away.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  THE TWO-TRY RULE (REVISITED)
+============================================================ -->
+<section data-label="Two-Try Rule Revisited" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The two-try rule</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px;width:100%">
+      <div style="background:#f0fafb;border:1px solid #bae6ef;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:44px 52px;margin-bottom:32px">
+        <div style="font-size:42px;font-weight:700;color:#0d1b2a;line-height:1.25">"Try it twice yourself before you ask Claude."</div>
+      </div>
+      <div style="display:flex;gap:24px;margin-bottom:32px">
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">FIRST TRY</div>
+          <div style="font-size:24px;color:#374151">Write the code, run it, see what Python says</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">SECOND TRY</div>
+          <div style="font-size:24px;color:#374151">Read the traceback bottom-up; change one thing</div>
+        </div>
+        <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px">
+          <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:22px;margin-bottom:8px">THEN</div>
+          <div style="font-size:24px;color:#374151">Paste the code + error + expectation into Claude</div>
+        </div>
+      </div>
+      <div style="font-size:26px;color:#6b7280;line-height:1.5">The error message is Claude-readable. So is the question "why did this break?" Asking blind isn't.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     37  SECTION: MINI-PROJECT
+============================================================ -->
+<section data-label="Mini-Project" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 06</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Mini-project</h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:780px;line-height:1.5">Putting it all together &mdash; without pandas, yet</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     38  THE SETUP - COFFEE SHOP DATA
+============================================================ -->
+<section data-label="Mini-Project Setup" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The setup &mdash; yesterday's coffee shop data</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div style="font-size:25px;color:#6b7280;margin-bottom:20px">A tiny slice of yesterday's takings &mdash; 8 transactions, as a list of dicts. We'll write a few functions to interrogate it.</div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:32px 40px">
+        <pre class="cb" style="font-size:21px">transactions = [
+    {<span class="str">"store"</span>: <span class="str">"Astoria"</span>,   <span class="str">"product"</span>: <span class="str">"Latte"</span>,    <span class="str">"qty"</span>: <span class="num">2</span>, <span class="str">"price"</span>: <span class="num">4.50</span>},
+    {<span class="str">"store"</span>: <span class="str">"Astoria"</span>,   <span class="str">"product"</span>: <span class="str">"Espresso"</span>, <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">3.00</span>},
+    {<span class="str">"store"</span>: <span class="str">"Hell's K"</span>,  <span class="str">"product"</span>: <span class="str">"Mocha"</span>,    <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">4.95</span>},
+    {<span class="str">"store"</span>: <span class="str">"Hell's K"</span>,  <span class="str">"product"</span>: <span class="str">"Latte"</span>,    <span class="str">"qty"</span>: <span class="num">3</span>, <span class="str">"price"</span>: <span class="num">4.50</span>},
+    {<span class="str">"store"</span>: <span class="str">"Lower M."</span>,  <span class="str">"product"</span>: <span class="str">"Tea"</span>,      <span class="str">"qty"</span>: <span class="num">4</span>, <span class="str">"price"</span>: <span class="num">2.50</span>},
+    {<span class="str">"store"</span>: <span class="str">"Lower M."</span>,  <span class="str">"product"</span>: <span class="str">"Latte"</span>,    <span class="str">"qty"</span>: <span class="num">2</span>, <span class="str">"price"</span>: <span class="num">4.50</span>},
+    {<span class="str">"store"</span>: <span class="str">"Astoria"</span>,   <span class="str">"product"</span>: <span class="str">"Mocha"</span>,    <span class="str">"qty"</span>: <span class="num">2</span>, <span class="str">"price"</span>: <span class="num">4.95</span>},
+    {<span class="str">"store"</span>: <span class="str">"Hell's K"</span>,  <span class="str">"product"</span>: <span class="str">"Tea"</span>,      <span class="str">"qty"</span>: <span class="num">1</span>, <span class="str">"price"</span>: <span class="num">2.50</span>},
+]</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     39  MINI-PROJECT TASK 1: TOTAL REVENUE
+============================================================ -->
+<section data-label="Task 1: Total Revenue" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">total_revenue</span>(transactions):
+    total = <span class="pl">[?]</span>
+    <span class="kw">for</span> tx <span class="kw">in</span> transactions:
+        total = total + <span class="pl">[?]</span>
+    <span class="kw">return</span> total
+
+<span class="fn">print</span>(<span class="fn">total_revenue</span>(transactions))</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise &middot; Task 1</div>
+    <p class="qlbl">Write a function that totals all revenue</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Start <strong>total = 0</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Add <strong>tx["qty"] * tx["price"]</strong> each iteration</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Expected output: <strong>73.85</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     40  MINI-PROJECT TASK 2: FILTER BY STORE
+============================================================ -->
+<section data-label="Task 2: Filter by Store" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">filter_by_store</span>(transactions, store_name):
+    <span class="kw">return</span> [<span class="pl">[?]</span> <span class="kw">for</span> tx <span class="kw">in</span> transactions
+            <span class="kw">if</span> <span class="pl">[?]</span>]
+
+astoria = <span class="fn">filter_by_store</span>(transactions, <span class="str">"Astoria"</span>)
+<span class="fn">print</span>(<span class="fn">len</span>(astoria))   <span class="cm"># expect 3</span></pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise &middot; Task 2</div>
+    <p class="qlbl">Return only the transactions for one store</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Output expression: just <strong>tx</strong> itself</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Filter: <strong>tx["store"] == store_name</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Should be <strong>3</strong> Astoria transactions</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     41  MINI-PROJECT TASK 3: BEST-SELLING PRODUCT
+============================================================ -->
+<section data-label="Task 3: Cups by Product" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">def</span> <span class="fn">cups_by_product</span>(transactions):
+    counts = {}
+    <span class="kw">for</span> tx <span class="kw">in</span> transactions:
+        product = tx[<span class="str">"product"</span>]
+        <span class="kw">if</span> product <span class="kw">in</span> counts:
+            counts[product] += <span class="pl">[?]</span>
+        <span class="kw">else</span>:
+            counts[product] = <span class="pl">[?]</span>
+    <span class="kw">return</span> counts
+
+<span class="fn">print</span>(<span class="fn">cups_by_product</span>(transactions))</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise &middot; Task 3</div>
+    <p class="qlbl">Count cups sold per product</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Both blanks are <strong>tx["qty"]</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Look up the key first &mdash; if it's there, add to it; otherwise set it</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Expected: <strong>{'Latte': 7, 'Espresso': 1, 'Mocha': 3, 'Tea': 5}</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     42  THE PANDAS TEASER
+============================================================ -->
+<section data-label="The Pandas Teaser" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The pandas teaser</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:25px;color:#6b7280;margin-bottom:24px;text-align:center">Look at all the code you just wrote to count by product. Next session, pandas does this in <strong style="color:#0d1b2a">one line</strong>:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
+        <div style="background:#0d1b2a;border-radius:14px;padding:28px 32px;opacity:.55">
+          <div style="font-family:'DM Mono',monospace;font-size:18px;color:#64748b;letter-spacing:.08em;margin-bottom:14px">THE LONG WAY</div>
+          <pre class="cb" style="font-size:19px"><span class="kw">def</span> <span class="fn">cups_by_product</span>(transactions):
+    counts = {}
+    <span class="kw">for</span> tx <span class="kw">in</span> transactions:
+        product = tx[<span class="str">"product"</span>]
+        <span class="kw">if</span> product <span class="kw">in</span> counts:
+            counts[product] += tx[<span class="str">"qty"</span>]
+        <span class="kw">else</span>:
+            counts[product] = tx[<span class="str">"qty"</span>]
+    <span class="kw">return</span> counts</pre>
+        </div>
+        <div style="background:#0d1b2a;border-radius:14px;padding:28px 32px;border-top:4px solid #4ade80">
+          <div style="font-family:'DM Mono',monospace;font-size:18px;color:#4ade80;letter-spacing:.08em;margin-bottom:14px">THE PANDAS WAY</div>
+          <pre class="cb" style="font-size:22px">df.<span class="fn">groupby</span>(<span class="str">"product"</span>)[<span class="str">"qty"</span>].<span class="fn">sum</span>()</pre>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;margin-top:24px">Same answer, 1/8th the code. That's why we learn pandas next.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     43  SECTION: WRAP-UP & CLAUDE
+============================================================ -->
+<section data-label="Wrap-up and Claude" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 07</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+  <div style="width:60px;height:4px;background:#2899A4;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     44  SUMMARY SO FAR
+============================================================ -->
+<section data-label="Summary So Far" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Summary so far</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">def / return</div>
+        <div style="font-size:24px;color:#374151">Wrap logic in a name and <strong>reuse it</strong>.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">built-ins</div>
+        <div style="font-size:24px;color:#374151"><strong>len, sum, min, max, sorted, range, enumerate, zip</strong> &mdash; your daily drivers.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">comprehensions</div>
+        <div style="font-size:24px;color:#374151"><strong>[expr for x in list if cond]</strong> &mdash; loop + filter in one line.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 28px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:5px 14px;border-radius:5px;display:inline-block;margin-bottom:12px">import</div>
+        <div style="font-size:24px;color:#374151">Bring in batteries &mdash; <strong>math, random, datetime, statistics</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  THE ART-OF-THE-POSSIBLE BREADCRUMB
+============================================================ -->
+<section data-label="Art of the Possible" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What you can already do</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px;width:100%">
+      <div style="font-size:28px;color:#374151;margin-bottom:28px;text-align:center">What you can already do with what you learned today:</div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:36px 44px">
+        <pre class="cb" style="font-size:23px"><span class="kw">import</span> smtplib
+<span class="kw">from</span> email.message <span class="kw">import</span> EmailMessage
+
+msg = <span class="fn">EmailMessage</span>()
+msg[<span class="str">"Subject"</span>], msg[<span class="str">"To"</span>] = <span class="str">"Daily takings"</span>, <span class="str">"boss@cafe.com"</span>
+msg.<span class="fn">set_content</span>(<span class="str">f"Total: &pound;{total_revenue(transactions):.2f}"</span>)
+smtplib.<span class="fn">SMTP</span>(<span class="str">"smtp.gmail.com"</span>, <span class="num">587</span>).<span class="fn">send_message</span>(msg)</pre>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;font-style:italic;margin-top:28px">5 lines. One function. Your boss gets the daily numbers without you opening Excel. We'll build the real version in Session 04.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     46  YOU CAN ALL NOW...
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Write reusable functions with parameters and return values</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Use Python's built-in functions to summarise data</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Read and write list comprehensions</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Import and use standard libraries</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Read a traceback and ask Claude a sharp debugging question</span>
+        </div>
+      </div>
+      <img src="../sql-for-mbas/assets/Purple_small.jpg" style="width:78%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb;margin:0 auto">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     47  COMING UP NEXT TIME - PANDAS
+============================================================ -->
+<section data-label="Coming Up Next" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Coming up next time</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;width:100%">
+      <div style="text-align:center;font-size:26px;color:#6b7280;margin-bottom:36px">Next week &mdash; we leave the list-of-dicts behind and meet <strong style="color:#0d1b2a">pandas</strong>, the analyst's power tool.</div>
+      <div class="grid2">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 03</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">DataFrames</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">Every Excel sheet you've ever seen, but programmable.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 03</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">GroupBy, filter, aggregate</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">Answer business questions in one line.</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:26px;color:#0d1b2a;font-style:italic;margin-top:36px">And we'll bring in the full 150k-row coffee shop dataset.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     48  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks &mdash; see you next week!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="../sql-for-mbas/assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('py-mbas-02-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('py-mbas-02-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>

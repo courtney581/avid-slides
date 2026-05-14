@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python for MBAs &mdash; Pandas &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:330px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop &middot; Part 3 of 4</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Python<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:34px;color:#fff;font-weight:500">Pandas for Data Analysis &mdash; Session 03</p>
+    <p style="font-size:30px;color:#94a3b8;font-weight:400;margin-top:8px">[TODO: add date]</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     02  AGENDA
+============================================================ -->
+<section data-label="Agenda" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Agenda</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px">
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">01</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Recap &amp; today's aim</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">02</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Meet pandas</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">03</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Selecting &amp; filtering</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fafafa;border:2px dashed #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:26px;color:#9ca3af">&#9749;</span>
+        <span style="font-size:24px;font-weight:500;color:#9ca3af">10 minute break</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">04</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Reshaping &amp; aggregating</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px 32px">
+        <span style="font-size:52px;font-weight:700;color:#e5e7eb;font-family:'DM Mono',monospace;line-height:1">05</span>
+        <span style="font-size:26px;font-weight:500;color:#111827">Errors, dates &amp; Claude</span>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:22px;color:#9ca3af;margin-top:28px;font-style:italic">Same workshop expectations as last time &mdash; cameras on, double-screen, shout out questions.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  LAST TIME - RECAP
+============================================================ -->
+<section data-label="Last Time Recap" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Last time</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1200px">
+      <div class="bb"><div class="bb-kw">def / return</div><div class="bb-desc">your own functions</div></div>
+      <div class="bb"><div class="bb-kw">built-ins</div><div class="bb-desc">len, sum, min, max, sorted</div></div>
+      <div class="bb"><div class="bb-kw">list comprehensions</div><div class="bb-desc">[x for x in list if cond]</div></div>
+      <div class="bb"><div class="bb-kw">import</div><div class="bb-desc">math, random, datetime, statistics</div></div>
+      <div class="bb"><div class="bb-kw">tracebacks</div><div class="bb-desc">the bottom-up rule</div></div>
+      <div class="bb"><div class="bb-kw">two-try rule</div><div class="bb-desc">yourself, yourself, then Claude</div></div>
+      <div style="font-size:26px;color:#6b7280;margin-top:24px;text-align:center">Everything you wrote by hand last time, pandas does in <strong style="color:#0d1b2a">one line</strong>. Today we cash that in.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">Be able to <strong style="color:#2899A4">load, slice, filter, and aggregate</strong> a real dataset &mdash; and recognise when to ask Claude for help</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To memorise pandas's 600+ methods &mdash; nobody does, that's what Claude is for</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  SECTION: MEET PANDAS
+============================================================ -->
+<section data-label="Meet Pandas" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 02</div>
+  <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Meet<br><span style="color:#2899A4">pandas</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     06  WHAT IS PANDAS?
+============================================================ -->
+<section data-label="What is Pandas" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">What is pandas?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:flex;gap:24px;max-width:1600px">
+      <div style="flex:1;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:44px 48px">
+        <div style="font-family:'DM Mono',monospace;font-size:24px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">What it is</div>
+        <div style="font-size:32px;font-weight:700;color:#0d1b2a;line-height:1.25;margin-bottom:20px">The Python library for tabular data</div>
+        <div style="font-size:24px;color:#6b7280;line-height:1.55">Think Excel sheet, think SQL table &mdash; same idea, but you can run any analysis on millions of rows in seconds.</div>
+      </div>
+      <div style="flex:1;background:#0d1b2a;border-radius:14px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">Why it matters</div>
+        <div style="font-size:32px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:20px">It's the <span style="color:#4ade80">industry standard</span></div>
+        <div style="font-size:24px;color:#94a3b8;line-height:1.6">Every data team, every analyst, every Kaggle notebook. Once you can read pandas, you can read 80% of the data code you'll ever see.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  A DATAFRAME IS JUST A TABLE
+============================================================ -->
+<section data-label="DataFrame is a Table" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">A DataFrame is just a table</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:26px;color:#374151;line-height:1.5;margin-bottom:24px">A <strong style="color:#2899A4">DataFrame</strong> is a <strong style="color:#0d1b2a">table</strong> &mdash; rows and columns, with a name on each column. Each column has a type. The index is a row label &mdash; usually just 0, 1, 2&hellip;</div>
+      <table class="dt" style="font-size:21px">
+        <tr><th>transaction_id</th><th>transaction_date</th><th>store_location</th><th>product_category</th><th>product_type</th><th>unit_price</th><th>transaction_qty</th></tr>
+        <tr><td>1</td><td>2023-01-01</td><td>Astoria</td><td>Coffee</td><td>Latte</td><td>4.50</td><td>2</td></tr>
+        <tr><td>2</td><td>2023-01-01</td><td>Astoria</td><td>Tea</td><td>Green Tea</td><td>3.00</td><td>1</td></tr>
+        <tr><td>3</td><td>2023-01-01</td><td>Hell's Kitchen</td><td>Coffee</td><td>Espresso</td><td>3.00</td><td>1</td></tr>
+        <tr><td>4</td><td>2023-01-02</td><td>Lower Manhattan</td><td>Bakery</td><td>Croissant</td><td>3.75</td><td>3</td></tr>
+        <tr><td>5</td><td>2023-01-02</td><td>Hell's Kitchen</td><td>Coffee</td><td>Mocha</td><td>4.95</td><td>1</td></tr>
+      </table>
+      <div style="margin-top:16px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Read it like an Excel sheet. The whole table is one Python variable &mdash; call it df.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     08  OUR DATASET - COFFEE SHOP SALES
+============================================================ -->
+<section data-label="Our Dataset" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Our dataset: Coffee Shop Sales</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:24px;color:#6b7280;margin-bottom:14px">We'll use the <strong style="color:#0d1b2a">Maven Analytics Coffee Shop Sales</strong> dataset &mdash; every transaction across 3 stores, 6 months of trading. <strong style="color:#0d1b2a">149,116 rows.</strong></div>
+    <table class="dt" style="max-width:1700px;font-size:21px">
+      <tr><th>transaction_id</th><th>transaction_date</th><th>store_location</th><th>product_category</th><th>product_type</th><th>unit_price</th><th>transaction_qty</th></tr>
+      <tr><td>1</td><td>2023-01-01</td><td>Astoria</td><td>Coffee</td><td>Latte</td><td>4.50</td><td>2</td></tr>
+      <tr><td>2</td><td>2023-01-01</td><td>Astoria</td><td>Tea</td><td>Green Tea</td><td>3.00</td><td>1</td></tr>
+      <tr><td>3</td><td>2023-01-01</td><td>Hell's Kitchen</td><td>Coffee</td><td>Espresso</td><td>3.00</td><td>1</td></tr>
+      <tr><td>4</td><td>2023-01-02</td><td>Lower Manhattan</td><td>Bakery</td><td>Croissant</td><td>3.75</td><td>3</td></tr>
+      <tr><td>5</td><td>2023-01-02</td><td>Hell's Kitchen</td><td>Coffee</td><td>Mocha</td><td>4.95</td><td>1</td></tr>
+    </table>
+    <div style="margin-top:16px;font-size:23px;color:#9ca3af;font-family:'DM Mono',monospace;line-height:1.5">File: coffee-shop-sales.csv &middot; 149,116 rows &middot; 10 columns<br>Stores: Astoria &middot; Hell's Kitchen &middot; Lower Manhattan &nbsp;&bull;&nbsp; Date range: Jan&ndash;Jun 2023</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  PANDAS BUILDING BLOCKS
+============================================================ -->
+<section data-label="Pandas Building Blocks" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Pandas Building Blocks</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1250px">
+      <div class="bb"><div class="bb-kw">import pandas as pd</div><div class="bb-desc">Get pandas, call it pd</div></div>
+      <div class="bb"><div class="bb-kw">pd.read_csv(...)</div><div class="bb-desc">Load a file into a DataFrame</div></div>
+      <div class="bb"><div class="bb-kw">df.head() / .info()</div><div class="bb-desc">Peek at the data</div></div>
+      <div class="bb"><div class="bb-kw">df[col] / df.loc[...]</div><div class="bb-desc">Select columns and rows</div></div>
+      <div class="bb"><div class="bb-kw">df[df[col] &gt; x]</div><div class="bb-desc">Boolean filter</div></div>
+      <div class="bb"><div class="bb-kw">df.groupby(...)</div><div class="bb-desc">Aggregate by group</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  LOADING THE DATA
+============================================================ -->
+<section data-label="Loading the Data" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.<span class="fn">read_csv</span>(<span class="str">"coffee-shop-sales.csv"</span>)
+
+df.<span class="fn">head</span>()</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I get a CSV into pandas?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>import pandas as pd</strong> &mdash; the universal alias</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>pd.read_csv(path)</strong> reads any CSV &mdash; local or URL</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>df.head()</strong> shows the first 5 rows &mdash; your sanity check</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  FIRST LOOK - HEAD, TAIL, SHAPE
+============================================================ -->
+<section data-label="head tail shape" class="split">
+  <div class="code-l">
+    <pre class="cb">df.<span class="fn">head</span>()      <span class="cm"># first 5 rows</span>
+df.<span class="fn">tail</span>(<span class="num">3</span>)     <span class="cm"># last 3 rows</span>
+
+df.shape       <span class="cm"># (149116, 10) &rarr; rows, columns</span>
+<span class="fn">len</span>(df)        <span class="cm"># 149116</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What's actually in this thing?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.head(n)</strong> / <strong>.tail(n)</strong> &mdash; first/last n rows (default 5)</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>.shape</strong> is a (rows, cols) tuple</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>len(df)</strong> is just the row count &mdash; easier to remember</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12  FIRST LOOK - INFO & DESCRIBE
+============================================================ -->
+<section data-label="info and describe" class="split">
+  <div class="code-l">
+    <pre class="cb">df.<span class="fn">info</span>()
+<span class="cm"># &rarr; column names + types + non-null counts</span>
+
+df.<span class="fn">describe</span>()
+<span class="cm"># &rarr; count, mean, std, min, max</span>
+<span class="cm">#   for each numeric column</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What are the columns and what's in them?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.info()</strong> shows types and how many values are present</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>.describe()</strong> is your 30-second summary of every number</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Run these two on <strong>every</strong> new dataset</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     13  COLUMNS AND DTYPES
+============================================================ -->
+<section data-label="columns and dtypes" class="split">
+  <div class="code-l">
+    <pre class="cb">df.columns
+<span class="cm"># Index(['transaction_id',</span>
+<span class="cm">#        'transaction_date', ...])</span>
+
+df.dtypes
+<span class="cm"># transaction_id      int64</span>
+<span class="cm"># transaction_date    object</span>
+<span class="cm"># unit_price          float64</span>
+<span class="cm"># transaction_qty     int64</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What does each column hold?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>int64</strong> = whole numbers</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>float64</strong> = decimals</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>object</strong> = usually text (str)</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at"><strong>datetime64</strong> = dates &mdash; we'll convert transaction_date shortly</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14  SECTION: SELECTING & FILTERING
+============================================================ -->
+<section data-label="Selecting and Filtering" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 03</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Selecting &amp;<br><span style="color:#2899A4">filtering</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     15  SELECTING ONE COLUMN
+============================================================ -->
+<section data-label="Selecting One Column" class="split">
+  <div class="code-l">
+    <pre class="cb">df[<span class="str">"unit_price"</span>]            <span class="cm"># the whole column</span>
+df[<span class="str">"unit_price"</span>].<span class="fn">head</span>()     <span class="cm"># first 5</span>
+df[<span class="str">"unit_price"</span>].<span class="fn">mean</span>()     <span class="cm"># average &rarr; 3.38</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I grab one column?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>df["col_name"]</strong> &mdash; square brackets, name in quotes</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">A single column is a <strong>Series</strong> &mdash; like a list with an index</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Series have methods &mdash; <strong>.mean()</strong>, <strong>.sum()</strong>, <strong>.max()</strong>, <strong>.value_counts()</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     16  SELECTING MULTIPLE COLUMNS
+============================================================ -->
+<section data-label="Selecting Multiple Columns" class="split">
+  <div class="code-l">
+    <pre class="cb">df[[<span class="str">"product_category"</span>,
+    <span class="str">"unit_price"</span>,
+    <span class="str">"transaction_qty"</span>]].<span class="fn">head</span>()</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I select a subset of columns?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Pass a <strong>list of names</strong> inside df[&hellip;] &mdash; note the <strong>double brackets</strong></div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Returns a smaller DataFrame</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Order of names in the list = order in the output</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     17  LOC VS ILOC
+============================================================ -->
+<section data-label="loc vs iloc" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">.loc vs .iloc</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;width:100%">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:32px 36px;border-top:4px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;font-size:26px;color:#2899A4;margin-bottom:12px">.loc[ ]  &mdash; by label</div>
+          <div style="font-size:24px;color:#6b7280;line-height:1.5">Use the actual values of the index and column names. "Give me the rows where the index is X."</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:32px 36px;border-top:4px solid #E05FA0">
+          <div style="font-family:'DM Mono',monospace;font-size:26px;color:#E05FA0;margin-bottom:12px">.iloc[ ]  &mdash; by position</div>
+          <div style="font-size:24px;color:#6b7280;line-height:1.5">Use integer positions. "Give me row number 5."</div>
+        </div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:28px 36px;margin-bottom:20px">
+        <pre class="cb" style="font-size:23px">df.<span class="fn">loc</span>[<span class="num">0</span>:<span class="num">4</span>, <span class="str">"unit_price"</span>]     <span class="cm"># rows 0..4 (inclusive) by label</span>
+df.<span class="fn">iloc</span>[<span class="num">0</span>:<span class="num">5</span>, <span class="num">3</span>]              <span class="cm"># rows 0..4 by position, column 3</span></pre>
+      </div>
+      <div style="font-size:25px;color:#6b7280"><strong style="color:#0d1b2a">90% of the time you'll use boolean filters</strong> instead of either &mdash; next slide.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     18  BOOLEAN FILTERING - THE WORKHORSE
+============================================================ -->
+<section data-label="Boolean Filtering" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># All transactions in Hell's Kitchen</span>
+hk = df[df[<span class="str">"store_location"</span>] == <span class="str">"Hell's Kitchen"</span>]
+
+<span class="cm"># All transactions over $10</span>
+big = df[df[<span class="str">"transaction_qty"</span>]
+         * df[<span class="str">"unit_price"</span>] &gt; <span class="num">10</span>]
+
+hk.shape    <span class="cm"># (49894, 10)</span>
+big.shape   <span class="cm"># (12831, 10)</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I keep only the rows I care about?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Inside df[&hellip;] write a <strong>condition</strong> &mdash; pandas keeps rows where it's True</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Reads exactly like SQL's <strong>WHERE</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The condition is itself a Series of True/False &mdash; useful to know when things break</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     19  MULTIPLE CONDITIONS - THE PARENS TRAP
+============================================================ -->
+<section data-label="The Parens Trap" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Hell's Kitchen AND lattes</span>
+q = df[
+    (df[<span class="str">"store_location"</span>] == <span class="str">"Hell's Kitchen"</span>)
+    <span class="hi">&amp;</span> (df[<span class="str">"product_type"</span>] == <span class="str">"Latte"</span>)
+]
+
+<span class="cm"># Coffee OR Tea</span>
+q = df[
+    (df[<span class="str">"product_category"</span>] == <span class="str">"Coffee"</span>)
+    <span class="hi">|</span> (df[<span class="str">"product_category"</span>] == <span class="str">"Tea"</span>)
+]</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I combine filters?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Use <strong>&amp;</strong> for AND and <strong>|</strong> for OR (not and / or &mdash; pandas is different)</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>Every condition in its own parentheses</strong> &mdash; the #1 pandas error</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>~</strong> means NOT &mdash; ~(df["x"] == 5)</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     20  EXERCISE: FILTER THE COFFEE DATA
+============================================================ -->
+<section data-label="Exercise: Filter Coffee Data" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Find: all coffee transactions in Astoria</span>
+<span class="cm"># where the quantity is at least 2</span>
+
+result = df[
+    <span class="pl">[?]</span>
+]
+
+<span class="fn">print</span>(result.shape)
+<span class="fn">print</span>(result.<span class="fn">head</span>())</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Coffee transactions in Astoria, qty &ge; 2</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Three conditions: category == "Coffee", store == "Astoria", qty &ge; 2</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Combine with <strong>&amp;</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Each condition in its <strong>own parentheses</strong> &mdash; expected ~5,800 rows</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     21  VALUE_COUNTS - THE FREE WIN
+============================================================ -->
+<section data-label="value_counts" class="split">
+  <div class="code-l">
+    <pre class="cb">df[<span class="str">"product_category"</span>].<span class="fn">value_counts</span>()
+<span class="cm"># Coffee    58416</span>
+<span class="cm"># Tea       45449</span>
+<span class="cm"># Bakery    22796</span>
+<span class="cm"># ...</span>
+
+df[<span class="str">"store_location"</span>].<span class="fn">value_counts</span>()
+<span class="cm"># Astoria            50599</span>
+<span class="cm"># Hell's Kitchen     49894</span>
+<span class="cm"># Lower Manhattan    48623</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many of each? &mdash; without writing groupby</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.value_counts()</strong> is the fastest way to summarise a column</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Works on any Series</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Use <strong>.value_counts(normalize=True)</strong> for percentages</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     22  BREAK
+============================================================ -->
+<section data-label="Break" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="font-size:80px;margin-bottom:28px">&#9749;</div>
+    <div style="font-size:72px;font-weight:700;color:#fff;letter-spacing:-.02em">10 minute break</div>
+    <div style="width:60px;height:4px;background:#E05FA0;margin:36px auto 0"></div>
+    <div style="font-size:24px;color:#64748b;margin-top:24px">Back soon</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     23  SECTION: RESHAPING & DERIVING
+============================================================ -->
+<section data-label="Reshaping and Deriving" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 04</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Reshaping &amp;<br><span style="color:#2899A4">deriving</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:760px;line-height:1.5">Adding columns, vectorised maths, sorting</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     24  ADDING A COLUMN
+============================================================ -->
+<section data-label="Adding a Column" class="split">
+  <div class="code-l">
+    <pre class="cb">df[<span class="str">"revenue"</span>] = (df[<span class="str">"transaction_qty"</span>]
+                 * df[<span class="str">"unit_price"</span>])
+
+df[[<span class="str">"product_type"</span>, <span class="str">"transaction_qty"</span>,
+    <span class="str">"unit_price"</span>, <span class="str">"revenue"</span>]].<span class="fn">head</span>()</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I add a derived column?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>df["new_col"] = expression</strong> &mdash; that's it</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Pandas runs the expression on <strong>every row at once</strong> &mdash; more on this next slide</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The new column lives on the DataFrame from then on</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     25  VECTORISATION - THE "AHA" MOMENT
+============================================================ -->
+<section data-label="Vectorisation" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Vectorisation &mdash; the "aha" moment</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1700px;width:100%">
+      <div style="font-size:25px;color:#6b7280;margin-bottom:24px;text-align:center">If you've used Excel, you've already used vectorisation.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="background:#0d1b2a;border-radius:14px;overflow:hidden;border-top:4px solid #E05FA0">
+          <div style="padding:14px 24px;background:#0f2236;font-size:22px;color:#fda4af;font-family:'DM Mono',monospace;letter-spacing:.06em">THE WRONG WAY &#10007;</div>
+          <pre class="cb" style="padding:26px 30px;font-size:20px">revenue = []
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(df)):
+    r = (df[<span class="str">"transaction_qty"</span>][i]
+         * df[<span class="str">"unit_price"</span>][i])
+    revenue.<span class="fn">append</span>(r)
+df[<span class="str">"revenue"</span>] = revenue
+<span class="cm"># ~12 seconds on 149k rows. Don't.</span></pre>
+        </div>
+        <div style="background:#0d1b2a;border-radius:14px;overflow:hidden;border-top:4px solid #4ade80">
+          <div style="padding:14px 24px;background:#0f2236;font-size:22px;color:#4ade80;font-family:'DM Mono',monospace;letter-spacing:.06em">THE RIGHT WAY &#10003;</div>
+          <pre class="cb" style="padding:26px 30px;font-size:20px">df[<span class="str">"revenue"</span>] = (df[<span class="str">"transaction_qty"</span>]
+                 * df[<span class="str">"unit_price"</span>])
+
+<span class="cm"># ~0.05 seconds. 240&times; faster.</span></pre>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;margin-top:24px">Pandas does the loop in C, not Python. <strong style="color:#0d1b2a">Multiply two columns directly</strong> &mdash; never loop unless you have to.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     26  SORTING
+============================================================ -->
+<section data-label="Sorting" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Sort one column, descending</span>
+df.<span class="fn">sort_values</span>(<span class="str">"revenue"</span>, ascending=<span class="kw">False</span>).<span class="fn">head</span>(<span class="num">10</span>)
+
+<span class="cm"># Sort by two columns</span>
+df.<span class="fn">sort_values</span>(
+    [<span class="str">"store_location"</span>, <span class="str">"revenue"</span>],
+    ascending=[<span class="kw">True</span>, <span class="kw">False</span>],
+).<span class="fn">head</span>(<span class="num">10</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I sort the table?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.sort_values(col)</strong> sorts ascending by default</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>ascending=False</strong> for descending</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Pass a <strong>list</strong> to sort by multiple columns</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Default sort is non-destructive &mdash; assign back to keep it</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     27  DROPPING COLUMNS
+============================================================ -->
+<section data-label="Dropping Columns" class="split">
+  <div class="code-l">
+    <pre class="cb">df = df.<span class="fn">drop</span>(columns=[<span class="str">"transaction_id"</span>])
+
+<span class="cm"># Or pick the ones to keep</span>
+df = df[[<span class="str">"transaction_date"</span>, <span class="str">"store_location"</span>,
+         <span class="str">"product_category"</span>, <span class="str">"revenue"</span>]]</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I remove a column?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.drop(columns=[&hellip;])</strong> removes by name</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Sometimes simpler to <strong>list the ones you want</strong> and reassign</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Either way &mdash; the column you removed is gone from df</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     28  PARSING DATES
+============================================================ -->
+<section data-label="Parsing Dates" class="split">
+  <div class="code-l">
+    <pre class="cb">df[<span class="str">"transaction_date"</span>] = pd.<span class="fn">to_datetime</span>(
+    df[<span class="str">"transaction_date"</span>])
+
+df[<span class="str">"hour"</span>] = pd.<span class="fn">to_datetime</span>(
+    df[<span class="str">"transaction_time"</span>],
+    format=<span class="str">"%H:%M:%S"</span>).dt.hour
+
+df[<span class="str">"weekday"</span>] = df[<span class="str">"transaction_date"</span>].dt.<span class="fn">day_name</span>()
+df[<span class="str">"month"</span>]   = df[<span class="str">"transaction_date"</span>].dt.<span class="fn">month_name</span>()</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I work with dates?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>pd.to_datetime(col)</strong> converts strings to real datetimes</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Once converted, <strong>.dt.X</strong> gives you year/month/day/hour/weekday for free</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>Always parse dates first</strong> &mdash; most date bugs come from forgetting this</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     29  MISSING VALUES
+============================================================ -->
+<section data-label="Missing Values" class="split">
+  <div class="code-l">
+    <pre class="cb">df.<span class="fn">isna</span>().<span class="fn">sum</span>()
+<span class="cm"># unit_price         0</span>
+<span class="cm"># promo_code    142891   &larr; lots missing</span>
+
+<span class="cm"># Drop rows missing a required column</span>
+df.<span class="fn">dropna</span>(subset=[<span class="str">"unit_price"</span>, <span class="str">"transaction_qty"</span>])
+
+<span class="cm"># Or fill with a default</span>
+df[<span class="str">"promo_code"</span>] = df[<span class="str">"promo_code"</span>].<span class="fn">fillna</span>(<span class="str">"none"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What do I do about empty cells?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.isna()</strong> returns True where missing &mdash; <strong>.sum()</strong> totals them</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>.dropna(subset=[&hellip;])</strong> drops rows missing in those columns</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at"><strong>.fillna(x)</strong> fills with a default</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Decide per column &mdash; sometimes empty means something</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     30  SECTION: GROUPBY & AGGREGATE
+============================================================ -->
+<section data-label="GroupBy and Aggregate" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 05</div>
+  <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">GroupBy &amp;<br><span style="color:#2899A4">aggregate</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:780px;line-height:1.5">The pandas finale &mdash; your SQL GROUP BY muscle memory</div>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     31  GROUPBY - THE WORKHORSE
+============================================================ -->
+<section data-label="groupby" class="split">
+  <div class="code-l">
+    <pre class="cb">df.<span class="fn">groupby</span>(<span class="str">"store_location"</span>)[<span class="str">"revenue"</span>].<span class="fn">sum</span>()
+<span class="cm"># Astoria            199824.45</span>
+<span class="cm"># Hell's Kitchen     236511.17</span>
+<span class="cm"># Lower Manhattan    230057.34</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What's the daily takings by store?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>df.groupby("col")</strong> segments rows by unique values</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Pick the column to aggregate, then call <strong>.sum()</strong> / <strong>.mean()</strong> / <strong>.count()</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Result is a Series indexed by group</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Same idea as SQL's <strong>GROUP BY</strong></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     32  MULTIPLE AGGREGATIONS
+============================================================ -->
+<section data-label="Multiple Aggregations" class="split">
+  <div class="code-l">
+    <pre class="cb">df.<span class="fn">groupby</span>(<span class="str">"store_location"</span>)[<span class="str">"revenue"</span>] \
+  .<span class="fn">agg</span>([<span class="str">"sum"</span>, <span class="str">"mean"</span>, <span class="str">"count"</span>])
+
+df.<span class="fn">groupby</span>(<span class="str">"product_category"</span>).<span class="fn">agg</span>(
+    total_revenue=(<span class="str">"revenue"</span>, <span class="str">"sum"</span>),
+    avg_price=(<span class="str">"unit_price"</span>, <span class="str">"mean"</span>),
+    n_transactions=(<span class="str">"transaction_id"</span>, <span class="str">"count"</span>),
+)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I get sum + average + count in one go?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>.agg([&hellip;])</strong> runs multiple aggregations at once</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Named-tuple form lets you <strong>name the output columns</strong></div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Result is a DataFrame &mdash; chain <strong>.sort_values()</strong> straight after</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     33  GROUPBY + FILTER - SQL HAVING EQUIVALENT
+============================================================ -->
+<section data-label="groupby chain" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Top 5 product types by revenue</span>
+top5 = (
+    df.<span class="fn">groupby</span>(<span class="str">"product_type"</span>)[<span class="str">"revenue"</span>]
+      .<span class="fn">sum</span>()
+      .<span class="fn">sort_values</span>(ascending=<span class="kw">False</span>)
+      .<span class="fn">head</span>(<span class="num">5</span>)
+)
+<span class="fn">print</span>(top5)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What are the top 5 products by revenue?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Chain methods on multiple lines &mdash; wrap in parentheses</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">groupby &rarr; sum &rarr; sort &rarr; head &mdash; read top to bottom</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">This is the <strong>canonical pandas idiom</strong> &mdash; you'll write it constantly</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     34  EXERCISE: BUSIEST HOUR
+============================================================ -->
+<section data-label="Exercise: Busiest Hour" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Hour of day with highest revenue</span>
+<span class="cm"># at Hell's Kitchen &mdash; use the `hour` column</span>
+
+hk = df[<span class="pl">[?]</span>]
+by_hour = (hk.<span class="fn">groupby</span>(<span class="pl">[?]</span>)[<span class="pl">[?]</span>]
+             .<span class="fn">sum</span>()
+             .<span class="fn">sort_values</span>(<span class="pl">[?]</span>))
+
+<span class="fn">print</span>(by_hour.<span class="fn">head</span>(<span class="num">3</span>))</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Busiest hour at Hell's Kitchen</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Filter to Hell's Kitchen first</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">groupby <strong>hour</strong>, aggregate <strong>revenue</strong> with .sum()</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Sort descending, take <strong>.head(3)</strong> &mdash; morning rush dominates</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     35  EXERCISE: REVENUE BY WEEKDAY
+============================================================ -->
+<section data-label="Exercise: Revenue by Weekday" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="cm"># Average daily revenue by day of the week</span>
+
+daily = (df.<span class="fn">groupby</span>([<span class="pl">[?]</span>, <span class="pl">[?]</span>])[<span class="pl">[?]</span>]
+            .<span class="fn">sum</span>()
+            .<span class="fn">reset_index</span>())
+
+by_weekday = (daily.<span class="fn">groupby</span>(<span class="pl">[?]</span>)[<span class="pl">[?]</span>]
+                   .<span class="fn">mean</span>()
+                   .<span class="fn">sort_values</span>(<span class="pl">[?]</span>))
+
+<span class="fn">print</span>(by_weekday)</pre>
+  </div>
+  <div class="code-r">
+    <div class="ex-badge">Exercise</div>
+    <p class="qlbl">Average daily revenue by weekday</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Group by <strong>transaction_date + weekday</strong> for a per-day total</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Then group those totals by <strong>weekday</strong> and take the mean</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Sort descending &mdash; weekends busier than midweek</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  SECTION: ERRORS & TRY/EXCEPT
+============================================================ -->
+<section data-label="Errors and try except" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 06</div>
+  <h2 style="font-size:90px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Errors &amp;<br><span style="color:#2899A4">try / except</span></h2>
+  <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     37  PANDAS ERRORS YOU'LL MEET
+============================================================ -->
+<section data-label="Pandas Errors" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Pandas errors you'll meet</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <table class="ot" style="max-width:1700px">
+      <tr><th>Error</th><th>What it means</th><th>Likely fix</th></tr>
+      <tr><td><span class="op">KeyError: 'cust_id'</span></td><td>Column doesn't exist</td><td>Check spelling &mdash; df.columns shows them all</td></tr>
+      <tr><td><span class="op">TypeError after .dt.hour</span></td><td>Column isn't a datetime</td><td>You forgot pd.to_datetime(...) first</td></tr>
+      <tr><td><span class="op">SettingWithCopyWarning</span></td><td>Pandas isn't sure what you mean</td><td>See next slide &mdash; usually safe to ignore</td></tr>
+      <tr><td><span class="op">ValueError: cannot convert</span></td><td>Type mismatch in a filter</td><td>Make sure both sides match (str vs int)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     38  SETTINGWITHCOPYWARNING
+============================================================ -->
+<section data-label="SettingWithCopyWarning" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The most-Googled warning in data</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div style="background:#0d1b2a;border-radius:14px;padding:28px 36px;margin-bottom:24px">
+        <pre class="cb" style="font-size:22px"><span class="hi">SettingWithCopyWarning:</span>
+A value is trying to be set on a copy of a slice from a DataFrame.</pre>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:32px 40px">
+        <div class="si"><div class="sd"></div><div class="st">80% of the time it's <strong>harmless</strong> &mdash; your code worked</div></div>
+        <div class="si"><div class="sd"></div><div class="st">20% of the time you assigned to a <strong>copy</strong> of the data, not the original</div></div>
+        <div class="si"><div class="sd"></div><div class="st">The safe fix: use <strong>.loc[...]</strong> instead of chained brackets, or call <strong>.copy()</strong> after a filter</div></div>
+      </div>
+      <div style="font-size:25px;color:#6b7280;font-style:italic;margin-top:24px">If it's blocking your work, <strong style="color:#0d1b2a">paste it into Claude with your code</strong>. It's a warning, not an error.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     39  TRY / EXCEPT
+============================================================ -->
+<section data-label="try except" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">for</span> value <span class="kw">in</span> df[<span class="str">"unit_price"</span>]:
+    <span class="kw">try</span>:
+        n = <span class="fn">float</span>(value)
+    <span class="kw">except</span> ValueError:
+        <span class="fn">print</span>(<span class="str">f"Skipping bad value: {value}"</span>)</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">What if some values are unparseable?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>try:</strong> runs the risky code</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at"><strong>except ERROR_TYPE:</strong> catches a specific failure</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">Always catch a <strong>specific</strong> exception &mdash; never a bare except:</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Most pandas work doesn't need this &mdash; but it's there when you do</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     40  SECTION: USING CLAUDE WITH PANDAS
+============================================================ -->
+<section data-label="Using Claude with Pandas" class="sec-div">
+  <div style="font-size:24px;font-family:'DM Mono',monospace;color:#E05FA0;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">Section 07</div>
+  <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Using Claude<br><span style="color:#E05FA0">with pandas</span></h2>
+  <div style="font-size:26px;color:#64748b;margin-top:28px;max-width:820px;line-height:1.5">Pandas has 600+ methods. Claude knows them all. Here's how to ask.</div>
+  <div style="width:60px;height:4px;background:#2899A4;margin-top:36px"></div>
+</section>
+
+<!-- ============================================================
+     41  THE TWO WAYS CLAUDE HELPS WITH PANDAS
+============================================================ -->
+<section data-label="Two Ways Claude Helps" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Two ways Claude helps with pandas</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;width:100%">
+      <div class="grid2" style="margin-bottom:32px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4">
+          <div style="font-size:48px;margin-bottom:16px">&#128270;</div>
+          <h3 style="font-size:32px;font-weight:700;color:#0d1b2a;margin-bottom:12px">Method finder</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">"I have a DataFrame and I want to do X. What's the pandas method?"</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0">
+          <div style="font-size:48px;margin-bottom:16px">&#128027;</div>
+          <h3 style="font-size:32px;font-weight:700;color:#0d1b2a;margin-bottom:12px">Debugger</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">"I got this error / unexpected output. Here's my code and what I expected. What's wrong?"</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;font-style:italic">Pandas is too big to memorise. The skill is <strong style="color:#0d1b2a">knowing what to ask</strong> &mdash; and recognising the right answer.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     42  SHOWING CLAUDE YOUR DATAFRAME
+============================================================ -->
+<section data-label="Showing Claude your DataFrame" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Showing Claude your DataFrame</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden">
+        <div style="background:#f0fafb;border-bottom:1px solid #e5e7eb;padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">You</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"Here's the first 3 rows of my DataFrame as a dict: <span style="font-family:'DM Mono',monospace;color:#6b7280">[paste df.head(3).to_dict()]</span>. How do I find the average revenue per product category?"</div>
+        </div>
+        <div style="padding:24px 36px">
+          <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Claude</div>
+          <div style="font-size:25px;color:#374151;line-height:1.5">"Use <span style="font-family:'DM Mono',monospace;color:#6b7280">df.groupby('product_category')['revenue'].mean().sort_values(ascending=False)</span>. This groups by category, averages revenue, and sorts highest first."</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:24px;color:#6b7280;font-style:italic;margin-top:28px">Paste the <strong style="color:#0d1b2a">shape</strong> of your data, not all 150k rows. <span style="font-family:'DM Mono',monospace;font-style:normal">.head(3).to_dict()</span> gives Claude exactly enough.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     43  ASK BETTER QUESTIONS
+============================================================ -->
+<section data-label="Ask Better Questions" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Ask better questions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">When Claude gives you pandas, <strong style="color:#0d1b2a">don't stop there</strong> &mdash; the follow-up is where you actually learn.</div>
+    <div class="grid3" style="max-width:1600px">
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div class="card-ttl" style="font-size:26px">"Explain each line"</div>
+        <div class="card-body" style="font-size:24px;margin-top:8px">Ask Claude to comment every method call</div>
+      </div>
+      <div class="card" style="border-top:4px solid #E05FA0">
+        <div class="card-ttl" style="font-size:26px">"Why is this the right shape?"</div>
+        <div class="card-body" style="font-size:24px;margin-top:8px">Ask whether the result is a Series or DataFrame, and why</div>
+      </div>
+      <div class="card" style="border-top:4px solid #2899A4">
+        <div class="card-ttl" style="font-size:26px">"Is there a more idiomatic way?"</div>
+        <div class="card-body" style="font-size:24px;margin-top:8px">Pandas often has 3 ways &mdash; ask for the most readable</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:26px;color:#6b7280;font-style:italic;margin-top:32px">The best Python answers come from asking the best pandas questions.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     44  EXERCISE: ASK CLAUDE FOR A CHART-READY SUMMARY
+============================================================ -->
+<section data-label="Exercise: Ask Claude" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Your turn &mdash; ask Claude</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1500px;width:100%">
+      <div class="ex-badge">Exercise &middot; 10 min</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:26px 32px;border-left:5px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">STEP 1</div>
+          <div style="font-size:25px;color:#374151;line-height:1.45">Paste 3 rows of your DataFrame and ask Claude: "Give me a one-line pandas expression for revenue by <strong>product_category</strong> per <strong>month</strong>, sorted by month."</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:26px 32px;border-left:5px solid #E05FA0">
+          <div style="font-family:'DM Mono',monospace;color:#E05FA0;font-size:22px;margin-bottom:8px">STEP 2</div>
+          <div style="font-size:25px;color:#374151;line-height:1.45">Run it in your notebook. Read the result. Does each row make sense?</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:26px 32px;border-left:5px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px;margin-bottom:8px">STEP 3</div>
+          <div style="font-size:25px;color:#374151;line-height:1.45">Ask Claude: "Now reshape this into a table with months as rows and categories as columns." &mdash; a preview of next session.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  SECTION: WRAP-UP
+============================================================ -->
+<section data-label="Wrap Up" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">Section 08</div>
+    <h2 style="font-size:84px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Wrap-up</h2>
+    <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px;margin-bottom:48px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:1400px">
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">read_csv / head / info</div>
+        <div style="font-size:23px;color:#94a3b8">Load and peek at any dataset</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">df[col] / df.loc</div>
+        <div style="font-size:23px;color:#94a3b8">Select columns and rows</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">df[df[col] &gt; x]</div>
+        <div style="font-size:23px;color:#94a3b8">Filter rows with conditions</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">to_datetime / .dt</div>
+        <div style="font-size:23px;color:#94a3b8">Parse dates, extract hour/weekday</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">groupby / agg</div>
+        <div style="font-size:23px;color:#94a3b8">SQL's GROUP BY in one line</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:20px 24px">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#7dd3fc;margin-bottom:6px">Claude + df.head().to_dict()</div>
+        <div style="font-size:23px;color:#94a3b8">Get unstuck without memorising</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:40px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     46  THE ART-OF-THE-POSSIBLE BREADCRUMB
+============================================================ -->
+<section data-label="Art of the Possible" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can already do this</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1400px;width:100%">
+      <div style="font-size:28px;color:#374151;margin-bottom:28px;text-align:center">You can already do this:</div>
+      <div style="background:#0d1b2a;border-radius:14px;padding:36px 44px">
+        <pre class="cb" style="font-size:24px">(df.<span class="fn">groupby</span>(<span class="str">"product_category"</span>)[<span class="str">"revenue"</span>]
+   .<span class="fn">sum</span>()
+   .<span class="fn">sort_values</span>(ascending=<span class="kw">False</span>)
+   .<span class="fn">to_excel</span>(<span class="str">"category_summary.xlsx"</span>))</pre>
+      </div>
+      <div style="text-align:center;font-size:25px;color:#6b7280;font-style:italic;margin-top:28px">Four lines. Your boss gets a sorted Excel summary at any hour, on any data slice. You've automated yesterday's analyst.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     47  YOU CAN ALL NOW...
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Load a real dataset into pandas</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Inspect, select, and filter rows and columns</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Add derived columns using vectorised maths</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Parse dates and handle missing values</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Aggregate by group and export the result</span>
+        </div>
+      </div>
+      <img src="../sql-for-mbas/assets/Purple_small.jpg" style="width:78%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb;margin:0 auto">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     48  COMING UP NEXT TIME - VISUALISATION
+============================================================ -->
+<section data-label="Coming Up Next" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Coming up next time</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="max-width:1600px;width:100%">
+      <div style="text-align:center;font-size:26px;color:#6b7280;margin-bottom:36px">Final session. We turn the numbers into pictures &mdash; and meet the <strong style="color:#0d1b2a">art of the possible</strong>.</div>
+      <div class="grid2">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #2899A4">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 04</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">Matplotlib, Seaborn, Plotly</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">Three charting libraries, three flavours.</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:36px 40px;border-top:4px solid #E05FA0">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px">Session 04</div>
+          <h3 style="font-size:38px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.1">Capstone</h3>
+          <div style="font-size:25px;color:#6b7280;line-height:1.5">Build a coffee shop dashboard from scratch in 40 minutes.</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:26px;color:#0d1b2a;font-style:italic;margin-top:36px">Plus: where Python takes you next &mdash; automation, scraping, ML, APIs.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     49  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks &mdash; one to go!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="../sql-for-mbas/assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "Private and Confidential"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('py-mbas-03-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('py-mbas-03-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>
