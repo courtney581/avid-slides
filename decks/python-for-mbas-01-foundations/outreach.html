@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python for MBAs &mdash; Sample Slides &mdash; avidLearning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../../shared/deck-stage.js"></script>
+<style>
+
+section[style*="background:#fafafa"] .slide-num,
+section[style*="background: #fafafa"] .slide-num,
+section.full-slide .slide-num {
+  color: rgba(0,0,0,0.2);
+}
+
+.slide-footer-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 10;
+}
+section[style*="background:#fafafa"] .slide-footer-bar,
+section[style*="background: #fafafa"] .slide-footer-bar {
+  color: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.04);
+}
+/* Tweaks panel */
+#tweaks-panel {
+  position: fixed; bottom: 72px; right: 24px;
+  width: 340px; background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  padding: 24px; z-index: 999999; display: none;
+  font-family: 'DM Sans', sans-serif;
+}
+#tweaks-panel h3 { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; }
+#tweaks-panel label { font-size: 24px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+#tweaks-panel input[type="text"] { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 24px; color: #111827; font-family: inherit; margin-bottom: 16px; }
+#tweaks-panel input[type="text"]:focus { outline: none; border-color: #2899A4; }
+.tweak-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.tweak-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #2899A4; cursor: pointer; }
+.tweak-toggle span { font-size: 14px; color: #374151; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000}
+section{font-family:'DM Sans',sans-serif;background:#fafafa;color:#111827}
+
+.stripe{height:6px;background:linear-gradient(90deg,#2899A4 0%,#E05FA0 100%);flex-shrink:0}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 80px 0;flex-shrink:0}
+.hdr .ttl{font-size:44px;font-weight:700;color:#111827;line-height:1.1}
+.logo{height:42px}
+.body{padding:36px 80px;flex:1;display:flex;flex-direction:column;min-height:0}
+.full-slide{display:flex;flex-direction:column;height:100%}
+
+/* Section dividers */
+.sec-div{background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:center;padding:0 120px}
+
+/* Split code layout */
+.split{display:flex!important;height:100%}
+.code-l{width:52%;background:#0f1e2d;display:flex;flex-direction:column;justify-content:center;padding:52px 52px}
+.code-r{width:48%;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;background:#fff}
+
+/* Code block */
+pre.cb{font-family:'DM Mono',monospace;font-size:25px;line-height:1.75;color:#e2e8f0;white-space:pre}
+.kw{color:#7dd3fc}.fn{color:#4ade80}.str{color:#fda4af}.num{color:#fdba74}.hi{color:#fbbf24;font-weight:600}.cm{color:#4a5e70;font-style:italic}.pl{color:#64748b;font-style:italic}
+
+/* Annotations */
+.ai{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+.ad{width:36px;height:36px;border-radius:50%;background:#2899A4;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.at{font-size:24px;color:#374151;line-height:1.35}
+.at strong{color:#2899A4;font-weight:600}
+.qlbl{font-size:26px;font-weight:600;color:#111827;margin-bottom:32px;line-height:1.35;font-style:italic;quotes:"\201C""\201D";padding:0}
+.qlbl::before{content:open-quote}.qlbl::after{content:close-quote}
+
+/* Building blocks */
+.bb{display:flex;align-items:center;gap:20px;padding:14px 22px;background:#fff;border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
+.bb-kw{font-family:'DM Mono',monospace;font-size:24px;font-weight:600;color:#7dd3fc;background:#0d1b2a;padding:6px 18px;border-radius:6px;min-width:300px;text-align:center}
+.bb-desc{font-size:24px;color:#374151}
+
+/* Exercise */
+.ex-badge{background:#E05FA0;color:#fff;font-size:24px;font-weight:600;padding:6px 18px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:24px}
+
+/* Data table */
+.dt{width:100%;border-collapse:collapse;font-size:24px}
+.dt th{background:#0d1b2a;color:#fff;padding:10px 14px;text-align:left;font-weight:500;font-size:24px;white-space:nowrap}
+.dt td{padding:9px 14px;border-bottom:1px solid #e5e7eb;color:#374151}
+.dt tr:nth-child(even) td{background:#f9fafb}
+
+/* Operator / aggregate tables */
+.ot{width:100%;border-collapse:collapse;font-size:24px}
+.ot th{background:#0d1b2a;color:#fff;padding:12px 20px;text-align:left;font-weight:500}
+.ot td{padding:11px 20px;border-bottom:1px solid #e5e7eb}
+.op{font-family:'DM Mono',monospace;background:#0d1b2a;color:#7dd3fc;padding:4px 12px;border-radius:4px;font-size:24px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:28px 32px}
+.card-num{font-size:52px;font-weight:700;color:#e5e7eb;line-height:1;margin-bottom:6px}
+.card-ttl{font-size:24px;font-weight:600;color:#0d1b2a;margin-bottom:8px}
+.card-body{font-size:24px;color:#6b7280;line-height:1.55}
+
+/* Grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+/* Summary bullets */
+.si{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.sd{width:10px;height:10px;border-radius:50%;background:#2899A4;flex-shrink:0;margin-top:9px}
+.st{font-size:24px;color:#374151;line-height:1.4}
+.st strong{color:#2899A4}
+
+/* Outreach watermark — tiled diagonal "Sample slides" */
+deck-stage > section::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:50;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='320'><text x='0' y='180' font-family='DM Mono, monospace' font-size='42' font-weight='700' fill='rgba(40,153,164,0.18)' transform='rotate(-28 260 160)'>Sample slides</text></svg>");
+  background-repeat:repeat;
+}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     01  TITLE
+============================================================ -->
+<section data-label="Title" style="background:#0d1b2a!important;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop &middot; Part 1 of 4</div>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Python<br><span style="color:#2899A4">for MBAs</span></h1>
+    <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
+    <p style="font-size:34px;color:#fff;font-weight:500">Foundations &mdash; Session 01</p>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+<!-- ============================================================
+     06  THE PROGRAMME - 4 SESSIONS
+============================================================ -->
+<section data-label="The Programme" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">The programme &mdash; 4 sessions</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">Today is the first of four 3-hour sessions. Here's where we're going:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:18px;max-width:1700px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">01 &middot; TODAY</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Foundations</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Variables, loops, your first function</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">02</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Functions &amp; libraries</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Reusable code, errors, the standard library</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #2899A4">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#2899A4;letter-spacing:.08em;margin-bottom:10px">03</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Pandas</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Data analysis at scale</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:30px 28px;border-top:4px solid #E05FA0">
+        <div style="font-family:'DM Mono',monospace;font-size:22px;color:#E05FA0;letter-spacing:.08em;margin-bottom:10px">04</div>
+        <div style="font-size:28px;font-weight:700;color:#0d1b2a;margin-bottom:10px">Visualisation</div>
+        <div style="font-size:23px;color:#6b7280;line-height:1.45">Charts, dashboards &amp; the art of the possible</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  TODAY'S AIM
+============================================================ -->
+<section data-label="Today's Aim" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Today's aim</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:6px solid #2899A4;border-radius:0 14px 14px 0;padding:40px 48px;margin-bottom:24px">
+        <div style="font-size:24px;font-weight:600;color:#2899A4;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">The goal</div>
+        <div style="font-size:36px;color:#111827;line-height:1.35;font-weight:500">Become <strong style="color:#2899A4">comfortable</strong> writing simple Python in a notebook &mdash; and confident enough to <strong style="color:#2899A4">read</strong> what Claude gives you</div>
+      </div>
+      <div style="background:#fafafa;border:1px solid #e5e7eb;border-left:6px solid #e5e7eb;border-radius:0 14px 14px 0;padding:40px 48px">
+        <div style="font-size:24px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Not</div>
+        <div style="font-size:32px;color:#9ca3af;line-height:1.35">To become a software engineer or memorise the entire language</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  WHY YOU CARE
+============================================================ -->
+<section data-label="Why You Care" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Why do you care?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="font-size:26px;color:#6b7280;margin-bottom:32px">Python doesn't make you a programmer. It makes you <strong style="color:#0d1b2a">fluent in what your team is doing</strong> &mdash; and unlocks what's possible.</div>
+    <div class="grid2" style="max-width:1400px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">More leverage</div>
+        <div style="font-size:24px;color:#6b7280">Automate the spreadsheet drudgery that eats your week.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Less reliant on analysts</div>
+        <div style="font-size:24px;color:#6b7280">Self-serve a 'quick look' instead of waiting for someone's queue.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #2899A4">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">Sharper with GenAI</div>
+        <div style="font-size:24px;color:#6b7280">Read, run, and verify what Claude writes for you.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 32px;border-left:5px solid #E05FA0">
+        <div style="font-size:28px;font-weight:600;color:#0d1b2a;margin-bottom:8px">The art of the possible</div>
+        <div style="font-size:24px;color:#6b7280">See what data, automation, and AI can actually do &mdash; beyond Excel's ceiling.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10  EXCEL VS PYTHON
+============================================================ -->
+<section data-label="Excel vs Python" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">But can't I just use Excel?</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
+        <div style="background:#f9fafb;padding:20px 32px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128202;</div>
+          <span style="font-size:26px;font-weight:600;color:#374151">Excel</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Single user, <strong>single laptop</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151"><strong>Manual</strong> every single time</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
+            <span style="font-size:24px;color:#374151">Limited charting &amp; <strong>no real automation</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#34d399;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#374151">Good for ad-hoc small data</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0d1b2a;border-radius:14px;overflow:hidden">
+        <div style="background:#0f2236;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px">
+          <div style="font-size:30px">&#128013;</div>
+          <span style="font-size:26px;font-weight:600;color:#fff">Python</span>
+        </div>
+        <div style="padding:28px 32px">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Runs the same analysis on <strong style="color:#fff">any size dataset</strong></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Automatable</strong> &mdash; same code, run on a schedule</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8"><strong style="color:#fff">Thousands of libraries</strong> &mdash; stats, ML, viz, APIs</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:#4ade80;font-size:24px;flex-shrink:0">&#10003;</span>
+            <span style="font-size:24px;color:#94a3b8">Pairs perfectly with <strong style="color:#fff">GenAI</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  WHERE WE'LL WRITE PYTHON - COLAB
+============================================================ -->
+<section data-label="Let's Get Connected" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">Where we'll write Python</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center;align-items:flex-start">
+    <div style="max-width:1300px;width:100%">
+      <div style="font-size:26px;color:#6b7280;margin-bottom:24px">We're using <strong style="color:#0d1b2a">Google Colab</strong> &mdash; Python running in your browser, nothing to install.</div>
+      <div style="background:#0d1b2a;border-radius:16px;overflow:hidden;margin-bottom:28px">
+        <div style="padding:20px 32px;background:#0f2236;border-bottom:1px solid rgba(255,255,255,.08)">
+          <div style="display:flex;gap:8px"><div style="width:12px;height:12px;border-radius:50%;background:#f87171"></div><div style="width:12px;height:12px;border-radius:50%;background:#fbbf24"></div><div style="width:12px;height:12px;border-radius:50%;background:#4ade80"></div></div>
+        </div>
+        <div style="padding:36px 52px;font-family:'DM Mono',monospace">
+          <span style="color:#64748b;font-size:24px">URL</span><br>
+          <span style="color:#7dd3fc;font-size:30px">https://colab.research.google.com</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px">
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">1</span><div style="font-size:23px;color:#374151;margin-top:8px">Sign in with any Google account</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">2</span><div style="font-size:23px;color:#374151;margin-top:8px">File &rarr; New notebook</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">3</span><div style="font-size:23px;color:#374151;margin-top:8px">Type code into a cell</div></div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 24px"><span style="font-family:'DM Mono',monospace;color:#2899A4;font-size:22px">4</span><div style="font-size:23px;color:#374151;margin-top:8px">Press <strong>Shift+Enter</strong> to run</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     15  VARIABLES
+============================================================ -->
+<section data-label="Variables" class="split">
+  <div class="code-l">
+    <div style="font-size:24px;font-family:'DM Mono',monospace;color:#4a5e70;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px">your first cell</div>
+    <pre class="cb">store_name = <span class="str">"Astoria"</span>
+daily_revenue = <span class="num">1842.50</span>
+is_open = <span class="kw">True</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I save a value for later?</p>
+    <div class="ai"><div class="ad">1</div><div class="at"><strong>=</strong> means <strong>assign</strong> &mdash; read it as "becomes"</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">The <strong>name</strong> on the left is yours to choose</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">The <strong>value</strong> on the right can be text, a number, True/False, or anything else</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     36  LOOP + IF
+============================================================ -->
+<section data-label="Loop plus If" class="split">
+  <div class="code-l">
+    <pre class="cb">prices = [<span class="num">3.00</span>, <span class="num">4.50</span>, <span class="num">6.95</span>, <span class="num">2.50</span>, <span class="num">5.10</span>]
+expensive = []
+
+<span class="kw">for</span> price <span class="kw">in</span> prices:
+    <span class="kw">if</span> price &gt; <span class="num">5</span>:
+        expensive.<span class="fn">append</span>(price)
+
+<span class="fn">print</span>(expensive)   <span class="cm"># &rarr; [6.95, 5.10]</span></pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How do I filter a list?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">Start with an <strong>empty list</strong> to collect results</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">Loop over prices</div></div>
+    <div class="ai"><div class="ad">3</div><div class="at">If the condition is true, <strong>.append()</strong> it</div></div>
+    <div class="ai"><div class="ad">4</div><div class="at">Same idea as SQL's <strong>WHERE</strong> &mdash; now you've written it from scratch</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     50  YOU CAN ALL NOW...
+============================================================ -->
+<section data-label="You Can All Now" class="full-slide">
+  <div class="stripe"></div>
+  <div class="hdr"><span class="ttl">You can all now&hellip;</span><img src="../../shared/assets/logo.png" class="logo"></div>
+  <div class="body" style="justify-content:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1700px;width:100%;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Open a Colab notebook and write code</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Use variables, lists, and dictionaries</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Filter and transform data with if and for</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Write a basic function</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px 30px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#2899A4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:25px;color:#111827;font-weight:500">Ask Claude a question that actually helps</span>
+        </div>
+      </div>
+      <img src="../sql-for-mbas/assets/Purple_small.jpg" style="width:78%;height:auto;border-radius:14px;display:block;border:1px solid #e5e7eb;margin:0 auto">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     52  QUESTIONS & FEEDBACK
+============================================================ -->
+<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
+  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
+  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
+    <div style="flex:1">
+      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
+      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
+      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining &mdash; see you next week!</p>
+    </div>
+    <div style="display:flex;gap:40px;align-items:center">
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
+        <img src="../sql-for-mbas/assets/feedback-qr.png" style="width:320px;height:320px;display:block">
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
+        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
+      </div>
+    </div>
+  </div>
+  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
+    <img src="../../shared/assets/logo.png" class="logo">
+  </div>
+</section>
+
+</deck-stage>
+<!-- Tweaks panel -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Footer text</label>
+  <input type="text" id="tweak-text" value="">
+  <div class="tweak-toggle">
+    <input type="checkbox" id="tweak-show">
+    <span>Show on all slides</span>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "showConfidential": true,
+  "confidentialText": "© Avid Learning · Outreach copy · Sample slides"
+}/*EDITMODE-END*/;
+
+function injectFooters() {
+  const slides = document.querySelectorAll('deck-stage > section');
+  slides.forEach((slide, i) => {
+    if (!slide.querySelector('.slide-footer-bar')) {
+      const bar = document.createElement('div');
+      bar.className = 'slide-footer-bar';
+      // Left spacer for balance
+      const spacer = document.createElement('span');
+      spacer.style.minWidth = '80px';
+      // Center: confidential text
+      const label = document.createElement('span');
+      label.className = 'footer-label';
+      bar.appendChild(spacer);
+      bar.appendChild(label);
+      // Right: page number
+      const num = document.createElement('span');
+      num.className = 'footer-num';
+      num.style.minWidth = '80px';
+      num.style.textAlign = 'right';
+      num.textContent = (i + 1) + ' / ' + slides.length;
+      bar.appendChild(num);
+      slide.appendChild(bar);
+    }
+  });
+}
+
+function applyTweaks(vals) {
+  document.querySelectorAll('.slide-footer-bar').forEach(bar => {
+    const label = bar.querySelector('.footer-label');
+    if (label) label.textContent = vals.confidentialText || '';
+    bar.style.display = vals.showConfidential ? 'flex' : 'none';
+  });
+  const textEl = document.getElementById('tweak-text');
+  const showEl = document.getElementById('tweak-show');
+  if (textEl) textEl.value = vals.confidentialText || '';
+  if (showEl) showEl.checked = !!vals.showConfidential;
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('py-mbas-01-outreach-tweaks') || 'null');
+    return saved ? Object.assign({}, TWEAK_DEFAULTS, saved) : Object.assign({}, TWEAK_DEFAULTS);
+  } catch(e) { return Object.assign({}, TWEAK_DEFAULTS); }
+}
+
+function saveState(vals) {
+  try { localStorage.setItem('py-mbas-01-outreach-tweaks', JSON.stringify(vals)); } catch(e) {}
+}
+
+let state = loadState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { injectFooters(); applyTweaks(state); }, 150);
+});
+
+document.getElementById('tweak-text').addEventListener('input', e => {
+  state.confidentialText = e.target.value;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { confidentialText: state.confidentialText } }, '*');
+});
+
+document.getElementById('tweak-show').addEventListener('change', e => {
+  state.showConfidential = e.target.checked;
+  applyTweaks(state); saveState(state);
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { showConfidential: state.showConfidential } }, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'block';
+  } else if (e.data && e.data.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+</body>
+</html>
