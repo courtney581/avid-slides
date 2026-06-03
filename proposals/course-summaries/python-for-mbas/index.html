@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<!--
+  avidLearning summary — Python for MBAs. Reusable one-page A4 leave-behind.
+  Edit copy inline. To export:
+    Open in Chrome → Cmd+P → Destination: Save as PDF
+    Paper: A4 · Margins: None · Background graphics: ON
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python for MBAs — Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #d9d9d9;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    color: #111827;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body { display: flex; justify-content: center; padding: 20px 0; }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: #fafafa;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  }
+  @media print {
+    html, body { background: #fff; padding: 0; }
+    body { display: block; }
+    .page { box-shadow: none; margin: 0; }
+  }
+
+  .stripe {
+    height: 6px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    min-height: 0;
+    padding: 9mm 14mm 4mm;
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    justify-content: space-between;
+  }
+
+  /* ---------- Header ---------- */
+  .hdr { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hdr .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+  .hdr h1 {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #33485f;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 2mm;
+  }
+  .hdr h1 .accent { color: #2899A4; }
+  .hdr .subtitle {
+    font-size: 12pt;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 2mm;
+  }
+  .hdr .meta {
+    font-size: 9pt;
+    color: #6b7280;
+  }
+  .hdr .strapline {
+    font-size: 9pt;
+    color: #2899A4;
+    font-style: italic;
+    margin-top: 1.5mm;
+  }
+  .hdr .accent-bar {
+    width: 50px; height: 3px;
+    background: #E05FA0;
+    margin-top: 3mm;
+  }
+  .hdr .logo { height: 44px; flex-shrink: 0; }
+
+  /* ---------- Stat row ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 4mm;
+  }
+  .stat {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-top: 3px solid #2899A4;
+    border-radius: 8px;
+    padding: 3.5mm 3mm;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .stat-num .accent { color: #2899A4; }
+  .stat-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 2mm;
+  }
+
+  /* ---------- Callout (the proposal) ---------- */
+  .callout {
+    background: #fff;
+    border: 1px solid #2899A4;
+    border-radius: 8px;
+    padding: 4mm 5mm;
+  }
+  .callout h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0d1b2a;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 1.5mm 0;
+  }
+  .callout h2 .accent { color: #2899A4; }
+  .callout p { font-size: 9pt; }
+
+  /* ---------- Timeline ---------- */
+  .timeline-wrap { padding: 0 2mm; }
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4mm;
+    margin-top: 2.5mm;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6%; right: 6%;
+    top: 14px;
+    height: 2px;
+    background: #e5e7eb;
+    z-index: 0;
+  }
+  .tl-item { position: relative; text-align: center; z-index: 1; }
+  .tl-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 1.5mm;
+  }
+  .tl-marker {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #2899A4;
+    margin: 0 auto 1.8mm;
+    box-shadow: 0 0 0 3px #fafafa;
+  }
+  .tl-marker.external {
+    background: transparent;
+    border: 2px solid #9ca3af;
+  }
+  .tl-title {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #0d1b2a;
+    line-height: 1.2;
+    margin-bottom: 0.8mm;
+  }
+  .tl-sub {
+    font-size: 7pt;
+    color: #374151;
+    line-height: 1.3;
+  }
+  .tl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tl-legend {
+    display: flex;
+    gap: 5mm;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .tl-legend-item { display: flex; align-items: center; gap: 1.5mm; }
+  .tl-legend-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #2899A4;
+  }
+  .tl-legend-dot.external {
+    background: transparent;
+    border: 2px solid #9ca3af;
+  }
+
+  /* ---------- Divider ---------- */
+  .divider {
+    width: 50px;
+    height: 3px;
+    background: #E05FA0;
+    margin: 1mm 0;
+  }
+
+  /* ---------- Body grid ---------- */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 58% 42%;
+    gap: 6mm;
+    flex: 0 1 auto;
+    min-height: 0;
+  }
+  .col { display: flex; flex-direction: column; gap: 3.5mm; }
+
+  .section-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 500;
+    margin-bottom: 2mm;
+  }
+
+  p { font-size: 9.5pt; line-height: 1.45; color: #374151; }
+  p + p { margin-top: 2mm; }
+  p strong { color: #0d1b2a; font-weight: 600; }
+  p .hl { color: #2899A4; font-weight: 600; }
+
+  /* Testimonial block */
+  .quote {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #2899A4;
+    border-radius: 0 8px 8px 0;
+    padding: 4.5mm 5mm;
+    box-shadow: 0 2px 10px rgba(13,27,42,.05);
+  }
+  .quote-text {
+    font-size: 10pt;
+    color: #111827;
+    line-height: 1.45;
+    font-style: italic;
+    quotes: "\201C""\201D";
+  }
+  .quote-text::before { content: open-quote; }
+  .quote-text::after { content: close-quote; }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 2.5mm;
+  }
+
+  /* Bulleted list (teal dot) */
+  ul.bullets { list-style: none; }
+  ul.bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+    margin-bottom: 1.8mm;
+    font-size: 9.5pt;
+    color: #374151;
+    line-height: 1.4;
+  }
+  ul.bullets li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #2899A4;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  ul.bullets li strong { color: #0d1b2a; font-weight: 600; }
+
+  /* Credit menu table */
+  table.dt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+  table.dt th {
+    background: #0d1b2a;
+    color: #fff;
+    padding: 3.2mm 3.5mm;
+    text-align: left;
+    font-weight: 500;
+    font-size: 8.5pt;
+  }
+  table.dt th.row-lbl { background: #1a2a3d; }
+  table.dt th.num { text-align: right; }
+  table.dt td {
+    padding: 2.8mm 3.5mm;
+    border-top: 1px solid #e5e7eb;
+    color: #374151;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  table.dt td.course { font-weight: 600; color: #0d1b2a; }
+  table.dt td.num { text-align: right; }
+  table.dt td.cr {
+    text-align: right;
+    color: #2899A4;
+    font-weight: 700;
+  }
+  table.dt td.row-lbl {
+    font-weight: 600;
+    color: #0d1b2a;
+    background: #f3f4f6;
+    width: 30%;
+  }
+  table.dt td.part-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #2899A4;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: #f3f4f6;
+    font-weight: 500;
+    width: 30%;
+  }
+
+  /* Worked-example box */
+  .worked {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 4mm 5mm;
+  }
+  .worked-line {
+    font-size: 8.5pt;
+    color: #374151;
+    line-height: 1.6;
+  }
+  .worked-line strong { color: #0d1b2a; font-weight: 600; }
+  .worked-line .cr {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: #2899A4;
+  }
+  .worked-sum {
+    border-top: 1px solid #e5e7eb;
+    margin-top: 2.5mm;
+    padding-top: 2.5mm;
+    font-size: 8pt;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+  .worked-sum strong { color: #0d1b2a; font-weight: 600; }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 4mm 14mm 3mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8pt;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+  .footer a { color: #2899A4; text-decoration: none; }
+  .footer .logo { height: 22px; }
+  .footer-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, #2899A4 0%, #E05FA0 100%);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="stripe"></div>
+
+  <div class="content">
+
+    <div style="display:flex; flex-direction:column; gap:3mm;">
+
+    <!-- ===== Header ===== -->
+    <div class="hdr">
+      <div>
+        <div class="kicker">avidLearning &middot; Summary</div>
+        <h1>Python for MBAs</h1>
+        <div class="subtitle">Live, instructor-led Python training for MBAs</div>
+        <div class="meta">4 live sessions &middot; 12 hours per cohort &middot; online or onsite &middot; hands-on</div>
+        <div class="accent-bar"></div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2mm; flex-shrink:0; max-width:55mm;">
+        <img src="../../../shared/assets/logo.png" alt="avidLearning" class="logo">
+        <div class="strapline" style="text-align:right; margin-top:0;">Technical skills for MBAs.</div>
+      </div>
+    </div>
+
+    <!-- ===== Stat row ===== -->
+    <div class="stats" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="stat" style="display:flex; flex-direction:column;">
+        <div class="stat-num" style="font-size:15pt; flex:1; display:flex; align-items:center; justify-content:center;"><span class="accent">Online or onsite</span></div>
+        <div class="stat-lbl">Delivery</div>
+      </div>
+      <div class="stat" style="display:flex; flex-direction:column;">
+        <div class="stat-num" style="font-size:15pt; flex:1; display:flex; align-items:center; justify-content:center;"><span class="accent">Up to 25</span></div>
+        <div class="stat-lbl">Learners / cohort</div>
+      </div>
+      <div class="stat" style="display:flex; flex-direction:column;">
+        <div class="stat-num" style="font-size:15pt; flex:1; display:flex; align-items:center; justify-content:center;"><span class="accent">12</span></div>
+        <div class="stat-lbl">Contact hours</div>
+      </div>
+    </div>
+
+    <!-- ===== Programme overview ===== -->
+    <div class="callout">
+      <div class="section-kicker" style="margin-bottom:0;">Programme overview</div>
+      <p style="margin-top:1.5mm;">A <strong>live, instructor-led Python programme</strong> taking MBAs from zero coding to confidently wrangling real data and reading what AI writes. Delivered as <strong>four 3-hour sessions</strong> in Google Colab &mdash; nothing to install. Especially valuable for MBAs who want to self-serve analysis beyond Excel.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    </div><!-- /top cluster -->
+
+    <!-- ===== Two-column body ===== -->
+    <div class="body-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <div>
+          <div class="section-kicker">What's included &middot; per cohort</div>
+          <ul class="bullets">
+            <li><span>Four 3-hour <strong>live, instructor-led</strong> sessions</span></li>
+            <li><span>Browser-based <strong>Google Colab notebooks</strong>, provisioned per cohort &mdash; no installs required</span></li>
+            <li><span>Worked examples, guided exercises and <strong>takeaway slide decks</strong> from every session</span></li>
+            <li><span><strong>Session recordings</strong> shared with all participants afterwards</span></li>
+            <li><span>Dedicated instructor and a <strong>single point of contact</strong> for the engagement</span></li>
+          </ul>
+        </div>
+
+        <div style="margin-top:1mm; flex:1; display:flex; flex-direction:column;">
+          <div class="section-kicker">Curriculum at a glance</div>
+          <table class="dt" style="flex:1; height:100%;">
+            <tbody>
+              <tr>
+                <td class="part-lbl" style="vertical-align:top;">Session 1<span style="display:block; font-family:'DM Sans', sans-serif; font-size:9.5pt; color:#0d1b2a; text-transform:none; letter-spacing:0; font-weight:600; margin-top:1mm;">Foundations</span></td>
+                <td>Variables, data types, lists &amp; dictionaries, control flow, and your first function.</td>
+              </tr>
+              <tr>
+                <td class="part-lbl" style="vertical-align:top;">Session 2<span style="display:block; font-family:'DM Sans', sans-serif; font-size:9.5pt; color:#0d1b2a; text-transform:none; letter-spacing:0; font-weight:600; margin-top:1mm;">Functions &amp; libraries</span></td>
+                <td>Reusable functions, built-ins, list comprehensions, the standard library, reading errors.</td>
+              </tr>
+              <tr>
+                <td class="part-lbl" style="vertical-align:top;">Session 3<span style="display:block; font-family:'DM Sans', sans-serif; font-size:9.5pt; color:#0d1b2a; text-transform:none; letter-spacing:0; font-weight:600; margin-top:1mm;">Pandas</span></td>
+                <td>Load, filter, transform &amp; aggregate a real 150k-row dataset; dates &amp; missing values; GroupBy.</td>
+              </tr>
+              <tr>
+                <td class="part-lbl" style="vertical-align:top;">Session 4<span style="display:block; font-family:'DM Sans', sans-serif; font-size:9.5pt; color:#0d1b2a; text-transform:none; letter-spacing:0; font-weight:600; margin-top:1mm;">Visualisation &amp; AI</span></td>
+                <td>Charts with matplotlib, seaborn &amp; plotly; a capstone dashboard; automation, APIs &amp; working with Claude.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <div>
+          <div class="section-kicker">Outcomes</div>
+          <ul class="bullets">
+            <li><span>Wrangle real data with pandas &mdash; <strong>filter, derive, aggregate</strong></span></li>
+            <li><span>Build charts that tell a clear story</span></li>
+            <li><span>Read and <strong>validate</strong> the Python that AI writes</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="section-kicker">Capacity &amp; scheduling</div>
+          <ul class="bullets">
+            <li><span><strong>Up to 25 learners</strong> per cohort for an interactive, hands-on session</span></li>
+            <li><span>Sessions run <strong>online or onsite</strong></span></li>
+            <li><span>Run <strong>weekly or as an intensive block</strong> across the term</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="section-kicker">Delivery &amp; logistics</div>
+          <ul class="bullets">
+            <li><span>Delivered live over <strong>Zoom</strong></span></li>
+            <li><span>Learners only need a <strong>laptop and a browser</strong>; a second screen is recommended</span></li>
+            <li><span>All tooling is <strong>cloud-hosted</strong> &mdash; nothing to install</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Outcome line ===== -->
+    <div class="callout" style="margin-bottom:4mm;">
+      <p style="font-size:10.5pt; color:#0d1b2a; font-weight:500; line-height:1.5; text-align:center;">
+        Cohorts leave turning manual analysis into <strong>repeatable, automatable code</strong> &mdash; <span style="color:#2899A4; font-weight:600;">with AI as a multiplier, not a crutch</span>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div><a href="mailto:courtney@avidlearning.tech">courtney@avidlearning.tech</a></div>
+    <div><a href="https://avidlearning.tech/">avidlearning.tech</a></div>
+  </div>
+
+  <div class="footer-stripe"></div>
+
+</div>
+
+</body>
+</html>
