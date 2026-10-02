@@ -140,7 +140,7 @@ deck-stage > section::after{
   <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
   <div style="padding:0 100px;flex:1;display:flex;flex-direction:column;justify-content:center">
     <div style="font-size:24px;font-family:'DM Mono',monospace;color:#2899A4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px">avidLearning &middot; Workshop</div>
-    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em">SQL for Business Leaders<br><span style="color:#2899A4;font-size:64px">SQL Foundations</span></h1>
+    <h1 style="font-size:110px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em">SQL for MBAs<br><span style="color:#2899A4;font-size:64px">SQL Foundations</span></h1>
     <div style="width:80px;height:5px;background:#E05FA0;margin:36px 0"></div>
   </div>
   <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
@@ -290,7 +290,7 @@ deck-stage > section::after{
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
             <span style="color:#f87171;font-size:24px;flex-shrink:0">&#10007;</span>
-            <span style="font-size:24px;color:#374151">Max <strong>1.1 million rows</strong></span>
+            <span style="font-size:24px;color:#374151">Max <strong>~1 million rows</strong></span>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start">
             <span style="color:#34d399;font-size:24px;flex-shrink:0">&#10003;</span>
@@ -342,15 +342,15 @@ deck-stage > section::after{
   <div class="stripe"></div>
   <div class="hdr"><span class="ttl">Our dataset: FT MBA Rankings</span><img src="../../shared/assets/logo.png" class="logo"></div>
   <div class="body" style="justify-content:center">
-    <div style="font-size:24px;color:#6b7280;margin-bottom:14px">We'll use SQL to interrogate this dataset &mdash; the <strong style="color:#0d1b2a">Financial Times Global MBA Rankings</strong></div>
+    <div style="font-size:24px;color:#6b7280;margin-bottom:14px">We'll use SQL to interrogate this dataset &mdash; the <strong style="color:#0d1b2a">Financial Times Global MBA Ranking 2026</strong></div>
     <div style="font-size:20px;color:#9ca3af;font-family:'DM Mono',monospace;margin-bottom:12px;letter-spacing:.02em;font-style:italic">Preview &mdash; the full table in the database has additional columns</div>
     <table class="dt" style="max-width:1700px">
       <tr><th>school_rank</th><th>school_name</th><th>weighted_salary_usd</th><th>primary_location</th></tr>
-      <tr><td>1</td><td>University of Pennsylvania: Wharton</td><td>245,772</td><td>US</td></tr>
-      <tr><td>2</td><td>Insead</td><td>198,904</td><td>France</td></tr>
-      <tr><td>3</td><td>Columbia Business School</td><td>232,760</td><td>US</td></tr>
-      <tr><td>4</td><td>SDA Bocconi School of Management</td><td>202,534</td><td>Italy</td></tr>
-      <tr><td>8</td><td>London Business School</td><td>192,331</td><td>UK</td></tr>
+      <tr><td>1</td><td>MIT: Sloan</td><td>245,991</td><td>US</td></tr>
+      <tr><td>2</td><td>INSEAD</td><td>217,822</td><td>France</td></tr>
+      <tr><td>3</td><td>University of Pennsylvania: Wharton</td><td>246,813</td><td>US</td></tr>
+      <tr><td>4</td><td>IESE Business School</td><td>196,560</td><td>Spain</td></tr>
+      <tr><td>4</td><td>London Business School</td><td>217,389</td><td>UK</td></tr>
     </table>
     <div style="margin-top:14px;font-size:24px;color:#9ca3af;font-family:'DM Mono',monospace">Table: business.business_schools &middot; 100 rows</div>
   </div>
@@ -407,11 +407,37 @@ deck-stage > section::after{
 <span class="kw">FROM</span> business.business_schools;</pre>
   </div>
   <div class="code-r">
-    <p class="qlbl">How many schools are in the US versus everywhere else in the world?</p>
+    <p class="qlbl">Label each school as US or International</p>
     <div class="ai"><div class="ad">1</div><div class="at"><strong>CASE WHEN</strong> checks a condition row by row</div></div>
     <div class="ai"><div class="ad">2</div><div class="at"><strong>THEN</strong> sets the value if the condition is true</div></div>
     <div class="ai"><div class="ad">3</div><div class="at"><strong>ELSE</strong> sets the fallback value</div></div>
     <div class="ai"><div class="ad">4</div><div class="at"><strong>END AS region</strong> closes the CASE and names the new column</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     45  CASE WHEN + GROUP BY
+============================================================ -->
+<section data-label="CASE WHEN + GROUP BY" class="split">
+  <div class="code-l">
+    <pre class="cb"><span class="kw">SELECT</span>
+  <span class="hi">CASE WHEN</span> primary_location != <span class="str">'US'</span>
+       <span class="hi">THEN</span> <span class="str">'International'</span>
+       <span class="hi">ELSE</span> primary_location
+       <span class="hi">END</span> <span class="kw">AS</span> region
+  , <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_schools
+<span class="kw">FROM</span> business.business_schools
+<span class="kw">GROUP BY</span> region
+<span class="kw">ORDER BY</span> num_schools <span class="kw">DESC</span>;</pre>
+  </div>
+  <div class="code-r">
+    <p class="qlbl">How many schools are in the US versus everywhere else?</p>
+    <div class="ai"><div class="ad">1</div><div class="at">You can <strong>GROUP BY</strong> the aliased CASE WHEN column</div></div>
+    <div class="ai"><div class="ad">2</div><div class="at">This creates a <strong>US / International</strong> split on the fly &mdash; no new data needed</div></div>
+    <div style="margin-top:24px;background:#f0fafb;border:1px solid #bae6ef;border-radius:10px;padding:20px 24px">
+      <div style="font-size:24px;color:#2899A4;font-weight:600;margin-bottom:8px">Expected output</div>
+      <div style="font-family:'DM Mono',monospace;font-size:24px;color:#374151">US &middot; 43 schools<br>International &middot; 57 schools</div>
+    </div>
   </div>
 </section>
 
@@ -437,33 +463,6 @@ deck-stage > section::after{
         <div style="font-size:24px;color:#94a3b8;line-height:1.45;margin-top:18px">With <strong style="color:#fff">GenAI alone</strong> &mdash; debugging confidently-wrong queries you can't read.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     54  QUESTIONS & FEEDBACK
-============================================================ -->
-<section data-label="Questions and Feedback" style="background:#0d1b2a!important;display:flex!important;flex-direction:column;justify-content:space-between;padding:0">
-  <div style="height:6px;background:linear-gradient(90deg,#2899A4,#E05FA0)"></div>
-  <div style="padding:0 100px;flex:1;display:flex;align-items:center;gap:80px">
-    <div style="flex:1">
-      <h2 style="font-size:96px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em">Questions &amp;<br><span style="color:#2899A4">Feedback</span></h2>
-      <div style="width:60px;height:4px;background:#E05FA0;margin-top:36px"></div>
-      <p style="font-size:28px;color:#94a3b8;margin-top:40px;max-width:560px;line-height:1.4">Thanks for joining!</p>
-    </div>
-    <div style="display:flex;gap:40px;align-items:center">
-      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
-        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#E05FA0;letter-spacing:.14em;text-transform:uppercase">Feedback</div>
-        <img src="assets/feedback-qr.png" style="width:320px;height:320px;display:block">
-      </div>
-      <div style="background:#fff;border-radius:20px;padding:32px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
-        <div style="font-family:'DM Mono',monospace;font-size:20px;color:#2899A4;letter-spacing:.14em;text-transform:uppercase">Let's connect</div>
-        <img src="../../shared/assets/LinkedIn.png" style="width:320px;height:320px;display:block">
-      </div>
-    </div>
-  </div>
-  <div style="padding:48px 100px;display:flex;justify-content:space-between;align-items:center">
-    <img src="../../shared/assets/logo.png" class="logo">
   </div>
 </section>
 
